@@ -34,12 +34,8 @@ public final class LexicalAnalyzer {
     public LexicalAnalyzer(final String expression) {
         this(expression, new TokenFactory[] {
             new IdentifierTokenFactory(),
-            new LiteralTokenFactory(),
-            new OperatorTokenFactory("+", TokenType.PLUS),
-            new OperatorTokenFactory("-", TokenType.MINUS),
-            new OperatorTokenFactory("*", TokenType.STAR),
-            new OperatorTokenFactory("/", TokenType.SLASH),
-            new OperatorTokenFactory("%", TokenType.PERCENT),
+            new OperatorTokenFactory("\\", TokenType.LAMBDA),
+            new OperatorTokenFactory(".", TokenType.DOT),
             new OperatorTokenFactory("(", TokenType.OPEN_PAREN),
             new OperatorTokenFactory(")", TokenType.CLOSED_PAREN),
         });

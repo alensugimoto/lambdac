@@ -33,10 +33,10 @@ public class LexicalAnalyzerTest {
     
     @Test
     public void testOne() {
-        final LexicalAnalyzer l = new LexicalAnalyzer("+");
+        final LexicalAnalyzer l = new LexicalAnalyzer("\\");
         l.fetchNextToken();
         Token t0 = l.getCurrentToken();
-        assertEquals(TokenType.PLUS, t0.getType());
+        assertEquals(TokenType.LAMBDA, t0.getType());
         assertEquals(0, t0.getStartPosition());
         l.fetchNextToken();
         Token t1 = l.getCurrentToken();
@@ -46,14 +46,14 @@ public class LexicalAnalyzerTest {
     
     @Test
     public void testTwo() {
-        final LexicalAnalyzer l = new LexicalAnalyzer("++");
+        final LexicalAnalyzer l = new LexicalAnalyzer("\\.");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
-        assertEquals(TokenType.PLUS, t.getType());
+        assertEquals(TokenType.LAMBDA, t.getType());
         assertEquals(0, t.getStartPosition());
         l.fetchNextToken();
         t = l.getCurrentToken();
-        assertEquals(TokenType.PLUS, t.getType());
+        assertEquals(TokenType.DOT, t.getType());
         assertEquals(1, t.getStartPosition());
         l.fetchNextToken();
         t = l.getCurrentToken();
@@ -63,14 +63,14 @@ public class LexicalAnalyzerTest {
     
     @Test
     public void testThree() {
-        final LexicalAnalyzer l = new LexicalAnalyzer("(123)");
+        final LexicalAnalyzer l = new LexicalAnalyzer("(xyz)");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
         assertEquals(TokenType.OPEN_PAREN, t.getType());
         assertEquals(0, t.getStartPosition());
         l.fetchNextToken();
         t = l.getCurrentToken();
-        assertEquals(TokenType.LITERAL, t.getType());
+        assertEquals(TokenType.IDENTIFIER, t.getType());
         assertEquals(1, t.getStartPosition());
         l.fetchNextToken();
         t = l.getCurrentToken();
@@ -92,14 +92,14 @@ public class LexicalAnalyzerTest {
     
     @Test
     public void testLongestFoundToken() {
-        final LexicalAnalyzer l = new LexicalAnalyzer("++", new TokenFactory[] {
-            new OperatorTokenFactory("++", TokenType.STAR),
-            new OperatorTokenFactory("+", TokenType.PLUS)
+        final LexicalAnalyzer l = new LexicalAnalyzer("..", new TokenFactory[] {
+            new OperatorTokenFactory("..", TokenType.LAMBDA),
+            new OperatorTokenFactory(".", TokenType.DOT)
         });
         l.fetchNextToken();
         Token t = l.getCurrentToken();
-        assertEquals(TokenType.STAR, t.getType());
-        assertEquals("++", t.getText());
+        assertEquals(TokenType.LAMBDA, t.getType());
+        assertEquals("..", t.getText());
     }
     
 }

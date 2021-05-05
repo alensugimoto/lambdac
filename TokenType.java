@@ -6,14 +6,9 @@
 public enum TokenType {
 
     IDENTIFIER("identifier"), 
-
-    LITERAL("literal"), 
-
-    PLUS("plus"), 
-    MINUS("minus"), 
-    STAR("star"), 
-    SLASH("slash"), 
-    PERCENT("percent"), 
+    
+    LAMBDA("lambda"), 
+    DOT("dot"), 
 
     OPEN_PAREN("open parenthesis"), 
     CLOSED_PAREN("closed parenthesis"),
