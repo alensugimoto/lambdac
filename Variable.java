@@ -1,5 +1,5 @@
 /**
- * An integer variable.
+ * A variable.
  */
 public class Variable extends Node {
     
@@ -13,21 +13,6 @@ public class Variable extends Node {
     public Variable(final String name) {
         super();
         this.name = name;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.INT;
-    }
-
-    @Override
-    public boolean isConstant() {
-        return false;
-    }
-    
-    @Override
-    public void compile(final Program p) {
-        p.append(new ILOAD(name));
     }
 
     @Override
