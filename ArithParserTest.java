@@ -6,31 +6,16 @@ import org.junit.Test;
 
 /**
  * This test class will test some aspects of the rules
- * of the Arith language.
+ * of the untyped lambda calculus.
  * 
- * <code>
- * EXPRESSION   ::= [ "+" | "-" ] TERM { ( "+" | "-" ) TERM }
- * TERM         ::= FACTOR { ( "*" | "/" ) FACTOR }
- * FACTOR       ::= Literal | 
- *                  Identifier| 
- *                  "(" EXPRESSION ")"
- * </code>
+ * <pre>
+ * TERM        ::= ABSTRACTION | APPLICATION
+ * ATOM        ::= Identifier | "(" TERM ")"
+ * ABSTRACTION ::= "\\" Identifier "." TERM
+ * APPLICATION ::= ATOM { " " ATOM }
+ * </pre>
  */
 public class ArithParserTest {
-
-    @Test
-    public void testLiteral() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Literal(12);
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
 
     @Test
     public void testVariable() {
@@ -47,85 +32,29 @@ public class ArithParserTest {
     }
 
     @Test
-    public void testNegation() {
+    public void testAbstraction() {
         // setup
         final Parser parser = new ArithParser();
         // test input
-        final String sourceCode = "-11";
+        final String sourceCode = "\\x.y";
         // code under test
         final Node actualRoot = parser.parse(sourceCode);
         // expected tree
-        final Node expectedRoot = new Negation(new Literal(11));
+        final Node expectedRoot = new Abstraction(new Variable("x"), new Variable("y"));
         // assertion
         assertEquals(expectedRoot.toString(), actualRoot.toString());
     }
 
     @Test
-    public void testUnaryPlus() {
+    public void testApplication() {
         // setup
         final Parser parser = new ArithParser();
         // test input
-        final String sourceCode = "+11";
+        final String sourceCode = "x y";
         // code under test
         final Node actualRoot = parser.parse(sourceCode);
         // expected tree
-        final Node expectedRoot = new Literal(11);
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-
-    @Test
-    public void testAddition() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12+2";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Addition(new Literal(12), new Literal(2));
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-
-    @Test
-    public void testSubtraction() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12-2";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Subtraction(new Literal(12), new Literal(2));
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-
-    @Test
-    public void testMultiplication() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12*2";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Multiplication(new Literal(12), new Literal(2));
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-
-    @Test
-    public void testDivision() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12/2";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Division(new Literal(12), new Literal(2));
+        final Node expectedRoot = new Application(new Variable("x"), new Variable("y"));
         // assertion
         assertEquals(expectedRoot.toString(), actualRoot.toString());
     }
@@ -135,55 +64,13 @@ public class ArithParserTest {
         // setup
         final Parser parser = new ArithParser();
         // test input
-        final String sourceCode = "(12)";
+        final String sourceCode = "(x)";
         // code under test
         final Node actualRoot = parser.parse(sourceCode);
         // expected tree
-        final Node expectedRoot = new Literal(12);
+        final Node expectedRoot = new Variable("x");
         // assertion
         assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-    
-    @Test
-    public void testTerminalError() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "*12";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = new Multiplication(null, new Literal(12));
-        // assertion
-        assertEquals(expectedRoot.toString(), actualRoot.toString());
-    }
-    
-    @Test
-    public void testParenthesesError() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "(12";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = null;
-        // assertion
-        assertEquals(expectedRoot, actualRoot);
-    }
-    
-    @Test
-    public void testEndOfFileError() {
-        // setup
-        final Parser parser = new ArithParser();
-        // test input
-        final String sourceCode = "12)";
-        // code under test
-        final Node actualRoot = parser.parse(sourceCode);
-        // expected tree
-        final Node expectedRoot = null;
-        // assertion
-        assertEquals(expectedRoot, actualRoot);
     }
     
 }

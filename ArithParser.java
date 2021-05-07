@@ -1,14 +1,16 @@
 /**
- * A Parser for our Arith language
- * (a simple language of arithmetic expressions).
+ * A Parser for the untyped lambda calculus.
  * 
- * <code>
- * EXPRESSION   ::= [ "+" | "-" ] TERM { ( "+" | "-" ) TERM }
- * TERM         ::= FACTOR { ( "*" | "/" ) FACTOR }
- * FACTOR       ::= Literal | 
- *                  Identifier| 
- *                  "(" EXPRESSION ")"
- * </code>
+ * <p>The following EBNF was inspired by
+ * <a href="https://tadeuzagallo.com/blog/writing-a-lambda-calculus-interpreter-in-javascript/">
+ * this blog post</a>.
+ * 
+ * <pre>
+ * TERM        ::= ABSTRACTION | APPLICATION
+ * ATOM        ::= Identifier | "(" TERM ")"
+ * ABSTRACTION ::= "\\" Identifier "." TERM
+ * APPLICATION ::= ATOM { " " ATOM }
+ * </pre>
  */
 public final class ArithParser implements Parser {
     
@@ -24,8 +26,8 @@ public final class ArithParser implements Parser {
         this.lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
-        // now parse the EXPRESSION
-        final Node root = parseExpression();
+        // now parse the TERM
+        final Node root = parseTerm();
         // check if lexer is at the end of file
         if (lexer.getCurrentToken().getType() == TokenType.END_OF_FILE) {
             return root;
@@ -38,119 +40,100 @@ public final class ArithParser implements Parser {
     }
     
     /**
-     * Parse an expression.
-     * This assumes the lexer already points to the first token of this expression.
-     * 
-     * <p>EBNF:
-     * <code>
-     * EXPRESSION ::= [ "+" | "-" ] TERM { ( "+" | "-" ) TERM }
-     * </code>
-     * 
-     * @return a Node representing the expression
-     */
-    private Node parseExpression() {
-        // parse [ "+" | "-" ]
-        final boolean shouldNegate;
-        switch (lexer.getCurrentToken().getType()) {
-            case PLUS:
-            case MINUS:
-                shouldNegate = lexer.getCurrentToken().getType() == TokenType.MINUS;
-                lexer.fetchNextToken();
-                break;
-            default:
-                shouldNegate = false;
-                break;
-        }
-        
-        // parse TERM
-        Node root = parseTerm();
-        
-        // update Node
-        if (shouldNegate) {
-            root = new Negation(root);
-        }
-        
-        while (lexer.getCurrentToken().getType() == TokenType.PLUS
-            || lexer.getCurrentToken().getType() == TokenType.MINUS) {
-            // parse ( "+" or "-" )
-            final boolean shouldAdd = lexer.getCurrentToken().getType() == TokenType.PLUS;
-            lexer.fetchNextToken();
-            // parse TERM
-            final Node right = parseTerm();
-            // update Node
-            if (shouldAdd) {
-                root = new Addition(root, right);
-            } else {
-                root = new Subtraction(root, right);
-            }
-        }
-        
-        return root;
-    }
-    
-    /**
      * Parse a term.
      * This assumes the lexer already points to the first token of this term.
      * 
      * <p>EBNF:
      * <code>
-     * TERM ::= FACTOR { ( "*" | "/" ) FACTOR }
+     * TERM ::= ABSTRACTION | APPLICATION
      * </code>
      * 
      * @return a Node representing the term
      */
     private Node parseTerm() {
-        // parse FACTOR
-        Node root = parseFactor();
-        
-        while (lexer.getCurrentToken().getType() == TokenType.STAR
-            || lexer.getCurrentToken().getType() == TokenType.SLASH) {
-            // parse ( "*" or "/" )
-            final boolean shouldMult = lexer.getCurrentToken().getType() == TokenType.STAR;
+        return lexer.getCurrentToken().getType() == TokenType.LAMBDA
+            ? parseAbstraction()
+            : parseApplication();
+    }
+    
+    /**
+     * Parse an application.
+     * This assumes the lexer already points to the first token of this application.
+     * 
+     * <p>EBNF:
+     * <code>
+     * APPLICATION ::= ATOM { " " ATOM }
+     * </code>
+     * 
+     * @return a Node representing the application
+     */
+    private Node parseApplication() {
+        Node root = parseAtom();
+        while (lexer.getCurrentToken().getType() == TokenType.SPACE) {
             lexer.fetchNextToken();
-            // parse FACTOR
-            final Node right = parseFactor();
-            // update Node
-            if (shouldMult) {
-                root = new Multiplication(root, right);
-            } else {
-                root = new Division(root, right);
-            }
+            root = new Application(root, parseAtom());
         }
-        
         return root;
     }
     
     /**
-     * Parse a factor.
-     * This assumes the lexer already points to the first token of this factor.
+     * Parse an abstraction.
+     * This assumes the lexer already points to the first token of this abstraction.
      * 
      * <p>EBNF:
      * <code>
-     * FACTOR ::=  
-     *          Literal | 
-     *          Identifier | 
-     *          "(" EXPRESSION ")"
+     * ABSTRACTION ::= "\\" Identifier "." TERM
      * </code>
      * 
-     * @return a Node representing the factor
+     * @return a Node representing the abstraction
      */
-    private Node parseFactor() {
+    private Node parseAbstraction() {
+        if (lexer.getCurrentToken().getType() != TokenType.LAMBDA) {
+            System.out.print("Expected " + TokenType.LAMBDA.getName());
+            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
+            System.out.println();
+            return null;
+        }
+        lexer.fetchNextToken();
+        if (lexer.getCurrentToken().getType() != TokenType.IDENTIFIER) {
+            System.out.print("Expected " + TokenType.IDENTIFIER.getName());
+            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
+            System.out.println();
+            return null;
+        }
+        Variable var = new Variable(lexer.getCurrentToken().getText());;
+        lexer.fetchNextToken();
+        if (lexer.getCurrentToken().getType() != TokenType.DOT) {
+            System.out.print("Expected " + TokenType.DOT.getName());
+            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
+            System.out.println();
+            return null;
+        }
+        lexer.fetchNextToken();
+        return new Abstraction(var, parseTerm());
+    }
+    
+    /**
+     * Parse an atom.
+     * This assumes the lexer already points to the first token of this atom.
+     * 
+     * <p>EBNF:
+     * <code>
+     * ATOM ::= Identifier | "(" TERM ")"
+     * </code>
+     * 
+     * @return a Node representing the atom
+     */
+    private Node parseAtom() {
         final Node root;
         
-        // parse Literal |
-        //       Identifier |
-        //       "(" EXPRESSION ")"
         switch (lexer.getCurrentToken().getType()) {
-            case LITERAL:
-                root = new Literal(Integer.parseInt(lexer.getCurrentToken().getText()));
-                break;
             case IDENTIFIER:
                 root = new Variable(lexer.getCurrentToken().getText());
                 break;
             case OPEN_PAREN:
                 lexer.fetchNextToken();
-                root = parseExpression();
+                root = parseTerm();
                 if (lexer.getCurrentToken().getType() != TokenType.CLOSED_PAREN) {
                     System.out.print("Expected " + TokenType.CLOSED_PAREN.getName());
                     System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
@@ -159,9 +142,8 @@ public final class ArithParser implements Parser {
                 }
                 break;
             default:
-                System.out.print("Expected " + TokenType.LITERAL.getName());
-                System.out.print(", " + TokenType.IDENTIFIER.getName());
-                System.out.print(", or " + TokenType.OPEN_PAREN.getName());
+                System.out.print("Expected " + TokenType.IDENTIFIER.getName());
+                System.out.print(" or " + TokenType.OPEN_PAREN.getName());
                 System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
                 System.out.println();
                 return null;
