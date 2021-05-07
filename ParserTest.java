@@ -15,12 +15,12 @@ import org.junit.Test;
  * APPLICATION ::= ATOM { " " ATOM }
  * </pre>
  */
-public class ArithParserTest {
+public class ParserTest {
 
     @Test
     public void testVariable() {
         // setup
-        final Parser parser = new ArithParser();
+        final Parser parser = new Parser();
         // test input
         final String sourceCode = "x";
         // code under test
@@ -34,7 +34,7 @@ public class ArithParserTest {
     @Test
     public void testAbstraction() {
         // setup
-        final Parser parser = new ArithParser();
+        final Parser parser = new Parser();
         // test input
         final String sourceCode = "\\x.y";
         // code under test
@@ -48,7 +48,7 @@ public class ArithParserTest {
     @Test
     public void testApplication() {
         // setup
-        final Parser parser = new ArithParser();
+        final Parser parser = new Parser();
         // test input
         final String sourceCode = "x y";
         // code under test
@@ -62,7 +62,7 @@ public class ArithParserTest {
     @Test
     public void testParentheses() {
         // setup
-        final Parser parser = new ArithParser();
+        final Parser parser = new Parser();
         // test input
         final String sourceCode = "(x)";
         // code under test
