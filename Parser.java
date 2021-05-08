@@ -9,7 +9,7 @@
  * TERM        ::= ABSTRACTION | APPLICATION
  * ATOM        ::= Identifier | "(" TERM ")"
  * ABSTRACTION ::= "\\" Identifier "." TERM
- * APPLICATION ::= ATOM { " " ATOM }
+ * APPLICATION ::= ATOM { ATOM }
  * </pre>
  */
 public final class Parser {
@@ -23,7 +23,7 @@ public final class Parser {
      * @return an AST of the program
      */
     public Node parse(final String sourceCode) {
-        this.lexer = new LexicalAnalyzer(sourceCode);
+        lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
         // now parse the TERM
@@ -62,7 +62,7 @@ public final class Parser {
      * 
      * <p>EBNF:
      * <code>
-     * APPLICATION ::= ATOM { " " ATOM }
+     * APPLICATION ::= ATOM { ATOM }
      * </code>
      * 
      * @return a Node representing the application
@@ -70,7 +70,7 @@ public final class Parser {
     private Node parseApplication() {
         Node root = parseAtom();
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
-                    || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
+            || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
                 root = new Application(root, parseAtom());
         }        
         return root;
