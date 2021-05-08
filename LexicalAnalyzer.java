@@ -35,7 +35,6 @@ public final class LexicalAnalyzer {
         this(expression, new TokenFactory[] {
             new IdentifierTokenFactory(),
             new OperatorTokenFactory("\\", TokenType.LAMBDA),
-            new OperatorTokenFactory(" ", TokenType.SPACE),
             new OperatorTokenFactory(".", TokenType.DOT),
             new OperatorTokenFactory("(", TokenType.OPEN_PAREN),
             new OperatorTokenFactory(")", TokenType.CLOSED_PAREN),

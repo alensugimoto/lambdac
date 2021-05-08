@@ -69,10 +69,10 @@ public final class Parser {
      */
     private Node parseApplication() {
         Node root = parseAtom();
-        while (lexer.getCurrentToken().getType() == TokenType.SPACE) {
-            lexer.fetchNextToken();
-            root = new Application(root, parseAtom());
-        }
+        while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
+                    || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
+                root = new Application(root, parseAtom());
+        }        
         return root;
     }
     

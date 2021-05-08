@@ -8,9 +8,8 @@ public enum TokenType {
     IDENTIFIER("identifier"), 
     
     LAMBDA("lambda"), 
-    DOT("dot"), 
-    SPACE("space"), 
-
+    DOT("dot"),
+    
     OPEN_PAREN("open parenthesis"), 
     CLOSED_PAREN("closed parenthesis"),
 
