@@ -47,11 +47,7 @@ public final class LexicalAnalyzer {
      */
     public void setText(final String expression) {
         token = null;
-        String ex = expression;
-        while (ex.length() > 0 && ex.charAt(ex.length()-1) == ' ') {
-            ex = ex.substring(0, ex.length()-1);
-        }
-        text = ex;
+        text = expression;
         position = 0;
         for (final TokenFactory factory : tokenFactories) {
             factory.setText(expression);
@@ -70,15 +66,16 @@ public final class LexicalAnalyzer {
      * @return the next token
      */
     private Token scanToken() {
+        // Ignore spaces
+        while (position < text.length() && text.charAt(position) == ' ') {
+            position++;
+        }
+        
         if (position == text.length()) {
             return new Token(TokenType.END_OF_FILE, "", position);
         } else {
             int maxLength = 0;
             TokenFactory factoryWithLongestMatch = null;
-            
-            while (text.charAt(position) == ' ') {
-                position++;
-            }
 
             // Utilize the tokenFactories to find a factory has the longest match
             for (final TokenFactory factory : tokenFactories) {
