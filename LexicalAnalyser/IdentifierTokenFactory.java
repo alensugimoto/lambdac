@@ -1,3 +1,4 @@
+package LexicalAnalyser;
 //---
 /**
  * A factory for tokens of type identifier.

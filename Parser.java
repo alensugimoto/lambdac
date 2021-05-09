@@ -1,3 +1,4 @@
+import LexicalAnalyser.*;
 /**
  * A Parser for the untyped lambda calculus.
  * 

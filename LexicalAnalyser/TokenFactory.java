@@ -1,3 +1,4 @@
+package LexicalAnalyser;
 /**
  * A TokenFactory can produce Tokens.
  */
