@@ -1,26 +1,52 @@
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * An abstraction.
  */
 public class Abstraction extends Node {
     
-    private final Node leftChild;
-    private final Node rightChild;
-
+    private final String arg;
+    private final Node body;
     
     /**
      * Create a new Abstraction node.
      * @param leftChild the left operand
      * @param rightChild the right operand
      */
-    public Abstraction(final Node leftChild, final Node rightChild) {
-        super();
-        this.leftChild = leftChild;
-        this.rightChild = rightChild;
+    public Abstraction(final int position, final String arg, final Node body) {
+        super(position);
+        this.arg = arg;
+        this.body = body;
+    }
+    
+    @Override
+    public Node apply(Node right) {
+        return body.termSubstTop(right);
+    }
+    
+    @Override
+    public Node termShift(final int c, final int d) {
+        return new Abstraction(getPosition(), arg, body.termShift(c + 1, d));
+    }
+    
+    @Override
+    public Node termSubst(final int j, final int c, final Node s) {
+        return new Abstraction(getPosition(), arg, body.termSubst(j, c + 1, s));
     }
 
     @Override
-    public String toString() {
-        return "(\\" + leftChild + "." + rightChild + ")";
+    public String toString(final List<String> context) {
+        return "(lambda " + pickFreshName(context) + ". " + body.toString(context) + ")";
+    }
+    
+    private String pickFreshName(final List<String> context) {
+        String freshName = arg;
+        while (context.contains(freshName)) {
+            freshName += "\u2032";
+        }
+        context.add(0, freshName);
+        return freshName;
     }
     
 }
