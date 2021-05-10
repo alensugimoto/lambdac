@@ -12,7 +12,7 @@ import org.junit.Test;
  * TERM        ::= ABSTRACTION | APPLICATION
  * ATOM        ::= Identifier | "(" TERM ")"
  * ABSTRACTION ::= "\\" Identifier "." TERM
- * APPLICATION ::= ATOM { " " ATOM }
+ * APPLICATION ::= ATOM { ATOM }
  * </pre>
  */
 public class ParserTest {
