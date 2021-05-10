@@ -1,4 +1,7 @@
 import LexicalAnalyser.*;
+import java.util.List;
+import java.util.LinkedList;
+
 /**
  * A Parser for the untyped lambda calculus.
  * 
@@ -28,7 +31,7 @@ public final class Parser {
         // fetch first token
         lexer.fetchNextToken();
         // now parse the TERM
-        final Node root = parseTerm();
+        final Node root = parseTerm(new LinkedList<>());
         // check if lexer is at the end of file
         if (lexer.getCurrentToken().getType() == TokenType.END_OF_FILE) {
             return root;
@@ -51,10 +54,10 @@ public final class Parser {
      * 
      * @return a Node representing the term
      */
-    private Node parseTerm() {
+    private Node parseTerm(final List<String> context) {
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
-            ? parseAbstraction()
-            : parseApplication();
+            ? parseAbstraction(context)
+            : parseApplication(context);
     }
     
     /**
@@ -68,12 +71,15 @@ public final class Parser {
      * 
      * @return a Node representing the application
      */
-    private Node parseApplication() {
-        Node root = parseAtom();
+    private Node parseApplication(final List<String> context) {
+        int nextPosition = lexer.getCurrentToken().getStartPosition();
+        Node root = parseAtom(context);
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
             || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
-                root = new Application(root, parseAtom());
-        }        
+            final int position = nextPosition;
+            nextPosition = lexer.getCurrentToken().getStartPosition();
+            root = new Application(position, root, parseAtom(context));
+        }
         return root;
     }
     
@@ -88,7 +94,8 @@ public final class Parser {
      * 
      * @return a Node representing the abstraction
      */
-    private Node parseAbstraction() {
+    private Node parseAbstraction(final List<String> context) {
+        final int position = lexer.getCurrentToken().getStartPosition();
         if (lexer.getCurrentToken().getType() != TokenType.LAMBDA) {
             System.out.print("Expected " + TokenType.LAMBDA.getName());
             System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
@@ -102,7 +109,8 @@ public final class Parser {
             System.out.println();
             return null;
         }
-        Variable var = new Variable(lexer.getCurrentToken().getText());;
+        final String arg = lexer.getCurrentToken().getText();
+        context.add(0, arg);
         lexer.fetchNextToken();
         if (lexer.getCurrentToken().getType() != TokenType.DOT) {
             System.out.print("Expected " + TokenType.DOT.getName());
@@ -111,7 +119,7 @@ public final class Parser {
             return null;
         }
         lexer.fetchNextToken();
-        return new Abstraction(var, parseTerm());
+        return new Abstraction(position, arg, parseTerm(context));
     }
     
     /**
@@ -125,16 +133,22 @@ public final class Parser {
      * 
      * @return a Node representing the atom
      */
-    private Node parseAtom() {
+    private Node parseAtom(final List<String> context) {
         final Node root;
         
         switch (lexer.getCurrentToken().getType()) {
             case IDENTIFIER:
-                root = new Variable(lexer.getCurrentToken().getText());
+                if (!context.contains(lexer.getCurrentToken().getText())) {
+                    context.add(lexer.getCurrentToken().getText());
+                }
+                root = new Variable(
+                    lexer.getCurrentToken().getStartPosition(),
+                    context.indexOf(lexer.getCurrentToken().getText()),
+                    context.size());
                 break;
             case OPEN_PAREN:
                 lexer.fetchNextToken();
-                root = parseTerm();
+                root = parseTerm(context);
                 if (lexer.getCurrentToken().getType() != TokenType.CLOSED_PAREN) {
                     System.out.print("Expected " + TokenType.CLOSED_PAREN.getName());
                     System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
