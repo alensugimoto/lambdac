@@ -9,10 +9,10 @@ public class Interpreter {
      * Interpret the specified source code.
      * @param sourceCode the source code
      */
-    public void interpret(final String sourceCode) {
+    public String interpret(final String sourceCode) {
         final Parser parser = new Parser();
         final Node root = parser.parse(sourceCode);
-        System.out.println(root.evaluate().toString(new LinkedList<>()));
+        return root.evaluate().toString(new LinkedList<>());
     }
     
 }
