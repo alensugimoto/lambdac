@@ -38,4 +38,14 @@ public class Variable extends Node {
         return context.size() == contextLength ? context.get(index) : "[bad index]";
     }
     
+    @Override
+    public boolean equals(final Object obj) {
+        if (super.equals(obj) && obj instanceof Variable) {
+            Variable other = (Variable) obj;
+            return index == other.index && contextLength == other.contextLength;
+        } else {
+            return false;
+        }
+    }
+    
 }

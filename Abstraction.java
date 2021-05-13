@@ -49,4 +49,14 @@ public class Abstraction extends Node {
         return freshName;
     }
     
+    @Override
+    public boolean equals(final Object obj) {
+        if (super.equals(obj) && obj instanceof Abstraction) {
+            Abstraction other = (Abstraction) obj;
+            return arg.equals(other.arg) && body.equals(other.body);
+        } else {
+            return false;
+        }
+    }
+    
 }

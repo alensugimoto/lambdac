@@ -51,4 +51,16 @@ public abstract class Node {
      */
     abstract public String toString(final List<String> context);
     
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Node)) {
+            return false;
+        }
+        Node other = (Node) obj;
+        return position == other.position;
+    }
+    
 }

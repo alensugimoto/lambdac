@@ -45,4 +45,14 @@ public class Application extends Node {
         return "(" + leftTerm.toString(context) + " " + rightTerm.toString(context) + ")";
     }
     
+    @Override
+    public boolean equals(final Object obj) {
+        if (super.equals(obj) && obj instanceof Application) {
+            Application other = (Application) obj;
+            return leftTerm.equals(other.leftTerm) && rightTerm.equals(other.rightTerm);
+        } else {
+            return false;
+        }
+    }
+    
 }
