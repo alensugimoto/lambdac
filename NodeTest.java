@@ -24,7 +24,7 @@ public class NodeTest {
     public void testAbstraction() {
         Node e = new Abstraction(0, "x", new Variable(1, 0, 1));
         List<String> context = new LinkedList<>();
-        assertEquals("(lambda x. x)", e.toString(context));
+        assertEquals("(\\x.x)", e.toString(context));
     }
     
     @Test

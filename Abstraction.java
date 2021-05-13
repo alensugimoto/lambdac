@@ -37,7 +37,7 @@ public class Abstraction extends Node {
 
     @Override
     public String toString(final List<String> context) {
-        return "(lambda " + pickFreshName(context) + ". " + body.toString(context) + ")";
+        return "(\\" + pickFreshName(context) + "." + body.toString(context) + ")";
     }
     
     private String pickFreshName(final List<String> context) {
