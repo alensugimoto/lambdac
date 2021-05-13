@@ -82,12 +82,12 @@ public final class Parser {
      */
     private Node parseApplication(final List<String> context) {
         int nextPosition = lexer.getCurrentToken().getStartPosition();
-        Node root = parseAtom(context);
+        Node root = parseAtom(new LinkedList(context));
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
             || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
             final int position = nextPosition;
             nextPosition = lexer.getCurrentToken().getStartPosition();
-            root = new Application(position, root, parseAtom(context));
+            root = new Application(position, root, parseAtom(new LinkedList(context)));
         }
         return root;
     }
