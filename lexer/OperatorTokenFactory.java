@@ -1,4 +1,4 @@
-package LexicalAnalyser;
+package lexer;
 /**
  * A special kind of StringTokenFactory,
  * which produces tokens that represent operators.

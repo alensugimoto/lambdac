@@ -1,4 +1,4 @@
-package LexicalAnalyser;
+package lexer;
 /**
  * A special kind of TokenFactory
  * that looks for tokens that exactly match a given string.

@@ -1,9 +1,10 @@
 package parser;
 
-import LexicalAnalyser.*;
 import java.util.List;
 import java.util.LinkedList;
 import ast.*;
+import lexer.LexicalAnalyzer;
+import lexer.TokenType;
 
 
 /**
