@@ -30,9 +30,7 @@ public class Variable extends Node {
     
     @Override
     public Node termSubst(final int j, final int c, final Node s) {
-        return index == j + c
-            ? s.termShift(0, c)
-            : this;
+        return index == j + c ? s.termShift(c) : this;
     }
 
     @Override
