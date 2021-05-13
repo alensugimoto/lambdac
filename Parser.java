@@ -27,11 +27,15 @@ public final class Parser {
      * @return an AST of the program
      */
     public Node parse(final String sourceCode) {
+        return parse(sourceCode, new LinkedList<>());
+    }
+    
+    public Node parse(final String sourceCode, final List<String> context) {
         lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
         // now parse the TERM
-        final Node root = parseTerm(new LinkedList<>());
+        final Node root = parseTerm(context);
         // check if lexer is at the end of file
         if (lexer.getCurrentToken().getType() == TokenType.END_OF_FILE) {
             return root;
@@ -138,9 +142,6 @@ public final class Parser {
         
         switch (lexer.getCurrentToken().getType()) {
             case IDENTIFIER:
-                if (!context.contains(lexer.getCurrentToken().getText())) {
-                    context.add(lexer.getCurrentToken().getText());
-                }
                 root = new Variable(
                     lexer.getCurrentToken().getStartPosition(),
                     context.indexOf(lexer.getCurrentToken().getText()),
