@@ -3,6 +3,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.LinkedList;
+
 
 /**
  * This test class will test some aspects of the rules
@@ -23,8 +26,11 @@ public class ParserTest {
         final Parser parser = new Parser();
         // test input
         final String sourceCode = "x";
+        // context
+        final List<String> context = new LinkedList<>();
+        context.add("x");
         // code under test
-        final Node actualRoot = parser.parse(sourceCode);
+        final Node actualRoot = parser.parse(sourceCode, context);
         // expected tree
         final Node expectedRoot = new Variable(0, 0, 1);
         // assertion
@@ -51,10 +57,14 @@ public class ParserTest {
         final Parser parser = new Parser();
         // test input
         final String sourceCode = "x y";
+        // context
+        final List<String> context = new LinkedList<>();
+        context.add("x");
+        context.add("y");
         // code under test
-        final Node actualRoot = parser.parse(sourceCode);
+        final Node actualRoot = parser.parse(sourceCode, context);
         // expected tree
-        final Node expectedRoot = new Application(0, new Variable(0, 0, 1), new Variable(2, 1, 2));
+        final Node expectedRoot = new Application(0, new Variable(0, 0, 2), new Variable(2, 1, 2));
         // assertion
         assertEquals(expectedRoot, actualRoot);
     }
@@ -65,8 +75,11 @@ public class ParserTest {
         final Parser parser = new Parser();
         // test input
         final String sourceCode = "(x)";
+        // context
+        final List<String> context = new LinkedList<>();
+        context.add("x");
         // code under test
-        final Node actualRoot = parser.parse(sourceCode);
+        final Node actualRoot = parser.parse(sourceCode, context);
         // expected tree
         final Node expectedRoot = new Variable(1, 0, 1);
         // assertion
