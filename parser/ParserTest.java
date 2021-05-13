@@ -1,3 +1,5 @@
+package parser;
+
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -5,6 +7,7 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.LinkedList;
+import ast.*;
 
 
 /**

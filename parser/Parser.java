@@ -1,6 +1,10 @@
+package parser;
+
 import LexicalAnalyser.*;
 import java.util.List;
 import java.util.LinkedList;
+import ast.*;
+
 
 /**
  * A Parser for the untyped lambda calculus.
