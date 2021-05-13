@@ -5,9 +5,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.LinkedList;
 import ast.*;
+import context.Context;
 
 
 /**
@@ -30,7 +29,7 @@ public class ParserTest {
         // test input
         final String sourceCode = "x";
         // context
-        final List<String> context = new LinkedList<>();
+        final Context context = new Context();
         context.add("x");
         // code under test
         final Node actualRoot = parser.parse(sourceCode, context);
@@ -61,7 +60,7 @@ public class ParserTest {
         // test input
         final String sourceCode = "x y";
         // context
-        final List<String> context = new LinkedList<>();
+        final Context context = new Context();
         context.add("x");
         context.add("y");
         // code under test
@@ -79,7 +78,7 @@ public class ParserTest {
         // test input
         final String sourceCode = "(x)";
         // context
-        final List<String> context = new LinkedList<>();
+        final Context context = new Context();
         context.add("x");
         // code under test
         final Node actualRoot = parser.parse(sourceCode, context);

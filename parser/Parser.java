@@ -1,8 +1,7 @@
 package parser;
 
-import java.util.List;
-import java.util.LinkedList;
 import ast.*;
+import context.Context;
 import lexer.LexicalAnalyzer;
 import lexer.TokenType;
 
@@ -32,10 +31,10 @@ public final class Parser {
      * @return an AST of the program
      */
     public Node parse(final String sourceCode) {
-        return parse(sourceCode, new LinkedList<>());
+        return parse(sourceCode, new Context());
     }
     
-    public Node parse(final String sourceCode, final List<String> context) {
+    public Node parse(final String sourceCode, final Context context) {
         lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
@@ -63,7 +62,7 @@ public final class Parser {
      * 
      * @return a Node representing the term
      */
-    private Node parseTerm(final List<String> context) {
+    private Node parseTerm(final Context context) {
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
             ? parseAbstraction(context)
             : parseApplication(context);
@@ -80,14 +79,14 @@ public final class Parser {
      * 
      * @return a Node representing the application
      */
-    private Node parseApplication(final List<String> context) {
+    private Node parseApplication(final Context context) {
         int nextPosition = lexer.getCurrentToken().getStartPosition();
-        Node root = parseAtom(new LinkedList(context));
+        Node root = parseAtom(new Context(context));
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
             || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
             final int position = nextPosition;
             nextPosition = lexer.getCurrentToken().getStartPosition();
-            root = new Application(position, root, parseAtom(new LinkedList(context)));
+            root = new Application(position, root, parseAtom(new Context(context)));
         }
         return root;
     }
@@ -103,7 +102,7 @@ public final class Parser {
      * 
      * @return a Node representing the abstraction
      */
-    private Node parseAbstraction(final List<String> context) {
+    private Node parseAbstraction(final Context context) {
         final int position = lexer.getCurrentToken().getStartPosition();
         if (lexer.getCurrentToken().getType() != TokenType.LAMBDA) {
             System.out.print("Expected " + TokenType.LAMBDA.getName());
@@ -142,7 +141,7 @@ public final class Parser {
      * 
      * @return a Node representing the atom
      */
-    private Node parseAtom(final List<String> context) {
+    private Node parseAtom(final Context context) {
         final Node root;
         
         switch (lexer.getCurrentToken().getType()) {

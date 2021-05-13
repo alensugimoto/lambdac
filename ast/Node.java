@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.List;
+import context.Context;
 
 /**
  * An abstract syntax tree (AST) node.
@@ -51,7 +51,7 @@ public abstract class Node {
      * extra parentheses.
      * @return a String representation of this AST
      */
-    abstract public String toString(final List<String> context);
+    abstract public String toString(final Context context);
     
     @Override
     public boolean equals(final Object obj) {

@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.List;
+import context.Context;
 
 /**
  * A variable.
@@ -34,7 +34,7 @@ public class Variable extends Node {
     }
 
     @Override
-    public String toString(final List<String> context) {
+    public String toString(final Context context) {
         return context.size() == contextLength ? context.get(index) : "[bad index]";
     }
     

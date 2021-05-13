@@ -1,7 +1,6 @@
 package ast;
 
-import java.util.Arrays;
-import java.util.List;
+import context.Context;
 
 /**
  * An abstraction.
@@ -38,11 +37,11 @@ public class Abstraction extends Node {
     }
 
     @Override
-    public String toString(final List<String> context) {
+    public String toString(final Context context) {
         return "(\\" + pickFreshName(context) + "." + body.toString(context) + ")";
     }
     
-    private String pickFreshName(final List<String> context) {
+    private String pickFreshName(final Context context) {
         String freshName = arg;
         while (context.contains(freshName)) {
             freshName += "\u2032";

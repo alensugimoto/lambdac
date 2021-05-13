@@ -1,5 +1,5 @@
-import java.util.LinkedList;
 import ast.Node;
+import context.Context;
 import parser.Parser;
 
 
@@ -15,7 +15,7 @@ public class Interpreter {
     public String interpret(final String sourceCode) {
         final Parser parser = new Parser();
         final Node root = parser.parse(sourceCode);
-        return root.evaluate().toString(new LinkedList<>());
+        return root.evaluate().toString(new Context());
     }
     
 }

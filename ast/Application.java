@@ -1,7 +1,6 @@
 package ast;
 
-import java.util.List;
-import java.util.LinkedList;
+import context.Context;
 
 /**
  * An application.
@@ -44,9 +43,9 @@ public class Application extends Node {
     }
 
     @Override
-    public String toString(final List<String> context) {
-        return "(" + leftTerm.toString(new LinkedList(context))
-            + " " + rightTerm.toString(new LinkedList(context)) + ")";
+    public String toString(final Context context) {
+        return "(" + leftTerm.toString(new Context(context))
+            + " " + rightTerm.toString(new Context(context)) + ")";
     }
     
     @Override
