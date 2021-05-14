@@ -20,8 +20,17 @@ public class Variable extends Node {
         this.contextLength = contextLength;
     }
     
-    public Node map(final TriFunction<Integer, Integer, Integer, Node> onvar, final int c) {
-        return onvar.apply(c, index, contextLength);
+    @Override
+    public Node termShift(final int c, final int d) {
+        return new Variable(
+            getPosition(),
+            index < c ? index : index + d,
+            contextLength + d);
+    }
+    
+    @Override
+    public Node termSubst(final int j, final int c, final Node s) {
+        return index == j + c ? s.termShift(c) : this;
     }
 
     @Override

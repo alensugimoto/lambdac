@@ -1,7 +1,6 @@
 package ast;
 
 import context.Context;
-import java.util.function.Function;
 
 /**
  * An application.
@@ -27,8 +26,20 @@ public class Application extends Node {
         return leftTerm.evaluate().apply(rightTerm.evaluate());
     }
     
-    public Node map(final TriFunction<Integer, Integer, Integer, Node> onvar, final int c) {
-        return new Application(getPosition(), leftTerm.map(onvar, c), rightTerm.map(onvar, c));
+    @Override
+    public Node termShift(final int c, final int d) {
+        return new Application(
+            getPosition(),
+            leftTerm.termShift(c, d),
+            rightTerm.termShift(c, d));
+    }
+    
+    @Override
+    public Node termSubst(final int j, final int c, final Node s) {
+        return new Application(
+            getPosition(),
+            leftTerm.termSubst(j, c, s),
+            rightTerm.termSubst(j, c, s));
     }
 
     @Override

@@ -26,8 +26,14 @@ public class Abstraction extends Node {
         return body.termSubstTop(right);
     }
     
-    public Node map(final TriFunction<Integer, Integer, Integer, Node> onvar, final int c) {
-        return new Abstraction(getPosition(), arg, body.map(onvar, c + 1));
+    @Override
+    public Node termShift(final int c, final int d) {
+        return new Abstraction(getPosition(), arg, body.termShift(c + 1, d));
+    }
+    
+    @Override
+    public Node termSubst(final int j, final int c, final Node s) {
+        return new Abstraction(getPosition(), arg, body.termSubst(j, c + 1, s));
     }
 
     @Override
