@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
-<ruleset name="Lab 11 Rules"
+<ruleset name="Lambdac Rules"
     xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
     <description>
-        Rules utilised in lab-11 of PF2
+        Rules utilised in project-lambdac of PF2
     </description>
 
 
