@@ -15,7 +15,7 @@ mvn package
 To run, use
 
 ```
-java -cp target/project-lambdac-0.1-SNAPSHOT.jar Main
+java -cp target/project-lambdac-0.1-SNAPSHOT.jar ch.usi.pf2.Main
 ```
 
 ## User Instructions
