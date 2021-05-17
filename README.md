@@ -20,7 +20,7 @@ java -cp target/project-lambdac-0.1-SNAPSHOT.jar Main
 
 ## User Instructions
 
-With the application running, type any lambda term and press enter to evaluate it. To end the application, type "end" and press enter.
+With the application running, type any lambda term and press enter to evaluate it. To end the application, type `end` and press enter.
 
 The syntax of a lambda term must follow the following BNF:
 
