@@ -2,14 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.usi.pf2</groupId>
-  <artifactId>lab-parser</artifactId>
+  <artifactId>project-lambdac</artifactId>
   <version>0.1-SNAPSHOT</version>
   <url></url>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <pmd.config.file>.build_config/pmd.xml</pmd.config.file>
     <checkstyle.config.file>.build_config/checkstyle.xml</checkstyle.config.file>
   </properties>
