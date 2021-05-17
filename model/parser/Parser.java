@@ -26,14 +26,20 @@ public final class Parser {
 
     
     /**
-     * Parse a program in the Arith language.
-     * @param sourceCode The source code of the program in the Arith language
+     * Parse a program in lambda calculus.
+     * @param sourceCode The source code of the program in lambda calculus
      * @return an AST of the program
      */
     public Node parse(final String sourceCode) {
         return parse(sourceCode, new Context());
     }
     
+    /**
+     * Parse a program in lambda calculus with the specified context.
+     * @param sourceCode The source code of the program in lambda calculus
+     * @param context The context of the program
+     * @return an AST of the program
+     */
     public Node parse(final String sourceCode, final Context context) {
         lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
@@ -44,10 +50,7 @@ public final class Parser {
         if (lexer.getCurrentToken().getType() == TokenType.END_OF_FILE) {
             return root;
         } else {
-            System.out.print("Expected " + TokenType.END_OF_FILE.getName());
-            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-            System.out.println();
-            return null;
+            throw new IllegalArgumentException(errorMessage(TokenType.END_OF_FILE));
         }
     }
     
@@ -105,26 +108,17 @@ public final class Parser {
     private Node parseAbstraction(final Context context) {
         final int position = lexer.getCurrentToken().getStartPosition();
         if (lexer.getCurrentToken().getType() != TokenType.LAMBDA) {
-            System.out.print("Expected " + TokenType.LAMBDA.getName());
-            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-            System.out.println();
-            return null;
+            throw new IllegalArgumentException(errorMessage(TokenType.LAMBDA));
         }
         lexer.fetchNextToken();
         if (lexer.getCurrentToken().getType() != TokenType.IDENTIFIER) {
-            System.out.print("Expected " + TokenType.IDENTIFIER.getName());
-            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-            System.out.println();
-            return null;
+            throw new IllegalArgumentException(errorMessage(TokenType.IDENTIFIER));
         }
         final String arg = lexer.getCurrentToken().getText();
         context.add(0, arg);
         lexer.fetchNextToken();
         if (lexer.getCurrentToken().getType() != TokenType.DOT) {
-            System.out.print("Expected " + TokenType.DOT.getName());
-            System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-            System.out.println();
-            return null;
+            throw new IllegalArgumentException(errorMessage(TokenType.DOT));
         }
         lexer.fetchNextToken();
         return new Abstraction(position, arg, parseTerm(context));
@@ -155,22 +149,22 @@ public final class Parser {
                 lexer.fetchNextToken();
                 root = parseTerm(context);
                 if (lexer.getCurrentToken().getType() != TokenType.CLOSED_PAREN) {
-                    System.out.print("Expected " + TokenType.CLOSED_PAREN.getName());
-                    System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-                    System.out.println();
-                    return null;
+                    throw new IllegalArgumentException(errorMessage(TokenType.CLOSED_PAREN));
                 }
                 break;
             default:
-                System.out.print("Expected " + TokenType.IDENTIFIER.getName());
-                System.out.print(" or " + TokenType.OPEN_PAREN.getName());
-                System.out.print(", got \"" + lexer.getCurrentToken().getText() + "\"");
-                System.out.println();
-                return null;
+                throw new IllegalArgumentException(
+                    errorMessage(TokenType.IDENTIFIER) + " or "
+                    + errorMessage(TokenType.OPEN_PAREN));
         }
         lexer.fetchNextToken();
         
         return root;
+    }
+    
+    private String errorMessage(final TokenType expected) {
+        return "Expected " + expected.getName()
+            + ", got \"" + lexer.getCurrentToken().getText() + "\"";
     }
 
 }

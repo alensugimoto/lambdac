@@ -21,7 +21,7 @@ import model.context.Context;
  * </pre>
  */
 public class ParserTest {
-
+    
     @Test
     public void testVariable() {
         // setup
@@ -86,6 +86,19 @@ public class ParserTest {
         final Node expectedRoot = new Variable(1, 0, 1);
         // assertion
         assertEquals(expectedRoot, actualRoot);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMissingClosedParen() {
+        // setup
+        final Parser parser = new Parser();
+        // test input
+        final String sourceCode = "(x";
+        // context
+        final Context context = new Context();
+        context.add("x");
+        // code under test
+        final Node actualRoot = parser.parse(sourceCode, context);
     }
     
 }
