@@ -1,17 +1,44 @@
-# lambdac
+# Lambdac
 
-TODO
+The purpose of this application is to provide user interfaces for interpreting source code written in untyped lambda calculus.
 
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
-------------------------------------------------------------------------
+## How to Build
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+To build, use
+
+```
+mvn package
+```
+
+## How to Run
+
+To run, use
+
+```
+java -cp target/project-lambdac-0.1-SNAPSHOT.jar Main
+```
+
+## User Instructions
+
+With the application running, type any lambda term and press enter to evaluate it.
+
+The syntax of a lambda term must follow the following BNF:
+
+```
+TERM        ::= ATOM
+              | ABSTRACTION
+              | APPLICATION
+ATOM        ::= Identifier
+              | "(" TERM ")"
+ABSTRACTION ::= "\" Identifier "." TERM
+APPLICATION ::= ATOM ATOM
+              | APPLICATION ATOM
+```
+
+Note that the interpreter evaluates input strings to a value/abstraction; therefore, all variables must be defined.
+
+## Authors
+
+* Arthur Morgan
+* Alen Sugimoto
 
