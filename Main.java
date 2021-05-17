@@ -7,12 +7,6 @@ import javax.swing.JFrame;
 public class Main {
     
     public static void main(final String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LambdaFrame().setVisible(true);
-            }
-        });
-        /**
         Scanner input = new Scanner(System.in);
         boolean f = true;
         while (f) {
@@ -23,7 +17,6 @@ public class Main {
                 System.out.println(new Interpreter().interpret(a));
             }
         }
-        */
     }
     
 }
