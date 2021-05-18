@@ -16,10 +16,10 @@ public class Context extends LinkedList<String> {
         super();
     }
     
-<<<<<<< HEAD
     public Context(final Context context) {
         super(context);
-=======
+    }
+    
     /**
      * Constructs a list containing the elements of the specified collection,
      * in the order they are returned by the collection's iterator.
@@ -27,9 +27,8 @@ public class Context extends LinkedList<String> {
      * @param c the collection whose elements are to be placed into this context
      * @see LinkedList#LinkedList(Collection)
      */
-    public Context(Collection<? extends String> c) {
+    public Context(final Collection<? extends String> c) {
         super(c);
->>>>>>> 514ff581e4b7257c74151e0434bae840b105c3e3
     }
     
 }
