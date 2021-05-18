@@ -1,6 +1,9 @@
 package ch.usi.pf2.model.parser;
 
-import ch.usi.pf2.model.ast.*;
+import ch.usi.pf2.model.ast.Abstraction;
+import ch.usi.pf2.model.ast.Application;
+import ch.usi.pf2.model.ast.Node;
+import ch.usi.pf2.model.ast.Variable;
 import ch.usi.pf2.model.context.Context;
 import ch.usi.pf2.model.lexer.LexicalAnalyzer;
 import ch.usi.pf2.model.lexer.TokenType;
