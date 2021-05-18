@@ -16,10 +16,6 @@ public class Context extends LinkedList<String> {
         super();
     }
     
-    public Context(final Context context) {
-        super(context);
-    }
-    
     /**
      * Constructs a list containing the elements of the specified collection,
      * in the order they are returned by the collection's iterator.
