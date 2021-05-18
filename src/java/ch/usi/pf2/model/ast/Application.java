@@ -51,11 +51,15 @@ public class Application extends Node {
     @Override
     public boolean equals(final Object obj) {
         if (super.equals(obj) && obj instanceof Application) {
-            Application other = (Application) obj;
+            final Application other = (Application) obj;
             return leftTerm.equals(other.leftTerm) && rightTerm.equals(other.rightTerm);
         } else {
             return false;
         }
     }
     
+    @Override
+    public int hashCode() {
+        return -1;
+    }    
 }

@@ -41,11 +41,15 @@ public class Variable extends Node {
     @Override
     public boolean equals(final Object obj) {
         if (super.equals(obj) && obj instanceof Variable) {
-            Variable other = (Variable) obj;
+            final Variable other = (Variable) obj;
             return index == other.index && contextLength == other.contextLength;
         } else {
             return false;
         }
     }
     
+    @Override
+    public int hashCode() {
+        return -1;
+    }
 }

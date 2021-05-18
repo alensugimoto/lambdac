@@ -1,20 +1,19 @@
 package ch.usi.pf2;
 
 import java.util.Scanner;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-
 import ch.usi.pf2.model.Interpreter;
-import ch.usi.pf2.gui.LambdaFrame;
 
 public class Main {
     
+    private Main() {
+    }
+    
     public static void main(final String[] args) {
-        Scanner input = new Scanner(System.in);
+        final Scanner input = new Scanner(System.in);
         boolean f = true;
         while (f) {
-            String a = input.nextLine();
-            if (a.equals("end")) {
+            final String a = input.nextLine();
+            if ("end".equals(a)) {
                 f = false;
             } else {
                 System.out.println(new Interpreter().interpret(a));

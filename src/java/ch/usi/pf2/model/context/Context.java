@@ -11,7 +11,7 @@ public class Context extends LinkedList<String> {
         super();
     }
     
-    public Context(Context context) {
+    public Context(final Context context) {
         super(context);
     }
     

@@ -25,7 +25,7 @@ public abstract class Node {
         return this;
     }
     
-    public Node apply(Node right) {
+    public Node apply(final Node right) {
         return new Application(position, this, right);
     }
     
@@ -61,8 +61,12 @@ public abstract class Node {
         if (!(obj instanceof Node)) {
             return false;
         }
-        Node other = (Node) obj;
+        final Node other = (Node) obj;
         return position == other.position;
     }
     
+    @Override
+    public int hashCode() {
+        return -1;
+    }    
 }

@@ -22,7 +22,7 @@ public class Abstraction extends Node {
     }
     
     @Override
-    public Node apply(Node right) {
+    public Node apply(final Node right) {
         return body.termSubstTop(right);
     }
     
@@ -53,11 +53,15 @@ public class Abstraction extends Node {
     @Override
     public boolean equals(final Object obj) {
         if (super.equals(obj) && obj instanceof Abstraction) {
-            Abstraction other = (Abstraction) obj;
+            final Abstraction other = (Abstraction) obj;
             return arg.equals(other.arg) && body.equals(other.body);
         } else {
             return false;
         }
     }
     
+    @Override
+    public int hashCode() {
+        return -1;
+    }    
 }

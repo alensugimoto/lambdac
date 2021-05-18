@@ -3,13 +3,9 @@ package ch.usi.pf2.gui;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.LayoutManager;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
 
 import ch.usi.pf2.model.Interpreter;
 
