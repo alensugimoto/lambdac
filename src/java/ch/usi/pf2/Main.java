@@ -19,13 +19,13 @@ public final class Main {
      */
     public static void main(final String[] args) {
         if (args.length == 1 && args[0].equals("--gui")) {
-            runGUI();
+            runGraphicalUserInterface();
         } else {
-            runTUI();
+            runTestBasedUserInterface();
         }
     }
     
-    private static void runTUI() {
+    private static void runTestBasedUserInterface() {
         final Scanner input = new Scanner(System.in);
         final Interpreter interpreter = new Interpreter();
         String line = input.nextLine();
@@ -35,7 +35,7 @@ public final class Main {
         }
     }
     
-    private static void runGUI() {
+    private static void runGraphicalUserInterface() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LambdaFrame().setVisible(true);

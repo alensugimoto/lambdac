@@ -144,7 +144,9 @@ public abstract class Node {
     
     @Override
     public int hashCode() {
-        return -1;
+        int result = 17;
+        result = 37 * result + position;
+        return result;
     }
     
 }

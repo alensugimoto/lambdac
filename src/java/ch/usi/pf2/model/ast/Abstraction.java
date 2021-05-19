@@ -82,6 +82,11 @@ public class Abstraction extends Node {
     
     @Override
     public int hashCode() {
-        return -1;
-    }    
+        int result = 17;
+        result = 37 * result + super.hashCode();
+        result = 37 * result + arg.hashCode();
+        result = 37 * result + body.hashCode();
+        return result;
+    }
+    
 }
