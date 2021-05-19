@@ -4,7 +4,7 @@ package ch.usi.pf2.model.lexer;
  * A special kind of TokenFactory
  * that looks for tokens that exactly match a given string.
  */
-public class StringTokenFactory extends TokenFactory {
+public abstract class StringTokenFactory implements TokenFactory {
 
     private final String tokenText;
     private String text;

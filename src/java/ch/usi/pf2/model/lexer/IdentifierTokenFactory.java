@@ -11,11 +11,8 @@ public class IdentifierTokenFactory extends RegExTokenFactory {
     public IdentifierTokenFactory() {
         super("[a-zA-Z_][a-zA-Z_0-9]*");
     }
-
-    /**
-     * Produce a token.
-     * @return the currently found token
-     */
+    
+    @Override
     public Token getToken() {
         return new Token(TokenType.IDENTIFIER, getTokenText(), getTokenStartPosition());
     }

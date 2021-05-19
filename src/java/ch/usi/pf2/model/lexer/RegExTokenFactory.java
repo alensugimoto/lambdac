@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * A TokenFactory that uses regular expressions 
  * to specify the kinds of tokens it produces.
  */
-public class RegExTokenFactory extends TokenFactory {
+public abstract class RegExTokenFactory implements TokenFactory {
     
     private final Matcher matcher;
     
