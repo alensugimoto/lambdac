@@ -5,6 +5,7 @@ import ch.usi.pf2.model.context.Context;
 
 /**
  * An application of the untyped lambda calculus.
+ * It holds two subterms being applied.
  */
 public class Application extends Node {
     
@@ -12,9 +13,11 @@ public class Application extends Node {
     private final Node rightTerm;
     
     /**
-     * Create a new Application node.
-     * @param leftChild the left operand
-     * @param rightChild the right operand
+     * Constructs a new application.
+     * 
+     * @param position the position where this application was originally found
+     * @param leftChild the left term being applied
+     * @param rightChild the right term being applied
      */
     public Application(final int position, final Node leftTerm, final Node rightTerm) {
         super(position);
@@ -22,27 +25,25 @@ public class Application extends Node {
         this.rightTerm = rightTerm;
     }
     
-    
     @Override
-    public Node evaluateCallByValue() {
-        // TODO: use big-step evaluation
-        if (leftTerm.isValue() && rightTerm.isValue())
-        return leftTerm.evaluateCallByValue().apply(rightTerm.evaluateCallByValue());
+    public boolean isValue() {
+        return false;
     }
     
     @Override
-    public Node evaluateCallByName() {
-        return leftTerm.evaluateCallByName().apply(rightTerm).evaluateCallByName();
+    public Node apply(final Node right) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
     
     @Override
-    public Node evaluateApplicativeOrder() {
-        return evaluateCallByValue();
-    }
-    
-    @Override
-    public Node evaluateNormalOrder() {
-        return evaluateCallByName();
+    public Node evaluateOne() {
+        if (leftTerm.isValue() && rightTerm.isValue()) {
+            return leftTerm.apply(rightTerm);
+        } else if (leftTerm.isValue()) {
+            return new Application(getPosition(), leftTerm, rightTerm.evaluateOne());
+        } else {
+            return new Application(getPosition(), leftTerm.evaluateOne(), rightTerm);
+        }
     }
     
     @Override
@@ -57,8 +58,8 @@ public class Application extends Node {
     public Node substitute(final int c, final int j, final Node s) {
         return new Application(
             getPosition(),
-            leftTerm.substitute(j, c, s),
-            rightTerm.substitute(j, c, s));
+            leftTerm.substitute(c, j, s),
+            rightTerm.substitute(c, j, s));
     }
 
     @Override
@@ -80,5 +81,6 @@ public class Application extends Node {
     @Override
     public int hashCode() {
         return -1;
-    }    
+    }
+    
 }

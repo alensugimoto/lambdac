@@ -5,8 +5,6 @@ import ch.usi.pf2.model.context.Context;
 
 /**
  * An abstraction of the untyped lambda calculus.
- * It holds a hint for the name of its bound variable 
- * and another node as its body.
  */
 public class Abstraction extends Node {
     
@@ -14,9 +12,11 @@ public class Abstraction extends Node {
     private final Node body;
     
     /**
-     * Create a new Abstraction node.
-     * @param leftChild the left operand
-     * @param rightChild the right operand
+     * Constructs a new abstraction.
+     * 
+     * @param position the position where this abstraction was originally found
+     * @param arg the string hint for the name of this abstraction's bound variable
+     * @param body the body of this abstraction
      */
     public Abstraction(final int position, final String arg, final Node body) {
         super(position);
@@ -25,23 +25,13 @@ public class Abstraction extends Node {
     }
     
     @Override
-    public Node evaluateCallByValue() {
-        return this;
+    public boolean isValue() {
+        return true;
     }
     
     @Override
-    public Node evaluateCallByName() {
-        return evaluateCallByValue();
-    }
-    
-    @Override
-    public Node evaluateApplicativeOrder() {
-        return new Abstraction(arg, body.evaluateApplicativeOrder());
-    }
-    
-    @Override
-    public Node evaluateNormalOrder() {
-        return evaluateApplicativeOrder();
+    public Node evaluateOne() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -49,23 +39,14 @@ public class Abstraction extends Node {
         return body.substituteTop(right);
     }
     
-    /**
-     * Substitutes the specified node for the bound variable in this abstraction's body.
-     * 
-     * @param s the node to substitute
-     */
-    private Node substituteTop(final Node s) {
-        return substitute(0, s.shift(1)).shift(-1);
+    @Override
+    public Node shift(final int c, final int d) {
+        return new Abstraction(getPosition(), arg, body.shift(c + 1, d));
     }
     
     @Override
-    public Node termShift(final int c, final int d) {
-        return new Abstraction(getPosition(), arg, body.termShift(c + 1, d));
-    }
-    
-    @Override
-    public Node termSubst(final int c, final int j, final Node s) {
-        return new Abstraction(getPosition(), arg, body.termSubst(j, c + 1, s));
+    public Node substitute(final int c, final int j, final Node s) {
+        return new Abstraction(getPosition(), arg, body.substitute(c + 1, j, s));
     }
 
     @Override
@@ -75,7 +56,7 @@ public class Abstraction extends Node {
     
     /**
      * Generates a fresh name for its bound variable
-     * based on its hint and the specified context, and
+     * based on its string hint and the specified context, and
      * updates the specified context with the generated name.
      * 
      * @param context the current context

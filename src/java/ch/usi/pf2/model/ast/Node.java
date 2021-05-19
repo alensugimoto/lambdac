@@ -5,28 +5,40 @@ import ch.usi.pf2.model.context.Context;
 
 /**
  * An abstract syntax tree (AST) node for lambda terms.
- * Every node holds the position where they were originally found.
  */
 public abstract class Node {
     
     private final int position;
     
-    public Node(final int position) {
+    /**
+     * Sole constructor.
+     * 
+     * @param position the position where this node was originally found
+     */
+    protected Node(final int position) {
         this.position = position;
     }
     
+    /**
+     * Returns the position where this node was originally found.
+     * 
+     * @return the position where this node was originally found
+     */
     protected int getPosition() {
         return position;
     }
     
     /**
-     * Evaluate this node.
-     * @return an evaluated node
+     * Evaluates this node.
+     * 
+     * @return the node obtained by evaluating this node
      */
-    abstract public Node evaluate();
-    
-    public Node apply(final Node right) {
-        return new Application(position, this, right);
+    public Node evaluate() {
+        try {
+            return evaluateOne().evaluate();
+        } catch (UnsupportedOperationException exception) {
+            return this;
+        }
     }
     
     /**
@@ -35,7 +47,7 @@ public abstract class Node {
      * 
      * @param d the number to be added to the index of every free variable in this node
      */
-    public final Node shift(final int d) {
+    protected final Node shift(final int d) {
         return shift(0, d);
     }
     
@@ -46,9 +58,43 @@ public abstract class Node {
      * @param j the index of the variable in this node to be substituted
      * @param s the node to substitute
      */
-    public final Node substitute(final int j, final Node s) {
+    protected final Node substitute(final int j, final Node s) {
         return substitute(0, j, s);
     }
+    
+    /**
+     * Substitutes the specified node for the bound variable in this node.
+     * 
+     * @param s the node to substitute
+     */
+    protected final Node substituteTop(final Node s) {
+        return substitute(0, s.shift(1)).shift(-1);
+    }
+    
+    /**
+     * Determines whether this node is a value.
+     * 
+     * @return true if this node is a value and false otherwise
+     */
+    abstract public boolean isValue();
+    
+    /**
+     * Evaluates this node by one step.
+     * 
+     * @return the evaluated node
+     * @throws UnsupportedOperationException if the <tt>evaluateOne</tt> operation
+     *         is not supported by this node
+     */
+    abstract public Node evaluateOne();
+    
+    /**
+     * Applies this node to the specified node.
+     * 
+     * @return the node to be applied
+     * @throws UnsupportedOperationException if the <tt>apply</tt> operation
+     *         is not supported by this node
+     */
+    abstract public Node apply(final Node right);
     
     /**
      * Increments the index of every free variable in this node by {@code d}
@@ -73,7 +119,7 @@ public abstract class Node {
      * Decompiles this node into a string.
      * Note that the resulting string may have extra parentheses.
      * 
-     * @return a String representation of this AST
+     * @return a string representation of this node
      */
     abstract public String toString(final Context context);
     
@@ -92,5 +138,6 @@ public abstract class Node {
     @Override
     public int hashCode() {
         return -1;
-    }    
+    }
+    
 }
