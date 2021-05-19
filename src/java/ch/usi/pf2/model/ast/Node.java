@@ -29,6 +29,13 @@ public abstract class Node {
     }
     
     /**
+     * Determines whether this node is a value.
+     * 
+     * @return true if this node is a value and false otherwise
+     */
+    public abstract boolean isValue();
+    
+    /**
      * Evaluates this node.
      * 
      * @return the node obtained by evaluating this node
@@ -42,6 +49,25 @@ public abstract class Node {
     }
     
     /**
+     * Evaluates this node by one step.
+     * 
+     * @return the evaluated node
+     * @throws UnsupportedOperationException if the <tt>evaluateOne</tt> operation
+     *         is not supported by this node
+     */
+    public abstract Node evaluateOne();
+    
+    /**
+     * Applies this node to the specified node.
+     * 
+     * @param right the node to be applied
+     * @return the result of applying this node to the specified node
+     * @throws UnsupportedOperationException if the <tt>apply</tt> operation
+     *         is not supported by this node
+     */
+    public abstract Node apply(final Node right);
+    
+    /**
      * Increments the index of every free variable in this node by {@code d}
      * assuming that their indices are greater than or equal to zero.
      * 
@@ -50,6 +76,17 @@ public abstract class Node {
     protected final Node shift(final int d) {
         return shift(0, d);
     }
+    
+    /**
+     * Increments the index of every free variable in this node by {@code d}
+     * assuming that their indices are greater than or equal to {@code c}.
+     * 
+     * @param c the lower bound for the index of every free variable in this node
+     * @param d the number to be added to the index of every free variable in this node
+     * @return the node after incrementing the index of every free variable in this node
+     *         by {@code d} assuming that their indices are greater than or equal to {@code c}.
+     */
+    public abstract Node shift(final int c, final int d);
     
     /**
      * Substitutes node {@code s} for a variable with index {@code j} in this node
@@ -63,6 +100,19 @@ public abstract class Node {
     }
     
     /**
+     * Substitutes node {@code s} for a variable with index {@code j} in this node
+     * assuming that the index of every free variable is greater than or equal to {@code c}.
+     * 
+     * @param c the lower bound for the index of every free variable in this node
+     * @param j the index of the variable in this node to be substituted
+     * @param s the node to substitute
+     * @return the node after substituting node {@code s} for a variable
+     *         with index {@code j} in this node assuming that the index of
+     *         every free variable is greater than or equal to {@code c}.
+     */
+    public abstract Node substitute(final int c, final int j, final Node s);
+    
+    /**
      * Substitutes the specified node for the bound variable in this node.
      * 
      * @param s the node to substitute
@@ -72,56 +122,13 @@ public abstract class Node {
     }
     
     /**
-     * Determines whether this node is a value.
-     * 
-     * @return true if this node is a value and false otherwise
-     */
-    abstract public boolean isValue();
-    
-    /**
-     * Evaluates this node by one step.
-     * 
-     * @return the evaluated node
-     * @throws UnsupportedOperationException if the <tt>evaluateOne</tt> operation
-     *         is not supported by this node
-     */
-    abstract public Node evaluateOne();
-    
-    /**
-     * Applies this node to the specified node.
-     * 
-     * @return the node to be applied
-     * @throws UnsupportedOperationException if the <tt>apply</tt> operation
-     *         is not supported by this node
-     */
-    abstract public Node apply(final Node right);
-    
-    /**
-     * Increments the index of every free variable in this node by {@code d}
-     * assuming that their indices are greater than or equal to {@code c}.
-     * 
-     * @param c the lower bound for the index of every free variable in this node
-     * @param d the number to be added to the index of every free variable in this node
-     */
-    abstract public Node shift(final int c, final int d);
-    
-    /**
-     * Substitutes node {@code s} for a variable with index {@code j} in this node
-     * assuming that the index of every free variable is greater than or equal to {@code c}.
-     * 
-     * @param c the lower bound for the index of every free variable in this node
-     * @param j the index of the variable in this node to be substituted
-     * @param s the node to substitute
-     */
-    abstract public Node substitute(final int c, final int j, final Node s);
-    
-    /**
-     * Decompiles this node into a string.
+     * Decompiles this node into a string based on the specified context.
      * Note that the resulting string may have extra parentheses.
      * 
+     * @param context the current context
      * @return a string representation of this node
      */
-    abstract public String toString(final Context context);
+    public abstract String toString(final Context context);
     
     @Override
     public boolean equals(final Object obj) {
