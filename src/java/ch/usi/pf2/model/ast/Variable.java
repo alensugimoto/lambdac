@@ -2,8 +2,10 @@ package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.context.Context;
 
+
 /**
- * A variable.
+ * A variable of the untyped lambda calculus.
+ * It holds its de Bruijn index and the length of the context that it occurs in
  */
 public class Variable extends Node {
     
@@ -11,8 +13,11 @@ public class Variable extends Node {
     private final int contextLength;
 
     /**
-     * Create a new Variable node.
-     * @param name the name of this node
+     * Constructs a new Variable node.
+     * 
+     * @param position the starting position of this variable
+     * @param index the de Bruijn index of this variable
+     * @param contextLength the length of the context in which this variable occurs
      */
     public Variable(final int position, final int index, final int contextLength) {
         super(position);
@@ -21,15 +26,32 @@ public class Variable extends Node {
     }
     
     @Override
-    public Node termShift(final int c, final int d) {
-        return new Variable(
-            getPosition(),
-            index < c ? index : index + d,
-            contextLength + d);
+    public Node evaluateCallByValue() {
+        return this;
     }
     
     @Override
-    public Node termSubst(final int j, final int c, final Node s) {
+    public Node evaluateCallByName() {
+        return this;
+    }
+    
+    @Override
+    public Node evaluateApplicativeOrder() {
+        return this;
+    }
+    
+    @Override
+    public Node evaluateNormalOrder() {
+        return this;
+    }
+    
+    @Override
+    public Node termShift(final int c, final int d) {
+        return new Variable(getPosition(), index < c ? index : index + d, contextLength + d);
+    }
+    
+    @Override
+    public Node termSubst(final int c, final int j, final Node s) {
         return index == j + c ? s.termShift(c) : this;
     }
 
@@ -52,4 +74,5 @@ public class Variable extends Node {
     public int hashCode() {
         return -1;
     }
+    
 }

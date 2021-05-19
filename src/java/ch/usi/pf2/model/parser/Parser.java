@@ -118,7 +118,7 @@ public final class Parser {
             throw new IllegalArgumentException(errorMessage(TokenType.IDENTIFIER));
         }
         final String arg = lexer.getCurrentToken().getText();
-        context.add(0, arg);
+        context.addFirst(arg);
         lexer.fetchNextToken();
         if (lexer.getCurrentToken().getType() != TokenType.DOT) {
             throw new IllegalArgumentException(errorMessage(TokenType.DOT));

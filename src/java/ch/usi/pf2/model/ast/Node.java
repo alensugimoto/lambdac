@@ -2,8 +2,10 @@ package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.context.Context;
 
+
 /**
- * An abstract syntax tree (AST) node.
+ * An abstract syntax tree (AST) node for lambda terms.
+ * Every node holds the position where they were originally found.
  */
 public abstract class Node {
     
@@ -21,34 +23,56 @@ public abstract class Node {
      * Evaluate this node.
      * @return an evaluated node
      */
-    public Node evaluate() {
-        return this;
-    }
+    abstract public Node evaluate();
     
     public Node apply(final Node right) {
         return new Application(position, this, right);
     }
     
-    public Node termShift(final int d) {
-        return termShift(0, d);
+    /**
+     * Increments the index of every free variable in this node by {@code d}
+     * assuming that their indices are greater than or equal to zero.
+     * 
+     * @param d the number to be added to the index of every free variable in this node
+     */
+    public final Node shift(final int d) {
+        return shift(0, d);
     }
-    
-    public Node termSubst(final int j, final Node s) {
-        return termSubst(j, 0, s);
-    }
-    
-    public Node termSubstTop(final Node s) {
-        return termSubst(0, s.termShift(1)).termShift(-1);
-    }
-    
-    abstract public Node termShift(final int c, final int d);
-    
-    abstract public Node termSubst(final int j, final int c, final Node s);
     
     /**
-     * Decompile this node into a string.
-     * Note that the resulting string may have
-     * extra parentheses.
+     * Substitutes node {@code s} for a variable with index {@code j} in this node
+     * assuming that the index of every free variable is greater than or equal to zero.
+     * 
+     * @param j the index of the variable in this node to be substituted
+     * @param s the node to substitute
+     */
+    public final Node substitute(final int j, final Node s) {
+        return substitute(0, j, s);
+    }
+    
+    /**
+     * Increments the index of every free variable in this node by {@code d}
+     * assuming that their indices are greater than or equal to {@code c}.
+     * 
+     * @param c the lower bound for the index of every free variable in this node
+     * @param d the number to be added to the index of every free variable in this node
+     */
+    abstract public Node shift(final int c, final int d);
+    
+    /**
+     * Substitutes node {@code s} for a variable with index {@code j} in this node
+     * assuming that the index of every free variable is greater than or equal to {@code c}.
+     * 
+     * @param c the lower bound for the index of every free variable in this node
+     * @param j the index of the variable in this node to be substituted
+     * @param s the node to substitute
+     */
+    abstract public Node substitute(final int c, final int j, final Node s);
+    
+    /**
+     * Decompiles this node into a string.
+     * Note that the resulting string may have extra parentheses.
+     * 
      * @return a String representation of this AST
      */
     abstract public String toString(final Context context);

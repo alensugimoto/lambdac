@@ -2,8 +2,9 @@ package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.context.Context;
 
+
 /**
- * An application.
+ * An application of the untyped lambda calculus.
  */
 public class Application extends Node {
     
@@ -21,25 +22,43 @@ public class Application extends Node {
         this.rightTerm = rightTerm;
     }
     
+    
     @Override
-    public Node evaluate() {
-        return leftTerm.evaluate().apply(rightTerm.evaluate());
+    public Node evaluateCallByValue() {
+        // TODO: use big-step evaluation
+        if (leftTerm.isValue() && rightTerm.isValue())
+        return leftTerm.evaluateCallByValue().apply(rightTerm.evaluateCallByValue());
     }
     
     @Override
-    public Node termShift(final int c, final int d) {
-        return new Application(
-            getPosition(),
-            leftTerm.termShift(c, d),
-            rightTerm.termShift(c, d));
+    public Node evaluateCallByName() {
+        return leftTerm.evaluateCallByName().apply(rightTerm).evaluateCallByName();
     }
     
     @Override
-    public Node termSubst(final int j, final int c, final Node s) {
+    public Node evaluateApplicativeOrder() {
+        return evaluateCallByValue();
+    }
+    
+    @Override
+    public Node evaluateNormalOrder() {
+        return evaluateCallByName();
+    }
+    
+    @Override
+    public Node shift(final int c, final int d) {
         return new Application(
             getPosition(),
-            leftTerm.termSubst(j, c, s),
-            rightTerm.termSubst(j, c, s));
+            leftTerm.shift(c, d),
+            rightTerm.shift(c, d));
+    }
+    
+    @Override
+    public Node substitute(final int c, final int j, final Node s) {
+        return new Application(
+            getPosition(),
+            leftTerm.substitute(j, c, s),
+            rightTerm.substitute(j, c, s));
     }
 
     @Override

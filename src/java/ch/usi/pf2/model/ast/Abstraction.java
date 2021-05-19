@@ -2,8 +2,11 @@ package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.context.Context;
 
+
 /**
- * An abstraction.
+ * An abstraction of the untyped lambda calculus.
+ * It holds a hint for the name of its bound variable 
+ * and another node as its body.
  */
 public class Abstraction extends Node {
     
@@ -22,8 +25,37 @@ public class Abstraction extends Node {
     }
     
     @Override
+    public Node evaluateCallByValue() {
+        return this;
+    }
+    
+    @Override
+    public Node evaluateCallByName() {
+        return evaluateCallByValue();
+    }
+    
+    @Override
+    public Node evaluateApplicativeOrder() {
+        return new Abstraction(arg, body.evaluateApplicativeOrder());
+    }
+    
+    @Override
+    public Node evaluateNormalOrder() {
+        return evaluateApplicativeOrder();
+    }
+    
+    @Override
     public Node apply(final Node right) {
-        return body.termSubstTop(right);
+        return body.substituteTop(right);
+    }
+    
+    /**
+     * Substitutes the specified node for the bound variable in this abstraction's body.
+     * 
+     * @param s the node to substitute
+     */
+    private Node substituteTop(final Node s) {
+        return substitute(0, s.shift(1)).shift(-1);
     }
     
     @Override
@@ -32,7 +64,7 @@ public class Abstraction extends Node {
     }
     
     @Override
-    public Node termSubst(final int j, final int c, final Node s) {
+    public Node termSubst(final int c, final int j, final Node s) {
         return new Abstraction(getPosition(), arg, body.termSubst(j, c + 1, s));
     }
 
@@ -41,12 +73,19 @@ public class Abstraction extends Node {
         return "(\\" + pickFreshName(context) + "." + body.toString(context) + ")";
     }
     
+    /**
+     * Generates a fresh name for its bound variable
+     * based on its hint and the specified context, and
+     * updates the specified context with the generated name.
+     * 
+     * @param context the current context
+     */
     private String pickFreshName(final Context context) {
         String freshName = arg;
         while (context.contains(freshName)) {
             freshName += "\u2032";
         }
-        context.add(0, freshName);
+        context.addFirst(freshName);
         return freshName;
     }
     
