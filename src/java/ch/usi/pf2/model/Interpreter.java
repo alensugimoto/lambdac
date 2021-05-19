@@ -20,6 +20,8 @@ public final class Interpreter {
     
     /**
      * Constructs an interpreter with the specified context.
+     * 
+     * @param context the context of this interpreter
      */
     public Interpreter(final Context context) {
         parser = new Parser();
@@ -28,7 +30,9 @@ public final class Interpreter {
 
     /**
      * Interpret the specified source code.
-     * @param sourceCode the source code
+     * 
+     * @param sourceCode the source code to be interpreted
+     * @return the interpretation of the specified source code
      */
     public String interpret(final String sourceCode) {
         return parser.parse(sourceCode).evaluate().toString(context);
