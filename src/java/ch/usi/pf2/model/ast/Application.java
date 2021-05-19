@@ -16,8 +16,8 @@ public class Application extends Node {
      * Constructs a new application.
      * 
      * @param position the position where this application was originally found
-     * @param leftChild the left term being applied
-     * @param rightChild the right term being applied
+     * @param leftTerm the left term being applied
+     * @param rightTerm the right term being applied
      */
     public Application(final int position, final Node leftTerm, final Node rightTerm) {
         super(position);

@@ -64,7 +64,7 @@ public class Abstraction extends Node {
     private String pickFreshName(final Context context) {
         String freshName = arg;
         while (context.contains(freshName)) {
-            freshName += "\u2032";
+            freshName += "'";
         }
         context.addFirst(freshName);
         return freshName;
