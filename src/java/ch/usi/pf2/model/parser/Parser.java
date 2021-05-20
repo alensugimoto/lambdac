@@ -50,11 +50,8 @@ public final class Parser {
         // now parse the TERM
         final Node root = parseTerm(context);
         // check if lexer is at the end of file
-        if (lexer.getCurrentToken().getType() == TokenType.END_OF_FILE) {
-            return root;
-        } else {
-            throw new IllegalArgumentException(errorMessage(TokenType.END_OF_FILE));
-        }
+        expect(TokenType.END_OF_FILE);
+        return root;
     }
     
     /**
@@ -110,20 +107,18 @@ public final class Parser {
      */
     private Node parseAbstraction(final Context context) {
         final int position = lexer.getCurrentToken().getStartPosition();
-        if (lexer.getCurrentToken().getType() != TokenType.LAMBDA) {
-            throw new IllegalArgumentException(errorMessage(TokenType.LAMBDA));
-        }
+        
+        expect(TokenType.LAMBDA);
         lexer.fetchNextToken();
-        if (lexer.getCurrentToken().getType() != TokenType.IDENTIFIER) {
-            throw new IllegalArgumentException(errorMessage(TokenType.IDENTIFIER));
-        }
+        
+        expect(TokenType.IDENTIFIER);
         final String arg = lexer.getCurrentToken().getText();
         context.addFirst(arg);
         lexer.fetchNextToken();
-        if (lexer.getCurrentToken().getType() != TokenType.DOT) {
-            throw new IllegalArgumentException(errorMessage(TokenType.DOT));
-        }
+        
+        expect(TokenType.DOT);
         lexer.fetchNextToken();
+        
         return new Abstraction(position, arg, parseTerm(context));
     }
     
@@ -141,27 +136,33 @@ public final class Parser {
     private Node parseAtom(final Context context) {
         final Node root;
         
-        switch (lexer.getCurrentToken().getType()) {
-            case IDENTIFIER:
-                root = new Variable(
-                    lexer.getCurrentToken().getStartPosition(),
-                    context.indexOf(lexer.getCurrentToken().getText()),
-                    context.size());
-                break;
-            case OPEN_PAREN:
-                lexer.fetchNextToken();
-                root = parseTerm(context);
-                if (lexer.getCurrentToken().getType() != TokenType.CLOSED_PAREN) {
-                    throw new IllegalArgumentException(errorMessage(TokenType.CLOSED_PAREN));
-                }
-                break;
-            default:
-                throw new IllegalArgumentException(
-                    errorMessage(TokenType.IDENTIFIER, TokenType.OPEN_PAREN));
+        expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
+        if (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER) {
+            root = new Variable(
+                lexer.getCurrentToken().getStartPosition(),
+                context.indexOf(lexer.getCurrentToken().getText()),
+                context.size());
+        } else {
+            lexer.fetchNextToken();
+            root = parseTerm(context);
+            expect(TokenType.CLOSED_PAREN);
         }
         lexer.fetchNextToken();
         
         return root;
+    }
+    
+    private void expect(final TokenType expected) {
+        if (lexer.getCurrentToken().getType() != expected) {
+            throw new IllegalArgumentException(errorMessage(expected));
+        }
+    }
+    
+    private void expect(final TokenType expectedOne, final TokenType expectedTwo) {
+        if (lexer.getCurrentToken().getType() != expectedOne
+            && lexer.getCurrentToken().getType() != expectedTwo) {
+            throw new IllegalArgumentException(errorMessage(expectedOne, expectedTwo));
+        }
     }
     
     private String errorMessage(final TokenType expected) {
