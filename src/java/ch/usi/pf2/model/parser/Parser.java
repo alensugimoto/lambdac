@@ -157,8 +157,7 @@ public final class Parser {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    errorMessage(TokenType.IDENTIFIER) + " or "
-                    + errorMessage(TokenType.OPEN_PAREN));
+                    errorMessage(TokenType.IDENTIFIER, TokenType.OPEN_PAREN));
         }
         lexer.fetchNextToken();
         
@@ -167,6 +166,11 @@ public final class Parser {
     
     private String errorMessage(final TokenType expected) {
         return "Expected " + expected.getName()
+            + ", got \"" + lexer.getCurrentToken().getText() + "\"";
+    }
+    
+    private String errorMessage(final TokenType expectedOne, final TokenType expectedTwo) {
+        return "Expected " + expectedOne.getName() + " or " + expectedTwo.getName()
             + ", got \"" + lexer.getCurrentToken().getText() + "\"";
     }
 
