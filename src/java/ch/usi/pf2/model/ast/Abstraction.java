@@ -29,14 +29,19 @@ public class Abstraction extends Node {
         return true;
     }
     
-    @Override
-    public Node evaluateOne() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    /**
+     * Applies this abstraction to the specified node.
+     * 
+     * @param right the node to be applied
+     * @return the result of applying this abstraction to the specified node
+     */
+    public Node apply(final Node right) {
+        return body.substituteTop(right);
     }
     
     @Override
-    public Node apply(final Node right) {
-        return body.substituteTop(right);
+    public Node evaluateOne() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
     
     @Override

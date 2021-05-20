@@ -58,16 +58,6 @@ public abstract class Node {
     public abstract Node evaluateOne();
     
     /**
-     * Applies this node to the specified node.
-     * 
-     * @param right the node to be applied
-     * @return the result of applying this node to the specified node
-     * @throws UnsupportedOperationException if the <tt>apply</tt> operation
-     *         is not supported by this node
-     */
-    public abstract Node apply(final Node right);
-    
-    /**
      * Increments the index of every free variable in this node by {@code d}
      * assuming that their indices are greater than or equal to zero.
      * 

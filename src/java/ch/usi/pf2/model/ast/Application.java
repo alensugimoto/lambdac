@@ -31,14 +31,9 @@ public class Application extends Node {
     }
     
     @Override
-    public Node apply(final Node right) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public Node evaluateOne() {
         if (leftTerm.isValue() && rightTerm.isValue()) {
-            return leftTerm.apply(rightTerm);
+            return ((Abstraction) leftTerm).apply(rightTerm);
         } else if (leftTerm.isValue()) {
             return new Application(getPosition(), leftTerm, rightTerm.evaluateOne());
         } else {

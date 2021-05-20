@@ -77,6 +77,13 @@ public class InterpreterTest {
     }
     
     @Test
+    public void testInterpretParentheses() {
+        final Interpreter interpreter = new Interpreter();
+        final String actualString = interpreter.interpret("(\\y.y) ((\\x.x) (\\z.z z))");
+        assertEquals("(\\z.(z z))", actualString);
+    }
+    
+    @Test
     public void testInterpretIdentity() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret(identity);

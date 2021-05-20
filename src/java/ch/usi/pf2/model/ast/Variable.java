@@ -30,11 +30,6 @@ public class Variable extends Node {
     }
     
     @Override
-    public Node apply(final Node right) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public Node evaluateOne() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
