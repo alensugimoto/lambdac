@@ -145,7 +145,7 @@ public final class Parser {
                     context.indexOf(lexer.getCurrentToken().getText()),
                     context.size());
             } else {
-                throw new IllegalArgumentException(
+                throw new ParseException(
                     "Variable `" + lexer.getCurrentToken().getText() + "` is not defined");
             }
         } else {
@@ -160,14 +160,14 @@ public final class Parser {
     
     private void expect(final TokenType expected) {
         if (lexer.getCurrentToken().getType() != expected) {
-            throw new IllegalArgumentException(errorMessage(expected));
+            throw new ParseException(errorMessage(expected));
         }
     }
     
     private void expect(final TokenType expectedOne, final TokenType expectedTwo) {
         if (lexer.getCurrentToken().getType() != expectedOne
             && lexer.getCurrentToken().getType() != expectedTwo) {
-            throw new IllegalArgumentException(errorMessage(expectedOne, expectedTwo));
+            throw new ParseException(errorMessage(expectedOne, expectedTwo));
         }
     }
     
