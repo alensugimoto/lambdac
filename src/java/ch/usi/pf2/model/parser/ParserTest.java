@@ -69,6 +69,13 @@ public class ParserTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
+    public void testUndefinedVariable() {
+        final Parser parser = new Parser();
+        final String sourceCode = "x";
+        final Node actualRoot = parser.parse(sourceCode);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
     public void testMissingClosedParentheses() {
         final Parser parser = new Parser();
         final String sourceCode = "(\\x.x x";

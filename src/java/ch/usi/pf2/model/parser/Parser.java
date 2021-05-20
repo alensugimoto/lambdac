@@ -26,7 +26,7 @@ import ch.usi.pf2.model.lexer.TokenType;
 public final class Parser {
     
     private LexicalAnalyzer lexer;
-
+    
     
     /**
      * Parse a program in lambda calculus.
@@ -113,13 +113,14 @@ public final class Parser {
         
         expect(TokenType.IDENTIFIER);
         final String arg = lexer.getCurrentToken().getText();
-        context.addFirst(arg);
         lexer.fetchNextToken();
         
         expect(TokenType.DOT);
         lexer.fetchNextToken();
         
-        return new Abstraction(position, arg, parseTerm(context));
+        final Context newContext = new Context(context);
+        newContext.addFirst(arg);
+        return new Abstraction(position, arg, parseTerm(newContext));
     }
     
     /**
@@ -138,10 +139,15 @@ public final class Parser {
         
         expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
         if (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER) {
-            root = new Variable(
-                lexer.getCurrentToken().getStartPosition(),
-                context.indexOf(lexer.getCurrentToken().getText()),
-                context.size());
+            if (context.contains(lexer.getCurrentToken().getText())) {
+                root = new Variable(
+                    lexer.getCurrentToken().getStartPosition(),
+                    context.indexOf(lexer.getCurrentToken().getText()),
+                    context.size());
+            } else {
+                throw new IllegalArgumentException(
+                    "Variable `" + lexer.getCurrentToken().getText() + "` is not defined");
+            }
         } else {
             lexer.fetchNextToken();
             root = parseTerm(context);
