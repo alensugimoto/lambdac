@@ -68,28 +68,28 @@ public class ParserTest {
         assertEquals(expectedRoot, actualRoot);
     }
     
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ParseException.class)
     public void testUndefinedVariable() {
         final Parser parser = new Parser();
         final String sourceCode = "x";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ParseException.class)
     public void testMissingClosedParentheses() {
         final Parser parser = new Parser();
         final String sourceCode = "(\\x.x x";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ParseException.class)
     public void testExtraClosedParentheses() {
         final Parser parser = new Parser();
         final String sourceCode = "(\\x.x x))";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ParseException.class)
     public void testStartOfTerm() {
         final Parser parser = new Parser();
         final String sourceCode = ")x.x x";
