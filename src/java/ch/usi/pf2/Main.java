@@ -1,8 +1,8 @@
 package ch.usi.pf2;
 
-import ch.usi.pf2.gui.LambdaFrame;
 import ch.usi.pf2.model.Interpreter;
 import ch.usi.pf2.model.parser.ParseException;
+import ch.usi.pf2.gui.GraphicalUserInterface;
 import ch.usi.pf2.tui.TextualUserInterface;
 
 import java.awt.EventQueue;
@@ -56,11 +56,7 @@ public final class Main {
     }
     
     private static void runGraphicalUserInterface() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LambdaFrame().setVisible(true);
-            }
-        });
+        final GraphicalUserInterface gui = new GraphicalUserInterface();
     }
     
     private static void runFile(final String filePath) throws FileNotFoundException {
