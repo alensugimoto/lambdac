@@ -1,6 +1,7 @@
 package ch.usi.pf2.tui;
 
 import ch.usi.pf2.model.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.util.Scanner;
 
@@ -32,7 +33,11 @@ public class TextualUserInterface {
             } else if ("help".equals(input)) {
                 printHelp();
             } else {
-                System.out.println(interpreter.interpret(input));
+                try {
+                    System.out.println(interpreter.interpret(input));
+                } catch (ParseException ex) {
+                    System.err.println(ex.getMessage());
+                }
             }
         }
         scanner.close();

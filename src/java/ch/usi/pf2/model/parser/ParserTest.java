@@ -26,7 +26,7 @@ import ch.usi.pf2.model.context.Context;
 public class ParserTest {
     
     @Test
-    public void testVariable() {
+    public void testVariable() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "x";
         final Context context = new Context();
@@ -37,7 +37,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testAbstraction() {
+    public void testAbstraction() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "\\x.x";
         final Node actualRoot = parser.parse(sourceCode);
@@ -46,7 +46,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testApplication() {
+    public void testApplication() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "x y";
         final Context context = new Context();
@@ -58,7 +58,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParentheses() {
+    public void testParentheses() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "(x)";
         final Context context = new Context();
@@ -69,28 +69,28 @@ public class ParserTest {
     }
     
     @Test(expected = ParseException.class)
-    public void testUndefinedVariable() {
+    public void testUndefinedVariable() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "x";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
-    public void testMissingClosedParentheses() {
+    public void testMissingClosedParentheses() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "(\\x.x x";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
-    public void testExtraClosedParentheses() {
+    public void testExtraClosedParentheses() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = "(\\x.x x))";
         final Node actualRoot = parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
-    public void testStartOfTerm() {
+    public void testStartOfTerm() throws ParseException {
         final Parser parser = new Parser();
         final String sourceCode = ")x.x x";
         final Node actualRoot = parser.parse(sourceCode);

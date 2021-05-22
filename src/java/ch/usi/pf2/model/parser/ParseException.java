@@ -2,9 +2,9 @@ package ch.usi.pf2.model.parser;
 
 
 /**
- * ParseException is a RuntimeException that can be thrown during parsing.
+ * ParseException is an Exception that can be thrown during parsing.
  */
-public class ParseException extends RuntimeException {
+public class ParseException extends Exception {
     
     /**
      * Constructs a new parse exception with the specified detail message.

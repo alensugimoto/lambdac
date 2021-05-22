@@ -33,7 +33,7 @@ public final class Parser {
      * @param sourceCode The source code of the program in lambda calculus
      * @return an AST of the program
      */
-    public Node parse(final String sourceCode) {
+    public Node parse(final String sourceCode) throws ParseException {
         return parse(sourceCode, new Context());
     }
     
@@ -43,7 +43,7 @@ public final class Parser {
      * @param context The context of the program
      * @return an AST of the program
      */
-    public Node parse(final String sourceCode, final Context context) {
+    public Node parse(final String sourceCode, final Context context) throws ParseException {
         lexer = new LexicalAnalyzer(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
@@ -65,7 +65,7 @@ public final class Parser {
      * 
      * @return a Node representing the term
      */
-    private Node parseTerm(final Context context) {
+    private Node parseTerm(final Context context) throws ParseException {
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
             ? parseAbstraction(context)
             : parseApplication(context);
@@ -82,7 +82,7 @@ public final class Parser {
      * 
      * @return a Node representing the application
      */
-    private Node parseApplication(final Context context) {
+    private Node parseApplication(final Context context) throws ParseException {
         int nextPosition = lexer.getCurrentToken().getStartPosition();
         Node root = parseAtom(new Context(context));
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
@@ -105,7 +105,7 @@ public final class Parser {
      * 
      * @return a Node representing the abstraction
      */
-    private Node parseAbstraction(final Context context) {
+    private Node parseAbstraction(final Context context) throws ParseException {
         final int position = lexer.getCurrentToken().getStartPosition();
         
         expect(TokenType.LAMBDA);
@@ -133,8 +133,9 @@ public final class Parser {
      * </code>
      * 
      * @return a Node representing the atom
+     * @throws ParseException if the atom is an undefined variable
      */
-    private Node parseAtom(final Context context) {
+    private Node parseAtom(final Context context) throws ParseException {
         final Node root;
         
         expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
@@ -146,7 +147,7 @@ public final class Parser {
                     context.size());
             } else {
                 throw new ParseException(
-                    "Variable `" + lexer.getCurrentToken().getText() + "` is not defined");
+                    "Variable '" + lexer.getCurrentToken().getText() + "' is not defined");
             }
         } else {
             lexer.fetchNextToken();
@@ -158,13 +159,13 @@ public final class Parser {
         return root;
     }
     
-    private void expect(final TokenType expected) {
+    private void expect(final TokenType expected) throws ParseException {
         if (lexer.getCurrentToken().getType() != expected) {
             throw new ParseException(errorMessage(expected));
         }
     }
     
-    private void expect(final TokenType expectedOne, final TokenType expectedTwo) {
+    private void expect(final TokenType expectedOne, final TokenType expectedTwo) throws ParseException {
         if (lexer.getCurrentToken().getType() != expectedOne
             && lexer.getCurrentToken().getType() != expectedTwo) {
             throw new ParseException(errorMessage(expectedOne, expectedTwo));
@@ -173,12 +174,12 @@ public final class Parser {
     
     private String errorMessage(final TokenType expected) {
         return "Expected " + expected.getName()
-            + ", got \"" + lexer.getCurrentToken().getText() + "\"";
+            + ", got '" + lexer.getCurrentToken().getText() + "'";
     }
     
     private String errorMessage(final TokenType expectedOne, final TokenType expectedTwo) {
         return "Expected " + expectedOne.getName() + " or " + expectedTwo.getName()
-            + ", got \"" + lexer.getCurrentToken().getText() + "\"";
+            + ", got '" + lexer.getCurrentToken().getText() + "'";
     }
 
 }

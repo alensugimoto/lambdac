@@ -2,6 +2,10 @@ package ch.usi.pf2.model;
 
 import ch.usi.pf2.model.context.Context;
 import ch.usi.pf2.model.parser.Parser;
+import ch.usi.pf2.model.parser.ParseException;
+
+import java.util.Stack;
+
 
 /**
  * An interpreter for the untyped lambda calculus.
@@ -9,14 +13,14 @@ import ch.usi.pf2.model.parser.Parser;
 public final class Interpreter {
     
     private final Parser parser;
+    private final Stack<String> history;
     private final Context context;
     
     /**
      * Constructs an interpreter with the default context.
      */
     public Interpreter() {
-        parser = new Parser();
-        this.context = getDefaultContext();
+        this(getDefaultContext());
     }
     
     /**
@@ -24,6 +28,7 @@ public final class Interpreter {
      */
     public Interpreter(final Context context) {
         parser = new Parser();
+        history = new Stack<>();
         this.context = context;
     }
     
@@ -33,11 +38,12 @@ public final class Interpreter {
      * @param sourceCode the source code to be interpreted
      * @return the interpretation of the specified source code
      */
-    public String interpret(final String sourceCode) {
+    public String interpret(final String sourceCode) throws ParseException {
+        history.push(sourceCode);
         return parser.parse(sourceCode, context).evaluate().toString(context);
     }
     
-    private Context getDefaultContext() {
+    private static Context getDefaultContext() {
         final Context context = new Context();
         // TODO: add environment variables
         return context;

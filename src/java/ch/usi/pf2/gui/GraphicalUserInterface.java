@@ -1,6 +1,7 @@
 package ch.usi.pf2.gui;
 
 import ch.usi.pf2.model.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -68,7 +69,11 @@ public final class GraphicalUserInterface extends JFrame {
         contentPane.add(expressionField, BorderLayout.SOUTH);
         expressionField.addActionListener(e -> {
             final String text = expressionField.getText();
-            System.out.println(interpreter.interpret(text));
+            try {
+                System.out.println(interpreter.interpret(text));
+            } catch (ParseException ex) {
+                System.err.println(ex.getMessage());
+            }
             expressionField.setText("");
         });
         
