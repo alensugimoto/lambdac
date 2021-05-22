@@ -56,7 +56,8 @@ public class Abstraction extends Node {
 
     @Override
     public String toString(final Context context) {
-        return "(\\" + pickFreshName(context) + "." + body.toString(context) + ")";
+        final Context newContext = new Context(context);
+        return "(\\" + pickFreshName(newContext) + "." + body.toString(newContext) + ")";
     }
     
     /**

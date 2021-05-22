@@ -55,7 +55,7 @@ public class InterpreterTest {
     public void testInterpretApplyVarToAbs() {
         final Context context = new Context();
         context.add("x");
-        final Interpreter interpreter = new Interpreter();
+        final Interpreter interpreter = new Interpreter(context);
         final String actualString = interpreter.interpret("x (\\y.y)");
         assertEquals("(x (\\y.y))", actualString);
     }
@@ -64,7 +64,7 @@ public class InterpreterTest {
     public void testInterpretApplyAbsToVar() {
         final Context context = new Context();
         context.add("x");
-        final Interpreter interpreter = new Interpreter();
+        final Interpreter interpreter = new Interpreter(context);
         final String actualString = interpreter.interpret("(\\y.y) x");
         assertEquals("((\\y.y) x)", actualString);
     }
