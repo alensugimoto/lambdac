@@ -41,10 +41,13 @@ public abstract class Node {
      * @return the node obtained by evaluating this node
      */
     public Node evaluate() {
+        Node evaluatedNode = this;
         try {
-            return evaluateOne().evaluate();
+            while (true) {
+                evaluatedNode = evaluatedNode.evaluateOne();
+            }
         } catch (UnsupportedOperationException exception) {
-            return this;
+            return evaluatedNode;
         }
     }
     

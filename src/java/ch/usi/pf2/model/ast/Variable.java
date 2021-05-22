@@ -46,7 +46,8 @@ public class Variable extends Node {
 
     @Override
     public String toString(final Context context) {
-        return context.size() == contextLength ? context.get(index) : "[bad index]";
+        assert context.size() == contextLength : "bad index";
+        return context.get(index);
     }
     
     @Override

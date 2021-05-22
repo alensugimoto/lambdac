@@ -14,21 +14,12 @@ import ch.usi.pf2.model.context.Context;
 public class NodeTest {
     
     @Test
-    public void testGoodVariableToString() {
+    public void testVariableToString() {
         // "x"
         final Node e = new Variable(0, 0, 1);
         final Context context = new Context();
         context.add("x");
         assertEquals("x", e.toString(context));
-    }
-    
-    @Test
-    public void testBadVariableToString() {
-        // "x"
-        final Node e = new Variable(0, 0, 2);
-        final Context context = new Context();
-        context.add("x");
-        assertEquals("[bad index]", e.toString(context));
     }
     
     @Test
