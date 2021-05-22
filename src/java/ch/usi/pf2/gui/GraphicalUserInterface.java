@@ -32,9 +32,9 @@ public final class GraphicalUserInterface extends JFrame {
     /**
      * Constructs a new graphical user interface.
      */
-    public GraphicalUserInterface() {
+    public GraphicalUserInterface(final Interpreter interpreter) {
         super(NAME);
-        interpreter = new Interpreter();
+        this.interpreter = interpreter;
         makeFrame();
     }
     
@@ -75,10 +75,9 @@ public final class GraphicalUserInterface extends JFrame {
         // building is done - arrange the components
         pack();
         
-        // place this frame at the center of the screen and show
+        // place this frame at the center of the screen
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(d.width/2 - getWidth()/2, d.height/2 - getHeight()/2);
-        setVisible(true);
     }
     
     /**

@@ -15,8 +15,8 @@ public class TextualUserInterface {
     
     private final Interpreter interpreter;
     
-    public TextualUserInterface() {
-        interpreter = new Interpreter();
+    public TextualUserInterface(final Interpreter interpreter) {
+        this.interpreter = interpreter;
     }
 
     /**

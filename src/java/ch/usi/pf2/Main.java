@@ -16,6 +16,10 @@ import java.util.Scanner;
  */
 public final class Main {
     
+    private static Interpreter interpreter;
+    private static GraphicalUserInterface gui;
+    private static TextualUserInterface tui;
+    
     private Main() {
     }
     
@@ -25,12 +29,13 @@ public final class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
+        setUp();
         try {
             if (args.length == 0) {
-                runTextualUserInterface();
+                showTextualUserInterface();
             } else if (args.length == 1) {
                 if ("--gui".equals(args[0])) {
-                    runGraphicalUserInterface();
+                    showGraphicalUserInterface();
                 } else if ("--help".equals(args[0])) {
                     printHelp();
                 } else {
@@ -50,13 +55,18 @@ public final class Main {
         }
     }
     
-    private static void runTextualUserInterface() {
-        final TextualUserInterface tui = new TextualUserInterface();
+    private static void setUp() {
+        interpreter = new Interpreter();
+        gui = new GraphicalUserInterface(interpreter);
+        tui = new TextualUserInterface(interpreter);
+    }
+    
+    private static void showTextualUserInterface() {
         tui.run();
     }
     
-    private static void runGraphicalUserInterface() {
-        final GraphicalUserInterface gui = new GraphicalUserInterface();
+    private static void showGraphicalUserInterface() {
+        gui.setVisible(true);
     }
     
     private static void runFile(final String filePath) throws FileNotFoundException {
