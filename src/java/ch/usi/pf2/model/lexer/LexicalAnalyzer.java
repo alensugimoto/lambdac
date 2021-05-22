@@ -1,6 +1,9 @@
 package ch.usi.pf2.model.lexer;
 
+import ch.usi.pf2.model.parser.ParseException;
+
 import java.util.Arrays;
+
 
 /**
  * A LexicalAnalyzer breaks a String into Tokens.
@@ -59,15 +62,15 @@ public final class LexicalAnalyzer {
     /**
      * Ask the analyzer to move to the next token in the text.
      */
-    public void fetchNextToken() {
-        token = scanToken();      
+    public void fetchNextToken() throws ParseException {
+        token = scanToken();
     }
 
     /**
      * Scan the text and extract the next token.
      * @return the next token
      */
-    private Token scanToken() {
+    private Token scanToken() throws ParseException {
         // Ignore spaces
         while (position < text.length() && text.charAt(position) == ' ') {
             position++;
@@ -91,7 +94,7 @@ public final class LexicalAnalyzer {
 
             // if no match is found then return null, otherwise produce a token
             if (factoryWithLongestMatch == null) {
-                return null;
+                throw new ParseException("Invalid syntax", position);
             } else {
                 position += factoryWithLongestMatch.getTokenLength();
                 return factoryWithLongestMatch.getToken();

@@ -1,5 +1,7 @@
 package ch.usi.pf2.model.lexer;
 
+import ch.usi.pf2.model.parser.ParseException;
+
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -9,13 +11,13 @@ import org.junit.Test;
 public class LexicalAnalyzerTest {
     
     @Test
-    public void testInitial() {
+    public void testInitial() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("");
         assertNull(l.getCurrentToken());
     }
     
     @Test
-    public void testEof() {
+    public void testEof() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
@@ -24,7 +26,7 @@ public class LexicalAnalyzerTest {
     }
     
     @Test
-    public void testEofNextEof() {
+    public void testEofNextEof() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("");
         l.fetchNextToken();
         l.fetchNextToken();
@@ -34,7 +36,7 @@ public class LexicalAnalyzerTest {
     }
     
     @Test
-    public void testOne() {
+    public void testOne() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("\\");
         l.fetchNextToken();
         Token t0 = l.getCurrentToken();
@@ -47,7 +49,7 @@ public class LexicalAnalyzerTest {
     }
     
     @Test
-    public void testTwo() {
+    public void testTwo() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("\\.");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
@@ -64,7 +66,7 @@ public class LexicalAnalyzerTest {
     }
     
     @Test
-    public void testThree() {
+    public void testThree() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("(xyz)");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
@@ -84,16 +86,15 @@ public class LexicalAnalyzerTest {
         assertEquals(5, t.getStartPosition());
     }
     
-    @Test
-    public void testIllegalToken() {
+    @Test(expected = ParseException.class)
+    public void testIllegalToken() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("^");
         l.fetchNextToken();
         Token t = l.getCurrentToken();
-        assertNull(t);
     }
     
     @Test
-    public void testLongestFoundToken() {
+    public void testLongestFoundToken() throws ParseException {
         final LexicalAnalyzer l = new LexicalAnalyzer("..", new TokenFactory[] {
             new OperatorTokenFactory("..", TokenType.LAMBDA),
             new OperatorTokenFactory(".", TokenType.DOT)

@@ -147,7 +147,8 @@ public final class Parser {
                     context.size());
             } else {
                 throw new ParseException(
-                    "Variable '" + lexer.getCurrentToken().getText() + "' is not defined");
+                    "Variable '" + lexer.getCurrentToken().getText() + "' is not defined",
+                    lexer.getCurrentToken().getStartPosition());
             }
         } else {
             lexer.fetchNextToken();
@@ -161,14 +162,18 @@ public final class Parser {
     
     private void expect(final TokenType expected) throws ParseException {
         if (lexer.getCurrentToken().getType() != expected) {
-            throw new ParseException(errorMessage(expected));
+            throw new ParseException(
+                errorMessage(expected),
+                lexer.getCurrentToken().getStartPosition());
         }
     }
     
     private void expect(final TokenType expectedOne, final TokenType expectedTwo) throws ParseException {
         if (lexer.getCurrentToken().getType() != expectedOne
             && lexer.getCurrentToken().getType() != expectedTwo) {
-            throw new ParseException(errorMessage(expectedOne, expectedTwo));
+            throw new ParseException(
+                errorMessage(expectedOne, expectedTwo),
+                lexer.getCurrentToken().getStartPosition());
         }
     }
     
