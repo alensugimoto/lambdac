@@ -9,12 +9,22 @@ import ch.usi.pf2.model.parser.Parser;
 public final class Interpreter {
     
     private final Parser parser;
+    private final Context context;
     
     /**
-     * Constructs an interpreter.
+     * Constructs an interpreter with the default context.
      */
     public Interpreter() {
         parser = new Parser();
+        this.context = getDefaultContext();
+    }
+    
+    /**
+     * Constructs an interpreter with the specified context.
+     */
+    public Interpreter(final Context context) {
+        parser = new Parser();
+        this.context = context;
     }
     
     /**
@@ -24,18 +34,13 @@ public final class Interpreter {
      * @return the interpretation of the specified source code
      */
     public String interpret(final String sourceCode) {
-        return interpret(sourceCode, new Context());
+        return parser.parse(sourceCode, context).evaluate().toString(context);
     }
     
-    /**
-     * Interpret the specified source code given the specified context.
-     * 
-     * @param sourceCode the source code to be interpreted
-     * @param context the context of the source code
-     * @return the interpretation of the specified source code
-     */
-    public String interpret(final String sourceCode, final Context context) {
-        return parser.parse(sourceCode, context).evaluate().toString(context);
+    private Context getDefaultContext() {
+        final Context context = new Context();
+        // TODO: add environment variables
+        return context;
     }
     
 }

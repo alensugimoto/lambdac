@@ -34,38 +34,38 @@ public class InterpreterTest {
     
     @Test
     public void testInterpretVariable() {
-        final Interpreter interpreter = new Interpreter();
         final Context context = new Context();
         context.add("x");
-        final String actualString = interpreter.interpret("x", context);
+        final Interpreter interpreter = new Interpreter(context);
+        final String actualString = interpreter.interpret("x");
         assertEquals("x", actualString);
     }
     
     @Test
     public void testInterpretApplyVarToVar() {
-        final Interpreter interpreter = new Interpreter();
         final Context context = new Context();
         context.add("x");
         context.add("y");
-        final String actualString = interpreter.interpret("x y", context);
+        final Interpreter interpreter = new Interpreter(context);
+        final String actualString = interpreter.interpret("x y");
         assertEquals("(x y)", actualString);
     }
     
     @Test
     public void testInterpretApplyVarToAbs() {
-        final Interpreter interpreter = new Interpreter();
         final Context context = new Context();
         context.add("x");
-        final String actualString = interpreter.interpret("x (\\y.y)", context);
+        final Interpreter interpreter = new Interpreter();
+        final String actualString = interpreter.interpret("x (\\y.y)");
         assertEquals("(x (\\y.y))", actualString);
     }
     
     @Test
     public void testInterpretApplyAbsToVar() {
-        final Interpreter interpreter = new Interpreter();
         final Context context = new Context();
         context.add("x");
-        final String actualString = interpreter.interpret("(\\y.y) x", context);
+        final Interpreter interpreter = new Interpreter();
+        final String actualString = interpreter.interpret("(\\y.y) x");
         assertEquals("((\\y.y) x)", actualString);
     }
     
