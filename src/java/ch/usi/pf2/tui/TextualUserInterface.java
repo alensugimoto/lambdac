@@ -33,11 +33,7 @@ public class TextualUserInterface {
             } else if ("help".equals(input)) {
                 printHelp();
             } else {
-                try {
-                    System.out.println(interpreter.interpret(input));
-                } catch (ParseException ex) {
-                    System.err.println(ex.getMessage());
-                }
+                System.out.println(interpreter.interpret(input));
             }
         }
         scanner.close();

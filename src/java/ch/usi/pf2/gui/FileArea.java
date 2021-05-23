@@ -33,7 +33,6 @@ public final class FileArea extends JTextArea {
     private final Interpreter interpreter;
     private File file;
     private final UndoManager undoManager;
-    private boolean saved = false;
 
     /**
      * Constructs a new FileArea with an untitled file.
@@ -44,9 +43,6 @@ public final class FileArea extends JTextArea {
         this.interpreter = interpreter;
         undoManager = new UndoManager();
         file = null;
-        saved = false;
-        
-        setSize(PREFERRED_SIZE);
         
         KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
         KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
@@ -93,7 +89,6 @@ public final class FileArea extends JTextArea {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(getText());
             success = true;
-            saved = true;
         } catch (IOException err) {
             err.printStackTrace();
         }

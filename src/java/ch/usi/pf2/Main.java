@@ -110,11 +110,7 @@ public final class Main {
     }
     
     private static void runString(final String string) {
-        try {
-            System.out.println(new Interpreter().interpret(string));
-        } catch (ParseException ex) {
-            System.err.println(ex.getMessage());
-        }
+        System.out.println(new Interpreter().interpret(string));
     }
     
     private static void printHelp() {
