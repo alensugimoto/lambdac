@@ -12,6 +12,9 @@ import java.util.Stack;
  */
 public final class Interpreter {
     
+    private static final String NAME = "Lambdac";
+    private static final String VERSION = "Version 1.0";
+    
     private final Parser parser;
     private final Stack<String> history;
     private final Context context;
@@ -21,6 +24,14 @@ public final class Interpreter {
      */
     public Interpreter() {
         this(getDefaultContext());
+    }
+    
+    public String getName() {
+        return NAME;
+    }
+    
+    public String getVersion() {
+        return VERSION;
     }
     
     /**
