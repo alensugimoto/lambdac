@@ -34,7 +34,7 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretVariable() throws ParseException {
+    public void testInterpretVariable() {
         final Context context = new Context();
         context.add("x");
         final Interpreter interpreter = new Interpreter(context);
@@ -43,7 +43,7 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretApplyVarToVar() throws ParseException {
+    public void testInterpretApplyVarToVar() {
         final Context context = new Context();
         context.add("x");
         context.add("y");
@@ -53,7 +53,7 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretApplyVarToAbs() throws ParseException {
+    public void testInterpretApplyVarToAbs() {
         final Context context = new Context();
         context.add("x");
         final Interpreter interpreter = new Interpreter(context);
@@ -62,7 +62,7 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretApplyAbsToVar() throws ParseException {
+    public void testInterpretApplyAbsToVar() {
         final Context context = new Context();
         context.add("x");
         final Interpreter interpreter = new Interpreter(context);
@@ -71,42 +71,42 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretApplyAbsToAbs() throws ParseException {
+    public void testInterpretApplyAbsToAbs() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret("(\\y.y) (\\z.z z)");
         assertEquals("(\\z.(z z))", actualString);
     }
     
     @Test
-    public void testInterpretParentheses() throws ParseException {
+    public void testInterpretParentheses() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret("(\\y.y) ((\\x.x) (\\z.z z))");
         assertEquals("(\\z.(z z))", actualString);
     }
     
     @Test
-    public void testInterpretIdentity() throws ParseException {
+    public void testInterpretIdentity() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret(identity);
         assertEquals("(\\x.x)", actualString);
     }
     
     @Test
-    public void testInterpretTrue() throws ParseException {
+    public void testInterpretTrue() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret(churchTrue);
         assertEquals("(\\t.(\\f.t))", actualString);
     }
     
     @Test
-    public void testInterpretFalse() throws ParseException {
+    public void testInterpretFalse() {
         final Interpreter interpreter = new Interpreter();
         final String actualString = interpreter.interpret(churchFalse);
         assertEquals("(\\t.(\\f.f))", actualString);
     }
     
     @Test
-    public void testInterpretIf() throws ParseException {
+    public void testInterpretIf() {
         final Interpreter interpreter = new Interpreter();
         String actualString = interpreter.interpret(
             wrap(ifThenElse) + " " + wrap(churchTrue) + " (\\x.x) (\\y.y)");
@@ -117,7 +117,7 @@ public class InterpreterTest {
     }
     
     @Test
-    public void testInterpretAnd() throws ParseException {
+    public void testInterpretAnd() {
         final Interpreter interpreter = new Interpreter();
         String actualString = interpreter.interpret(
             wrap(and) + " " + wrap(churchTrue) + " " + wrap(churchTrue));

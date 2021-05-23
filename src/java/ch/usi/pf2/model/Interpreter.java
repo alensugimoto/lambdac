@@ -49,9 +49,13 @@ public final class Interpreter {
      * @param sourceCode the source code to be interpreted
      * @return the interpretation of the specified source code
      */
-    public String interpret(final String sourceCode) throws ParseException {
-        history.push(sourceCode);
-        return parser.parse(sourceCode, context).evaluate().toString(context);
+    public String interpret(final String sourceCode) {
+        try {
+            history.push(sourceCode);
+            return parser.parse(sourceCode, context).evaluate().toString(context);
+        } catch (ParseException ex) {
+            return ex.getMessage();
+        }
     }
     
     private static Context getDefaultContext() {
