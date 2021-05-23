@@ -40,8 +40,7 @@ public class TextualUserInterface {
     }
     
     private void printWelcome() {
-        System.out.println("Lambdac");
-        System.out.println("Type \"help\" for more information.");
+        System.out.println(interpreter.getWelcomeMessage());
     }
     
     private void printHelp() {

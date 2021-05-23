@@ -58,6 +58,10 @@ public final class Interpreter {
         }
     }
     
+    public String getWelcomeMessage() {
+        return NAME + "\nType \"help\" for more information.";
+    }
+    
     private static Context getDefaultContext() {
         final Context context = new Context();
         // TODO: add environment variables

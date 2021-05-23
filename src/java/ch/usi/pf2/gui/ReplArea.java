@@ -48,8 +48,8 @@ public final class ReplArea extends JTextArea {
         super();
         this.interpreter = interpreter;
         undoManager = new UndoManager();
-        promptPosition = 2;
-        append("> ");
+        showWelcome();
+        nextPrompt();
         
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             
@@ -138,7 +138,9 @@ public final class ReplArea extends JTextArea {
     
     public void send(final String result) {
         promptPosition = 0;
-        setText(result);
+        setText("");
+        showWelcome();
+        append("\n" + result);
         nextPrompt();
     }
     
@@ -151,6 +153,10 @@ public final class ReplArea extends JTextArea {
         append("\n> ");
         promptPosition = getText().length();
         undoManager.discardAllEdits();
+    }
+    
+    private void showWelcome() {
+        append(interpreter.getWelcomeMessage());
     }
     
 }

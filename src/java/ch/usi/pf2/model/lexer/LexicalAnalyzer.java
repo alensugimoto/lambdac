@@ -71,8 +71,8 @@ public final class LexicalAnalyzer {
      * @return the next token
      */
     private Token scanToken() throws ParseException {
-        // Ignore spaces
-        while (position < text.length() && text.charAt(position) == ' ') {
+        // Ignore whitespaces
+        while (position < text.length() && Character.isWhitespace(text.charAt(position))) {
             position++;
         }
         
