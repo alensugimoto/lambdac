@@ -79,11 +79,7 @@ public final class GraphicalUserInterface extends JFrame {
      * Initializes the GUI.
      */
     private void makeFrame() {
-        setTitle(
-            (fileArea.getFile() == null ? "Untitled" : fileArea.getFile().getName())
-            + " - "
-            + interpreter.getName()
-        );
+        updateTitle();
         makeMenuBar();
         JPanel contentPane = (JPanel) getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -130,17 +126,26 @@ public final class GraphicalUserInterface extends JFrame {
         
         item = new JMenuItem("Open...");
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
-        item.addActionListener(e -> fileArea.open());
+        item.addActionListener(e -> {
+            fileArea.open();
+            updateTitle();
+        });
         menu.add(item);
 
         item = new JMenuItem("Save");
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
-        item.addActionListener(e -> fileArea.save());
+        item.addActionListener(e -> {
+            fileArea.save();
+            updateTitle();
+        });
         menu.add(item);
 
         item = new JMenuItem("Save As...");
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, SHORTCUT_MASK));
-        item.addActionListener(e -> fileArea.saveAs());
+        item.addActionListener(e -> {
+            fileArea.saveAs();
+            updateTitle();
+        });
         menu.add(item);
         
         item = new JMenuItem("Quit");
@@ -207,6 +212,12 @@ public final class GraphicalUserInterface extends JFrame {
      */
     private void quit() {
         System.exit(0);
+    }
+    
+    private void updateTitle() {
+        setTitle((fileArea.getFile() == null ? "Untitled" : fileArea.getFile().getName())
+            + " - "
+            + interpreter.getName());
     }
     
 }

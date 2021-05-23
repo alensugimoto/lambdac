@@ -84,10 +84,11 @@ public final class FileArea extends JTextArea {
         return file;
     }
     
-    public boolean saveFile(final File file) {
+    private boolean saveFile(final File file) {
         boolean success = false;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(getText());
+            this.file = file;
             success = true;
         } catch (IOException err) {
             err.printStackTrace();
@@ -95,18 +96,7 @@ public final class FileArea extends JTextArea {
         return success;
     }
 
-    public boolean quickSave() {
-        boolean success = false;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(getText());
-            success = true;
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
-        return success;
-    }
-
-    public boolean openingFiles(final File file) {
+    private boolean openFile(final File file) {
         boolean success = false;
         try (FileReader reader = new FileReader(file)) {
             this.file = file;
@@ -129,25 +119,14 @@ public final class FileArea extends JTextArea {
         JFileChooser open = new JFileChooser();
         open.showOpenDialog(null);
         final File selectedFile = open.getSelectedFile(); 
-        openingFiles(selectedFile);
+        openFile(selectedFile);
     }
 
     public void save() {
-        JFileChooser save = new JFileChooser();
         if (file == null) {
-            save.showSaveDialog(null);
-            final File selectedFile = save.getSelectedFile();
-            int confirmationResult;
-            if (selectedFile.exists()) {
-                confirmationResult = JOptionPane.showConfirmDialog(this, "Replace existing file?");
-                if (confirmationResult == JOptionPane.YES_OPTION) {
-                    saveFile(selectedFile);
-                }
-            } else {
-                saveFile(selectedFile);
-            }
+            saveAs();
         } else {
-            quickSave();
+            saveFile(file);
         }
     }
 
