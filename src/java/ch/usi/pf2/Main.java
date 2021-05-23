@@ -1,12 +1,11 @@
 package ch.usi.pf2;
 
-import ch.usi.pf2.model.Interpreter;
-import ch.usi.pf2.model.parser.ParseException;
 import ch.usi.pf2.gui.GraphicalUserInterface;
+import ch.usi.pf2.model.Interpreter;
 import ch.usi.pf2.tui.TextualUserInterface;
 
-import java.io.BufferedReader;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,8 +16,6 @@ import java.io.IOException;
  * The class containing the application's main() method.
  */
 public final class Main {
-    
-    private static Interpreter interpreter;
     
     private Main() {
     }
@@ -41,8 +38,12 @@ public final class Main {
             } else {
                 readFromFile(args[0]);
             }
-        } else if (args.length == 2 && "-c".equals(args[0])) {
-            runString(args[1]);
+        } else if (args.length == 2) {
+            if ("-c".equals(args[0])) {
+                runString(args[1]);
+            } else {
+                saveToFile(args[0], args[1]);
+            }
         } else {
             badArguments(args);
         }
@@ -101,9 +102,9 @@ public final class Main {
                 term = reader.readLine();
             }
             success = true;
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException ex) {
             System.err.println("Unable to open " + filename);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             System.err.println("A problem was encountered reading " + filename);
         }
         return success;

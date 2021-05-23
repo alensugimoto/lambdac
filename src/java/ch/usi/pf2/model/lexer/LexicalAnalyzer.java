@@ -61,6 +61,8 @@ public final class LexicalAnalyzer {
 
     /**
      * Ask the analyzer to move to the next token in the text.
+     * 
+     * @throws ParseException if this text contains a syntax error
      */
     public void fetchNextToken() throws ParseException {
         token = scanToken();

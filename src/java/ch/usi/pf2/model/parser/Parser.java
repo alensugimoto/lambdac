@@ -30,8 +30,11 @@ public final class Parser {
     
     /**
      * Parse a program in lambda calculus.
+     * 
      * @param sourceCode The source code of the program in lambda calculus
      * @return an AST of the program
+     * @throws ParseException if the source code contains a syntax error
+     *     or an undefined variable.
      */
     public Node parse(final String sourceCode) throws ParseException {
         return parse(sourceCode, new Context());
@@ -39,9 +42,12 @@ public final class Parser {
     
     /**
      * Parse a program in lambda calculus with the specified context.
+     * 
      * @param sourceCode The source code of the program in lambda calculus
      * @param context The context of the program
      * @return an AST of the program
+     * @throws ParseException if the source code contains a syntax error
+     *     or an undefined variable.
      */
     public Node parse(final String sourceCode, final Context context) throws ParseException {
         lexer = new LexicalAnalyzer(sourceCode);
@@ -168,7 +174,8 @@ public final class Parser {
         }
     }
     
-    private void expect(final TokenType expectedOne, final TokenType expectedTwo) throws ParseException {
+    private void expect(final TokenType expectedOne, final TokenType expectedTwo)
+        throws ParseException {
         if (lexer.getCurrentToken().getType() != expectedOne
             && lexer.getCurrentToken().getType() != expectedTwo) {
             throw new ParseException(

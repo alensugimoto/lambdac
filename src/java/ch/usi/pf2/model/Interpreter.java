@@ -1,10 +1,8 @@
 package ch.usi.pf2.model;
 
 import ch.usi.pf2.model.context.Context;
-import ch.usi.pf2.model.parser.Parser;
 import ch.usi.pf2.model.parser.ParseException;
-
-import java.util.Stack;
+import ch.usi.pf2.model.parser.Parser;
 
 
 /**
@@ -16,7 +14,6 @@ public final class Interpreter {
     private static final String VERSION = "Version 1.0";
     
     private final Parser parser;
-    private final Stack<String> history;
     private final Context context;
     
     /**
@@ -26,20 +23,29 @@ public final class Interpreter {
         this(getDefaultContext());
     }
     
+    /**
+     * Returns the name of this interpreter.
+     * @return the name of this interpreter
+     */
     public String getName() {
         return NAME;
     }
     
+    /**
+     * Returns the version of this interpreter.
+     * @return the version of this interpreter
+     */
     public String getVersion() {
         return VERSION;
     }
     
     /**
      * Constructs an interpreter with the specified context.
+     * 
+     * @param context the context to be used
      */
     public Interpreter(final Context context) {
         parser = new Parser();
-        history = new Stack<>();
         this.context = context;
     }
     
@@ -51,13 +57,16 @@ public final class Interpreter {
      */
     public String interpret(final String sourceCode) {
         try {
-            history.push(sourceCode);
             return parser.parse(sourceCode, context).evaluate().toString(context);
         } catch (ParseException ex) {
             return ex.getMessage();
         }
     }
     
+    /**
+     * Returns the welcome message of this interpreter.
+     * @return the welcome message of this interpreter
+     */
     public String getWelcomeMessage() {
         return NAME + "\nType \"help\" for more information.";
     }

@@ -1,21 +1,21 @@
 package ch.usi.pf2.tui;
 
 import ch.usi.pf2.model.Interpreter;
-import ch.usi.pf2.model.parser.ParseException;
 
 import java.util.Scanner;
 
 
 /**
- * Write a description of class TextualUserInterface here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The main class of the textual user interface of this application.
  */
 public class TextualUserInterface {
     
     private final Interpreter interpreter;
     
+    /**
+     * Constructs a new TextualUserInterface for the given interpreter.
+     * @param interpreter the model to show
+     */
     public TextualUserInterface(final Interpreter interpreter) {
         this.interpreter = interpreter;
     }

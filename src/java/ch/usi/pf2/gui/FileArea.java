@@ -1,24 +1,20 @@
 package ch.usi.pf2.gui;
 
-import ch.usi.pf2.model.Interpreter;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.FileReader;
-import javax.swing.JFileChooser;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
+import java.awt.event.KeyEvent;
 
-import java.awt.Dimension;
-import javax.swing.JTextArea;
-import javax.swing.JOptionPane;
-import javax.swing.JComponent;
 import java.io.File;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
@@ -29,42 +25,34 @@ import javax.swing.undo.UndoManager;
 public final class FileArea extends JTextArea {
     
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 300);
-
-    private final Interpreter interpreter;
+    
     private File file;
     private final UndoManager undoManager;
 
     /**
      * Constructs a new FileArea with an untitled file.
-     * @param interpreter the model to show
      */
-    public FileArea(final Interpreter interpreter) {
+    public FileArea() {
         super();
-        this.interpreter = interpreter;
         undoManager = new UndoManager();
         file = null;
         
-        KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
-        KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
+        final KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
+        final KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
         
         // register listeners
-        getDocument().addUndoableEditListener(new UndoableEditListener() {
-            @Override
-            public void undoableEditHappened(UndoableEditEvent e) {
-                undoManager.addEdit(e.getEdit());
-            }
-        });
+        getDocument().addUndoableEditListener(undoManager);
         getInputMap().put(undoKeyStroke, "undoKeyStroke");
         getActionMap().put("undoKeyStroke", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 undo();
             }
         });
         getInputMap().put(redoKeyStroke, "redoKeyStroke");
         getActionMap().put("redoKeyStroke", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 redo();
             }
         });
@@ -84,30 +72,6 @@ public final class FileArea extends JTextArea {
         return file;
     }
     
-    private boolean saveFile(final File file) {
-        boolean success = false;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(getText());
-            this.file = file;
-            success = true;
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
-        return success;
-    }
-
-    private boolean openFile(final File file) {
-        boolean success = false;
-        try (FileReader reader = new FileReader(file)) {
-            this.file = file;
-            read(reader, null);
-            success = true;
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
-        return success;
-    }
-    
     /**
      * Creates a file containing the specified lambda term.
      * 
@@ -115,13 +79,44 @@ public final class FileArea extends JTextArea {
      * @param term the lambda term to write in the file
      * @return true if successful and false otherwise
      */
+    private boolean saveFile(final File file) {
+        boolean success = false;
+        try (final FileWriter writer = new FileWriter(file)) {
+            writer.write(getText());
+            this.file = file;
+            success = true;
+        } catch (IOException ex) {
+            System.err.println("There was a problem writing to " + file.getName());
+        }
+        return success;
+    }
+
+    private boolean openFile(final File file) {
+        boolean success = false;
+        try (FileReader reader = new FileReader(file)) {
+            read(reader, null);
+            this.file = file;
+            success = true;
+        } catch (IOException ex) {
+            System.err.println("There was a problem reading from " + file.getName());
+        }
+        return success;
+    }
+    
+    /**
+     * Opens a file into this file area.
+     */
     public void open() {
-        JFileChooser open = new JFileChooser();
+        final JFileChooser open = new JFileChooser();
         open.showOpenDialog(null);
         final File selectedFile = open.getSelectedFile(); 
         openFile(selectedFile);
     }
 
+    /**
+     * Saves the text area into the file associated with this file area.
+     * If the file is null, a save-as operation is performed.
+     */
     public void save() {
         if (file == null) {
             saveAs();
@@ -130,6 +125,9 @@ public final class FileArea extends JTextArea {
         }
     }
 
+    /**
+     * Saves the text area into a new file.
+     */
     public void saveAs() {
         final JFileChooser saveAs = new JFileChooser();
         saveAs.showSaveDialog(null);
@@ -145,19 +143,25 @@ public final class FileArea extends JTextArea {
         }
     }
 
+    /**
+     * Undoes an edit in this text area.
+     */
     public void undo() {
         try {
             undoManager.undo();
-        } catch (CannotUndoException cur) {
-            cur.printStackTrace();
+        } catch (CannotUndoException ex) {
+            System.err.println("There was a problem while undoing");
         }
     }
 
+    /**
+     * Redoes an edit in this text area.
+     */
     public void redo() {
         try {
             undoManager.redo();
-        } catch (CannotUndoException cur) {
-            cur.printStackTrace();
+        } catch (CannotUndoException ex) {
+            System.err.println("There was a problem while undoing");
         }
     }
     
