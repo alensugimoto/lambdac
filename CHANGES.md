@@ -12,3 +12,9 @@
 * Organized the source files with packages
 * Added packages for the views: GUI and TUI
 
+## Milestone 3: May 21
+* Completed a working version of the GUI
+* Started working on the TUI
+* Added more tests to the model
+* Added and used the `ParseException` class
+* Added command line arguments to the `Main` class
