@@ -18,9 +18,14 @@ To run, use
 java -cp target/project-lambdac-0.1-SNAPSHOT.jar ch.usi.pf2.Main
 ```
 
-## User Instructions
+The following command line arguments are also supported, which can be appended to the above command to use:
 
-With the application running, type any lambda term and press enter to evaluate it. To end the application, type `end` and press enter.
+* `--gui` opens the graphical user interface instead of the default textual user interface
+* `--help` shows more information about the application (work in progress)
+* `<filename>` interprets the content of a file and prints the result (work in progress)
+* `-c <text>` interprets the given text and prints the result (work in progress)
+
+## User Instructions
 
 The syntax of a lambda term must follow the following BNF:
 
@@ -37,8 +42,6 @@ APPLICATION ::= ATOM ATOM
 
 Note that the interpreter evaluates input strings to a value/abstraction; therefore, all variables must be defined.
 
-## Authors
+## Author
 
-* Arthur Morgan
 * Alen Sugimoto
-
