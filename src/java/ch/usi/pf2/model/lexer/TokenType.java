@@ -1,9 +1,11 @@
 package ch.usi.pf2.model.lexer;
 
+
 /**
  * A program in a programming language is made up 
  * of different kinds of tokens.
- * This enumeration represents these different kinds.
+ * This enumeration represents these different kinds
+ * in the untyped lambda calculus.
  */
 public enum TokenType {
 
@@ -22,16 +24,16 @@ public enum TokenType {
     
     
     /**
-     * Initialize a TokenType.
-     * @param name The human-readable name of this TokenType.
+     * Constructs a new TokenType with the specified name.
+     * @param name the human-readable name of this TokenType
      */
     private TokenType(final String name) {
         this.name = name;
     }
 
     /**
-     * Get the human-readable name.
-     * @return the name of this TokenType.
+     * Returns the human-readable name of this TokenType.
+     * @return the name of this TokenType
      */
     public String getName() {
         return name;

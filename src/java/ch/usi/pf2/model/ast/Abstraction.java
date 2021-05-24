@@ -6,7 +6,7 @@ import ch.usi.pf2.model.context.Context;
 /**
  * An abstraction of the untyped lambda calculus.
  */
-public class Abstraction extends Node {
+public final class Abstraction extends Node {
     
     private final String arg;
     private final Node body;
@@ -36,7 +36,7 @@ public class Abstraction extends Node {
      * @return the result of applying this abstraction to the specified node
      */
     public Node apply(final Node right) {
-        return body.substituteTop(right);
+        return body.substitute(right.shift(1)).shift(-1);
     }
     
     @Override
@@ -45,13 +45,13 @@ public class Abstraction extends Node {
     }
     
     @Override
-    public Node shift(final int c, final int d) {
+    protected Node shift(final int c, final int d) {
         return new Abstraction(getPosition(), arg, body.shift(c + 1, d));
     }
     
     @Override
-    public Node substitute(final int c, final int j, final Node s) {
-        return new Abstraction(getPosition(), arg, body.substitute(c + 1, j, s));
+    protected Node substitute(final int c, final Node s) {
+        return new Abstraction(getPosition(), arg, body.substitute(c + 1, s));
     }
 
     @Override

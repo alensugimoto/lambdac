@@ -7,7 +7,7 @@ import java.util.LinkedList;
 /**
  * A Context contains information about the current naming context.
  */
-public class Context extends LinkedList<String> {
+public final class Context extends LinkedList<String> {
     
     /**
      * Constructs an empty context.

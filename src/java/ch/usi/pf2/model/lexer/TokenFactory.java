@@ -1,5 +1,6 @@
 package ch.usi.pf2.model.lexer;
 
+
 /**
  * A TokenFactory can produce Tokens.
  */

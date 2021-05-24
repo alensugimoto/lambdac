@@ -33,7 +33,7 @@ public abstract class Node {
      * 
      * @return true if this node is a value and false otherwise
      */
-    public abstract boolean isValue();
+    protected abstract boolean isValue();
     
     /**
      * Evaluates this node.
@@ -58,61 +58,61 @@ public abstract class Node {
      * @throws UnsupportedOperationException if the <tt>evaluateOne</tt> operation
      *         is not supported by this node
      */
-    public abstract Node evaluateOne();
+    protected abstract Node evaluateOne();
     
     /**
-     * Increments the index of every free variable in this node by {@code d}
-     * assuming that their indices are greater than or equal to zero.
+     * Increments by {@code d} the index of every variable in this node
+     * that has an index greater than or equal to
+     * the number of binders it is inside with respect to this node.
      * 
-     * @param d the number to be added to the index of every free variable in this node
+     * @param d the number by which to increment
+     * @return the node after incrementing by {@code d} the index of every variable in this node
+     *     that has an index greater than or equal to
+     *     the number of binders it is inside with respect to this node.
      */
     protected final Node shift(final int d) {
         return shift(0, d);
     }
     
     /**
-     * Increments the index of every free variable in this node by {@code d}
-     * assuming that their indices are greater than or equal to {@code c}.
+     * Increments by {@code d} the index of every variable in this node
+     * that has an index greater than or equal to {@code c}
+     * plus the number of binders it is inside with respect to this node.
      * 
-     * @param c the lower bound for the index of every free variable in this node
-     * @param d the number to be added to the index of every free variable in this node
-     * @return the node after incrementing the index of every free variable in this node
-     *         by {@code d} assuming that their indices are greater than or equal to {@code c}.
+     * @param c the lower bound for the index of every free variable in this node to be incremented
+     * @param d the number by which to increment
+     * @return the node after incrementing by {@code d} the index of every variable in this node
+     *     that has an index greater than or equal to {@code c}
+     *     plus the number of binders it is inside with respect to this node.
      */
-    public abstract Node shift(final int c, final int d);
+    protected abstract Node shift(final int c, final int d);
     
     /**
-     * Substitutes node {@code s} for a variable with index {@code j} in this node
-     * assuming that the index of every free variable is greater than or equal to zero.
+     * Substitutes node {@code s} for every variable in this node
+     * that has an index equal to the number of binders it is inside
+     * with respect to this node.
      * 
-     * @param j the index of the variable in this node to be substituted
      * @param s the node to substitute
+     * @return the node after substituting node {@code s} for every variable in this node
+     *     that has an index equal to the number of binders it is inside
+     *     with respect to this node.
      */
-    protected final Node substitute(final int j, final Node s) {
-        return substitute(0, j, s);
+    protected final Node substitute(final Node s) {
+        return substitute(0, s);
     }
     
     /**
-     * Substitutes node {@code s} for a variable with index {@code j} in this node
-     * assuming that the index of every free variable is greater than or equal to {@code c}.
+     * Substitutes node {@code s} for every variable in this node
+     * that has an index equal to {@code c} plus the number of binders it is inside
+     * with respect to this node.
      * 
-     * @param c the lower bound for the index of every free variable in this node
-     * @param j the index of the variable in this node to be substituted
+     * @param c the index of every free variable in this node to be substituted
      * @param s the node to substitute
-     * @return the node after substituting node {@code s} for a variable
-     *         with index {@code j} in this node assuming that the index of
-     *         every free variable is greater than or equal to {@code c}.
+     * @return the node after substituting node {@code s} for every variable in this node
+     *     that has an index equal to {@code c} plus the number of binders it is inside
+     *     with respect to this node.
      */
-    public abstract Node substitute(final int c, final int j, final Node s);
-    
-    /**
-     * Substitutes the specified node for the bound variable in this node.
-     * 
-     * @param s the node to substitute
-     */
-    protected final Node substituteTop(final Node s) {
-        return substitute(0, s.shift(1)).shift(-1);
-    }
+    protected abstract Node substitute(final int c, final Node s);
     
     /**
      * Decompiles this node into a string based on the specified context.

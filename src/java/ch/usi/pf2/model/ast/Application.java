@@ -7,7 +7,7 @@ import ch.usi.pf2.model.context.Context;
  * An application of the untyped lambda calculus.
  * It holds two subterms being applied.
  */
-public class Application extends Node {
+public final class Application extends Node {
     
     private final Node leftTerm;
     private final Node rightTerm;
@@ -42,19 +42,13 @@ public class Application extends Node {
     }
     
     @Override
-    public Node shift(final int c, final int d) {
-        return new Application(
-            getPosition(),
-            leftTerm.shift(c, d),
-            rightTerm.shift(c, d));
+    protected Node shift(final int c, final int d) {
+        return new Application(getPosition(), leftTerm.shift(c, d), rightTerm.shift(c, d));
     }
     
     @Override
-    public Node substitute(final int c, final int j, final Node s) {
-        return new Application(
-            getPosition(),
-            leftTerm.substitute(c, j, s),
-            rightTerm.substitute(c, j, s));
+    protected Node substitute(final int c, final Node s) {
+        return new Application(getPosition(), leftTerm.substitute(c, s), rightTerm.substitute(c, s));
     }
 
     @Override

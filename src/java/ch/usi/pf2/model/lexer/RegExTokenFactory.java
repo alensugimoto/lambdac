@@ -12,7 +12,6 @@ public abstract class RegExTokenFactory implements TokenFactory {
     
     private final Matcher matcher;
     
-    
     /**
      * Create a factory that produces tokens that match the given regular expression.
      * @param regEx The regular expression to use for identifying tokens

@@ -1,11 +1,11 @@
 #BlueJ package file
-dependency1.from=ParserTest
+dependency1.from=Parser
 dependency1.to=ParseException
 dependency1.type=UsesDependency
 dependency2.from=ParserTest
 dependency2.to=Parser
 dependency2.type=UsesDependency
-dependency3.from=Parser
+dependency3.from=ParserTest
 dependency3.to=ParseException
 dependency3.type=UsesDependency
 objectbench.height=111

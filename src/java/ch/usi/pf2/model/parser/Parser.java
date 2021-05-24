@@ -25,8 +25,14 @@ import ch.usi.pf2.model.lexer.TokenType;
  */
 public final class Parser {
     
-    private LexicalAnalyzer lexer;
+    private final LexicalAnalyzer lexer;
     
+    /**
+     * Constructs a new Parser.
+     */
+    public Parser() {
+        lexer = new LexicalAnalyzer();
+    }
     
     /**
      * Parse a program in lambda calculus.
@@ -34,7 +40,7 @@ public final class Parser {
      * @param sourceCode The source code of the program in lambda calculus
      * @return an AST of the program
      * @throws ParseException if the source code contains a syntax error
-     *     or an undefined variable.
+     *     or an undefined variable
      */
     public Node parse(final String sourceCode) throws ParseException {
         return parse(sourceCode, new Context());
@@ -50,7 +56,7 @@ public final class Parser {
      *     or an undefined variable.
      */
     public Node parse(final String sourceCode, final Context context) throws ParseException {
-        lexer = new LexicalAnalyzer(sourceCode);
+        lexer.setText(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
         // now parse the TERM
@@ -89,12 +95,10 @@ public final class Parser {
      * @return a Node representing the application
      */
     private Node parseApplication(final Context context) throws ParseException {
-        int nextPosition = lexer.getCurrentToken().getStartPosition();
+        final int position = lexer.getCurrentToken().getStartPosition();
         Node root = parseAtom(new Context(context));
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
             || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
-            final int position = nextPosition;
-            nextPosition = lexer.getCurrentToken().getStartPosition();
             root = new Application(position, root, parseAtom(new Context(context)));
         }
         return root;

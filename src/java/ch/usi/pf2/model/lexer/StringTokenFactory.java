@@ -1,5 +1,6 @@
 package ch.usi.pf2.model.lexer;
 
+
 /**
  * A special kind of TokenFactory
  * that looks for tokens that exactly match a given string.
@@ -9,7 +10,6 @@ public abstract class StringTokenFactory implements TokenFactory {
     private final String tokenText;
     private String text;
     private int startFrom;
-
     
     /**
      * Create a factory that looks for the given tokenText.
@@ -20,22 +20,9 @@ public abstract class StringTokenFactory implements TokenFactory {
         this.tokenText = tokenText;
     }
 
-    /**
-     * Get the text of the tokens we can produce.
-     * @return The exact text of the kind of token we can produce
-     */
-    public String getTokenText() {
-        return tokenText;
-    }
-
     @Override
     public void setText(final String text) {
         this.text = text;
-    }
-    
-    @Override
-    public int getTokenLength() { 
-        return tokenText.length();
     }
 
     @Override
@@ -44,6 +31,11 @@ public abstract class StringTokenFactory implements TokenFactory {
         final boolean found = text.regionMatches(startFrom, tokenText, 0, tokenText.length());
         return found;
     }
+    
+    @Override
+    public int getTokenLength() { 
+        return tokenText.length();
+    }
 
     /**
      * Get the position at which we last tried to find a token.
@@ -51,6 +43,14 @@ public abstract class StringTokenFactory implements TokenFactory {
      */
     protected int getTokenStartPosition() {
         return startFrom;
+    }
+    
+    /**
+     * Get the text of the tokens we can produce.
+     * @return The exact text of the kind of token we can produce
+     */
+    protected String getTokenText() {
+        return tokenText;
     }
 
 }

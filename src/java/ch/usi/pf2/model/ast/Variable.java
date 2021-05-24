@@ -6,7 +6,7 @@ import ch.usi.pf2.model.context.Context;
 /**
  * A variable of the untyped lambda calculus.
  */
-public class Variable extends Node {
+public final class Variable extends Node {
     
     private final int index;
     private final int contextLength;
@@ -35,18 +35,18 @@ public class Variable extends Node {
     }
     
     @Override
-    public Node shift(final int c, final int d) {
+    protected Node shift(final int c, final int d) {
         return new Variable(getPosition(), index < c ? index : index + d, contextLength + d);
     }
     
     @Override
-    public Node substitute(final int c, final int j, final Node s) {
-        return index == j + c ? s.shift(c) : this;
+    protected Node substitute(final int c, final Node s) {
+        return index == c ? s.shift(c) : this;
     }
 
     @Override
     public String toString(final Context context) {
-        assert context.size() == contextLength : "bad index";
+        // assert context.size() == contextLength : "bad index";
         return context.get(index);
     }
     

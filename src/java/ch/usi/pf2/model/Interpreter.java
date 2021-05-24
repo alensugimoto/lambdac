@@ -24,6 +24,16 @@ public final class Interpreter {
     }
     
     /**
+     * Constructs an interpreter with the specified context.
+     * 
+     * @param context the context to be used
+     */
+    public Interpreter(final Context context) {
+        parser = new Parser();
+        this.context = context;
+    }
+    
+    /**
      * Returns the name of this interpreter.
      * @return the name of this interpreter
      */
@@ -37,16 +47,6 @@ public final class Interpreter {
      */
     public String getVersion() {
         return VERSION;
-    }
-    
-    /**
-     * Constructs an interpreter with the specified context.
-     * 
-     * @param context the context to be used
-     */
-    public Interpreter(final Context context) {
-        parser = new Parser();
-        this.context = context;
     }
     
     /**

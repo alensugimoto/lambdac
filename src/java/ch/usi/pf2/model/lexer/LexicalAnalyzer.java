@@ -18,8 +18,7 @@ public final class LexicalAnalyzer {
     private Token token;
     private String text;
     private int position;
-    private TokenFactory[] tokenFactories;
-
+    private final TokenFactory[] tokenFactories;
     
     /**
      * Create an analyzer for the given text, 
@@ -45,6 +44,13 @@ public final class LexicalAnalyzer {
             new OperatorTokenFactory(")", TokenType.CLOSED_PAREN),
         });
     }
+    
+    /**
+     * Create an analyzer for an empty string.
+     */
+    public LexicalAnalyzer() {
+        this("");
+    }
 
     /**
      * Provide a new text to analyze.
@@ -61,7 +67,6 @@ public final class LexicalAnalyzer {
 
     /**
      * Ask the analyzer to move to the next token in the text.
-     * 
      * @throws ParseException if this text contains a syntax error
      */
     public void fetchNextToken() throws ParseException {
@@ -71,6 +76,7 @@ public final class LexicalAnalyzer {
     /**
      * Scan the text and extract the next token.
      * @return the next token
+     * @throws ParseException if this text contains a syntax error
      */
     private Token scanToken() throws ParseException {
         // Ignore whitespaces
@@ -86,15 +92,13 @@ public final class LexicalAnalyzer {
 
             // Utilize the tokenFactories to find a factory has the longest match
             for (final TokenFactory factory : tokenFactories) {
-                if (factory.find(position)) {
-                    if (factory.getTokenLength() > maxLength) {
-                        factoryWithLongestMatch = factory;
-                        maxLength = factory.getTokenLength();
-                    }
+                if (factory.find(position) && factory.getTokenLength() > maxLength) {
+                    factoryWithLongestMatch = factory;
+                    maxLength = factory.getTokenLength();
                 }
             }
 
-            // if no match is found then return null, otherwise produce a token
+            // if no match is found then throw, otherwise produce a token
             if (factoryWithLongestMatch == null) {
                 throw new ParseException("Invalid syntax", position);
             } else {
