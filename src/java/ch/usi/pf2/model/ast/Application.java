@@ -26,12 +26,12 @@ public final class Application extends Node {
     }
     
     @Override
-    public boolean isValue() {
+    protected boolean isValue() {
         return false;
     }
     
     @Override
-    public Node evaluateOne() {
+    protected Node evaluateOne() {
         if (leftTerm.isValue() && rightTerm.isValue()) {
             return ((Abstraction) leftTerm).apply(rightTerm);
         } else if (leftTerm.isValue()) {
@@ -43,12 +43,18 @@ public final class Application extends Node {
     
     @Override
     protected Node shift(final int c, final int d) {
-        return new Application(getPosition(), leftTerm.shift(c, d), rightTerm.shift(c, d));
+        return new Application(
+            getPosition(),
+            leftTerm.shift(c, d),
+            rightTerm.shift(c, d));
     }
     
     @Override
     protected Node substitute(final int c, final Node s) {
-        return new Application(getPosition(), leftTerm.substitute(c, s), rightTerm.substitute(c, s));
+        return new Application(
+            getPosition(),
+            leftTerm.substitute(c, s),
+            rightTerm.substitute(c, s));
     }
 
     @Override

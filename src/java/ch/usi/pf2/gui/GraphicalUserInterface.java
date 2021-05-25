@@ -1,6 +1,7 @@
 package ch.usi.pf2.gui;
 
 import ch.usi.pf2.model.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -66,7 +67,11 @@ public final class GraphicalUserInterface extends JFrame {
         
         // register listeners
         run.addActionListener(e -> {
-            replArea.send(interpreter.interpret(fileArea.getText()));
+            try {
+                replArea.send(interpreter.interpret(fileArea.getText()));
+            } catch (ParseException ex) {
+                replArea.send(ex.getMessage());
+            }
         });
         
         // building is done - arrange the components
@@ -156,7 +161,7 @@ public final class GraphicalUserInterface extends JFrame {
         menu = new JMenu("Help");
         menubar.add(menu);
         
-        item = new JMenuItem("About " + interpreter.getName() + "...");
+        item = new JMenuItem("About " + Interpreter.NAME + "...");
         item.addActionListener(e -> showAbout());
         menu.add(item);
     }
@@ -167,8 +172,8 @@ public final class GraphicalUserInterface extends JFrame {
     private void showAbout() {
         JOptionPane.showMessageDialog(
             this, 
-            interpreter.getName() + "\n" + interpreter.getVersion(),
-            "About " + interpreter.getName(), 
+            Interpreter.NAME + "\n" + Interpreter.VERSION,
+            "About " + Interpreter.NAME, 
             JOptionPane.INFORMATION_MESSAGE);
     }
     
@@ -182,7 +187,7 @@ public final class GraphicalUserInterface extends JFrame {
     private void updateTitle() {
         setTitle((fileArea.getFile() == null ? "Untitled" : fileArea.getFile().getName())
             + " - "
-            + interpreter.getName());
+            + Interpreter.NAME);
     }
     
 }

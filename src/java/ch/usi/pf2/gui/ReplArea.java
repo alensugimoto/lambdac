@@ -1,6 +1,7 @@
 package ch.usi.pf2.gui;
 
 import ch.usi.pf2.model.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.Dimension;
 import java.awt.Event;
@@ -163,7 +164,15 @@ public final class ReplArea extends JTextArea {
     }
     
     private void repl(final String term) {
-        append("\n" + interpreter.interpret(term));
+        try {
+            append("\n" + interpreter.interpret(term));
+        } catch (ParseException ex) {
+            String pointer = "";
+            for (int i = 0; i < ex.getPosition(); i++) {
+                pointer += " ";
+            }
+            append("\n" + pointer + "^\n" + ex.getMessage());
+        }
         nextPrompt();
     }
     
@@ -174,7 +183,7 @@ public final class ReplArea extends JTextArea {
     }
     
     private void showWelcome() {
-        append(interpreter.getWelcomeMessage());
+        append(Interpreter.NAME + "\nType \"help\" for more information.");
     }
     
 }

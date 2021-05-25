@@ -25,7 +25,7 @@ public final class Abstraction extends Node {
     }
     
     @Override
-    public boolean isValue() {
+    protected boolean isValue() {
         return true;
     }
     
@@ -35,12 +35,12 @@ public final class Abstraction extends Node {
      * @param right the node to be applied
      * @return the result of applying this abstraction to the specified node
      */
-    public Node apply(final Node right) {
+    protected Node apply(final Node right) {
         return body.substitute(right.shift(1)).shift(-1);
     }
     
     @Override
-    public Node evaluateOne() throws UnsupportedOperationException {
+    protected Node evaluateOne() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
     

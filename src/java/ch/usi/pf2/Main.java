@@ -2,6 +2,7 @@ package ch.usi.pf2;
 
 import ch.usi.pf2.gui.GraphicalUserInterface;
 import ch.usi.pf2.model.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 import ch.usi.pf2.tui.TextualUserInterface;
 
 import java.awt.EventQueue;
@@ -36,11 +37,11 @@ public final class Main {
             } else if ("--help".equals(args[0])) {
                 printHelp();
             } else {
-                readFromFile(args[0]);
+                readFromFile(interpreter, args[0]);
             }
         } else if (args.length == 2) {
             if ("-c".equals(args[0])) {
-                runString(args[1]);
+                runString(interpreter, args[1]);
             } else {
                 saveToFile(args[0], args[1]);
             }
@@ -93,12 +94,12 @@ public final class Main {
      * @param term the lambda term to write in the file
      * @return true if successful and false otherwise
      */
-    private static boolean readFromFile(final String filename) {
+    private static boolean readFromFile(final Interpreter interpreter, final String filename) {
         boolean success = false;
         try (final BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String term = reader.readLine();
             while (term != null) {
-                runString(term);
+                runString(interpreter, term);
                 term = reader.readLine();
             }
             success = true;
@@ -110,8 +111,12 @@ public final class Main {
         return success;
     }
     
-    private static void runString(final String string) {
-        System.out.println(new Interpreter().interpret(string));
+    private static void runString(final Interpreter interpreter, final String string) {
+        try {
+            System.out.println(interpreter.interpret(string));
+        } catch (ParseException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     
     private static void printHelp() {

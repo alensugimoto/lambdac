@@ -45,14 +45,14 @@ public class NodeTest {
     }
     
     @Test
-    public void testApplicationVarToVar() {
+    public void testNonValueToNonValueApplication() {
         // "x y"
         final Node root = new Application(0, new Variable(0, 0, 2), new Variable(2, 1, 2));
         assertEquals(root, root.evaluate());
     }
     
     @Test
-    public void testApplicationVarToAbs() {
+    public void testNonValueToValueApplication() {
         // "x (\\y.y)"
         final Node root = new Application(
             0,
@@ -67,7 +67,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testApplicationAbsToVar() {
+    public void testValueToNonValueApplication() {
         // "(\\y.y) x"
         final Node root = new Application(
             0,
@@ -82,7 +82,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testApplicationAbsToAbs() {
+    public void testValueToValueApplication() {
         // "(\\y.x y) (\\z.z)"
         final Node leftTerm = new Abstraction(
             1,
@@ -112,10 +112,68 @@ public class NodeTest {
     }
     
     @Test
+    public void testNonValueToDeepValueApplication() {
+        // "x ((\\y.y) (\\z.z))"
+        final Node root = new Application(
+            0,
+            new Variable(0, 0, 1),
+            new Application(
+                3,
+                new Abstraction(
+                    4,
+                    "y",
+                    new Variable(7, 0, 2)
+                ),
+                new Abstraction(
+                    11,
+                    "z",
+                    new Variable(14, 0, 2)
+                )
+            )
+        );
+        assertEquals(root, root.evaluate());
+    }
+    
+    @Test
+    public void testValueToDeepNonValueApplication() {
+        // "(\\y.x y) ((\\y.x y) (\\z.z))"
+        final Node leftTerm = new Abstraction(
+            11,
+            "y",
+            new Application(
+                14,
+                new Variable(14, 1, 2),
+                new Variable(16, 0, 2)
+            )
+        );
+        final Node rightRightTerm = new Abstraction(
+            18,
+            "z",
+            new Variable(21, 0, 2)
+        );
+        final Node rightTerm = new Application(0, leftTerm, rightRightTerm);
+        final Node root = new Application(0, leftTerm, rightTerm);
+        final Node expectedRoot = new Application(
+            0,
+            leftTerm,
+            new Application(
+                14,
+                new Variable(14, 0, 1),
+                new Abstraction(
+                    18,
+                    "z",
+                    new Variable(21, 0, 2)
+                )
+            )
+        );
+        assertEquals(expectedRoot, root.evaluate());
+    }
+    
+    @Test
     public void testVariableUncapture() {
         // "(\\x.\\x.x) y" -> "(\\x.\\x.x)"
-        final Variable rightTerm = new Variable(10, 0, 1);
-        final Abstraction leftTermChild = new Abstraction(4, "x", new Variable(7, 0, 3));
+        final Node rightTerm = new Variable(10, 0, 1);
+        final Node leftTermChild = new Abstraction(4, "x", new Variable(7, 0, 3));
         final Abstraction leftTerm = new Abstraction(1, "x", leftTermChild);
         final Node expectedRoot = new Abstraction(4, "x", new Variable(7, 0, 2));
         assertEquals(expectedRoot, leftTerm.apply(rightTerm));
@@ -124,8 +182,8 @@ public class NodeTest {
     @Test
     public void testVariableCapture() {
         // "(\\x.\\y.x) y" -> "\\y'.y"
-        final Variable rightTerm = new Variable(10, 0, 1);
-        final Abstraction leftTermChild = new Abstraction(4, "y", new Variable(7, 1, 3));
+        final Node rightTerm = new Variable(10, 0, 1);
+        final Node leftTermChild = new Abstraction(4, "y", new Variable(7, 1, 3));
         final Abstraction leftTerm = new Abstraction(1, "x", leftTermChild);
         final Node expectedRoot = new Abstraction(4, "y", new Variable(10, 1, 2));
         assertEquals(expectedRoot, leftTerm.apply(rightTerm));

@@ -25,12 +25,12 @@ public final class Variable extends Node {
     }
     
     @Override
-    public boolean isValue() {
+    protected boolean isValue() {
         return false;
     }
     
     @Override
-    public Node evaluateOne() throws UnsupportedOperationException {
+    protected Node evaluateOne() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
     
