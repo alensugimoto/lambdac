@@ -10,9 +10,6 @@ import ch.usi.pf2.model.parser.Parser;
  */
 public final class Interpreter {
     
-    public static final String NAME = "Lambdac";
-    public static final String VERSION = "Version 1.0";
-    
     private final Parser parser;
     private final Context context;
     
@@ -34,15 +31,15 @@ public final class Interpreter {
     }
     
     /**
-     * Interpret the specified source code.
+     * Interpret the specified text.
      * 
-     * @param sourceCode the source code to be interpreted
-     * @return the interpretation of the specified source code
-     * @throws ParseException if the source code contains a syntactic error
+     * @param text the text to be interpreted
+     * @return the interpretation of the specified text
+     * @throws ParseException if the text contains a syntactic error
      *     or an undefined variable
      */
-    public String interpret(final String sourceCode) throws ParseException {
-        return parser.parse(sourceCode, context).evaluate().toString(context);
+    public String interpret(final String text) throws ParseException {
+        return parser.parse(text, context).evaluate().toString(context);
     }
     
     private static Context getDefaultContext() {
