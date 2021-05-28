@@ -20,11 +20,7 @@ public class RedoCommand implements Command {
 
     @Override
     public void execute() {
-        final Edit edit = history.getEdit();
-        if (edit != null) {
-            history.incrementPointer();
-            edit.reexecute();
-        }
+        history.redo();
     }
     
 }

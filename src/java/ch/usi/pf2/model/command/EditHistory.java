@@ -18,21 +18,37 @@ public class EditHistory extends ArrayList<Edit> {
         return super.add(edit);
     }
 
-    public void incrementPointer() {
+    public void redo() {
+        incrementPointer();
+        final Edit edit = getPointedEdit();
+        if (edit != null) {
+            edit.reexecute();
+        }
+    }
+
+    public void undo() {
+        final Edit edit = getPointedEdit();
+        if (edit != null) {
+            edit.unexecute();
+        }
+        decrementPointer();
+    }
+
+    private void incrementPointer() {
         assert pointer >= -1 && pointer < size();
         if (pointer + 1 < size()) {
             pointer++;
         }
     }
 
-    public void decrementPointer() {
+    private void decrementPointer() {
         assert pointer >= -1 && pointer < size();
         if (pointer - 1 >= -1) {
             pointer--;
         }
     }
 
-    public Edit getEdit() {
+    private Edit getPointedEdit() {
         assert pointer >= -1 && pointer < size();
         if (pointer == -1) {
             return null;

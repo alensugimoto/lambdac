@@ -20,11 +20,7 @@ public class UndoCommand implements Command {
 
     @Override
     public void execute() {
-        final Edit edit = history.getEdit();
-        if (edit != null) {
-            edit.unexecute();
-            history.decrementPointer();
-        }
+        history.undo();
     }
     
 }

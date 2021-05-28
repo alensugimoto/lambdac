@@ -6,6 +6,7 @@ public class InterpretEdit implements Edit {
 
     private final LambdaText text;
     private String previousTextToInterpret;
+    private String nextTextToInterpret;
 
     public InterpretEdit(final LambdaText text) {
         this.text = text;
@@ -14,15 +15,18 @@ public class InterpretEdit implements Edit {
     public void execute() {
         previousTextToInterpret = text.getTextToInterpret();
         text.interpret();
-        text.setTextToInterpret("");
+        nextTextToInterpret = "";
+        text.setTextToInterpret(nextTextToInterpret);
     }
 
     public void unexecute() {
+        nextTextToInterpret = text.getTextToInterpret();
         text.setTextToInterpret(previousTextToInterpret);
     }
 
     public void reexecute() {
-        text.setTextToInterpret("");
+        previousTextToInterpret = text.getTextToInterpret();
+        text.setTextToInterpret(nextTextToInterpret);
     }
 
 }

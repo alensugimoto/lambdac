@@ -78,7 +78,7 @@ public class ButtonsPanel extends JPanel {
     }
 
     private void quit() {
-        System.exit(0);
+        System.exit(0); // TODO 
     }
 
 }
