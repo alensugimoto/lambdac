@@ -1,5 +1,8 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdaText;
+import ch.usi.pf2.model.LambdaTextListener;
+
 import java.awt.Dimension;
 
 import javax.swing.JTextArea;
@@ -7,10 +10,6 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-
-import ch.usi.pf2.model.LambdaText;
-import ch.usi.pf2.model.LambdaTextListener;
-
 
 /**
  * The DefinitionsArea is part of the GUI.
@@ -36,16 +35,19 @@ public final class DefinitionsArea extends JTextArea {
         
         // register listeners
         text.addLambdaTextListener(new LambdaTextListener() {
+            
             @Override
             public void textToInterpretChanged(final String textToInterpret) {
                 if (!textToInterpret.equals(getText())) {
                     setText(textToInterpret);
                 }
             }
+
             @Override
             public void interpretedTextChanged(final String interpretedText) {
                 // do nothing
             }
+
         });
         ((AbstractDocument)getDocument()).setDocumentFilter(new LambdaDocumentFilter());
     }
@@ -58,19 +60,23 @@ public final class DefinitionsArea extends JTextArea {
     private class LambdaDocumentFilter extends DocumentFilter {
         
         @Override
-        public void insertString(final FilterBypass fb, final int offset, final String string, final AttributeSet attr) throws BadLocationException {
+        public void insertString(final FilterBypass fb, final int offset, final String string,
+                                 final AttributeSet attr) throws BadLocationException {
             super.insertString(fb, offset, string, attr);
             text.setTextToInterpret(getText());
         }
     
         @Override
-        public void remove(final FilterBypass fb, final int offset, final int length) throws BadLocationException {
+        public void remove(final FilterBypass fb, final int offset,
+                           final int length) throws BadLocationException {
             super.remove(fb, offset, length);
             text.setTextToInterpret(getText());
         }
         
         @Override
-        public void replace(final FilterBypass fb, final int offset, final int length, final String str, final AttributeSet attrs) throws BadLocationException {
+        public void replace(final FilterBypass fb, final int offset, final int length,
+                            final String str, final AttributeSet attrs)
+                            throws BadLocationException {
             super.replace(fb, offset, length, str, attrs);
             text.setTextToInterpret(getText());
         }

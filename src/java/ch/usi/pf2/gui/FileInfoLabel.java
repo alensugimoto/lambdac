@@ -1,11 +1,11 @@
 package ch.usi.pf2.gui;
 
-import javax.swing.JLabel;
-
 import ch.usi.pf2.model.LambdaFile;
 import ch.usi.pf2.model.LambdaFileListener;
 
-public final class FileInfoLabel extends JLabel{
+import javax.swing.JLabel;
+
+public final class FileInfoLabel extends JLabel {
 
     public FileInfoLabel(final LambdaFile file) {
         super();

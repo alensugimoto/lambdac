@@ -1,16 +1,17 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdaTextEditor;
+import ch.usi.pf2.model.LambdaTextListener;
+
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JTextArea;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-
-import ch.usi.pf2.model.LambdaTextEditor;
-import ch.usi.pf2.model.LambdaTextListener;
 
 /**
  * The InteractionsArea is part of the GUI.
@@ -33,31 +34,37 @@ public final class InteractionsArea extends JTextArea {
     public InteractionsArea(final LambdaTextEditor textEditor) {
         super();
         this.textEditor = textEditor;
-        setUp(null);
+        refresh(null);
         
         // register listeners
         textEditor.getText().addLambdaTextListener(new LambdaTextListener() {
+            
             @Override
             public void textToInterpretChanged(final String textToInterpret) {
                 if (!textToInterpret.equals(getPrompt())) {
                     setPrompt(textToInterpret);
                 }
             }
+
             @Override
             public void interpretedTextChanged(final String interpretedText) {
                 append("\n" + interpretedText);
                 nextPrompt();
             }
+
         });
         textEditor.getFile().getText().addLambdaTextListener(new LambdaTextListener() {
+            
             @Override
             public void textToInterpretChanged(final String textToInterpret) {
                 // do nothing
             }
+
             @Override
             public void interpretedTextChanged(final String interpretedText) {
-                setUp(interpretedText);
+                refresh(interpretedText);
             }
+
         });
         addKeyListener(new KeyAdapter() {
             @Override
@@ -66,7 +73,7 @@ public final class InteractionsArea extends JTextArea {
                     case KeyEvent.VK_ENTER:
                         final String prompt = getPrompt();
                         if (prompt != null && !prompt.trim().isEmpty()) {
-                            textEditor.getText().interpret();;
+                            textEditor.getText().interpret();
                             textEditor.getText().setTextToInterpret("");
                             e.consume();
                         }
@@ -95,7 +102,7 @@ public final class InteractionsArea extends JTextArea {
         replaceRange(prompt, promptPosition, getText().length());
     }
 
-    private void setUp(final String interpretedText) {
+    private void refresh(final String interpretedText) {
         promptPosition = 0;
         setText("");
         showWelcome();
@@ -117,7 +124,8 @@ public final class InteractionsArea extends JTextArea {
     private class LambdaDocumentFilter extends DocumentFilter {
         
         @Override
-        public void insertString(final FilterBypass fb, final int offset, final String string, final AttributeSet attr) throws BadLocationException {
+        public void insertString(final FilterBypass fb, final int offset, final String string,
+                                 final AttributeSet attr) throws BadLocationException {
             if (offset >= promptPosition) {
                 super.insertString(fb, offset, string, attr);
                 textEditor.getText().setTextToInterpret(getPrompt());
@@ -125,7 +133,8 @@ public final class InteractionsArea extends JTextArea {
         }
     
         @Override
-        public void remove(final FilterBypass fb, final int offset, final int length) throws BadLocationException {
+        public void remove(final FilterBypass fb, final int offset,
+                           final int length) throws BadLocationException {
             if (offset >= promptPosition) {
                 super.remove(fb, offset, length);
                 textEditor.getText().setTextToInterpret(getPrompt());
@@ -133,7 +142,9 @@ public final class InteractionsArea extends JTextArea {
         }
         
         @Override
-        public void replace(final FilterBypass fb, final int offset, final int length, final String str, final AttributeSet attrs) throws BadLocationException {
+        public void replace(final FilterBypass fb, final int offset, final int length,
+                            final String str, final AttributeSet attrs) 
+                            throws BadLocationException {
             if (offset >= promptPosition) {
                 super.replace(fb, offset, length, str, attrs);
                 textEditor.getText().setTextToInterpret(getPrompt());

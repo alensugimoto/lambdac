@@ -1,11 +1,12 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdaTextEditor;
+
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import java.io.IOException;
-
-import ch.usi.pf2.model.LambdaTextEditor;
 
 public class ButtonsPanel extends JPanel {
     
@@ -54,18 +55,18 @@ public class ButtonsPanel extends JPanel {
     private void open() {
         try {
             textEditor.getFile().open();
-        } catch (IOException e) {
+        } catch (IOException ex) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
     private void save() {
         try {
             textEditor.getFile().save();
-        } catch (IOException e) {
+        } catch (IOException ex) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 

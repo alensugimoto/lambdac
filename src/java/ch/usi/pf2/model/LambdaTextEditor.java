@@ -9,8 +9,8 @@ package ch.usi.pf2.model;
  */
 public final class LambdaTextEditor {
 
-    public static final String NAME = "Lambdac";
-    public static final String VERSION = "Version 1.0";
+    private static final String NAME = "Lambdac";
+    private static final String VERSION = "Version 1.0";
 
     private final LambdaText text;
     private final LambdaFile file;
@@ -47,6 +47,14 @@ public final class LambdaTextEditor {
      */
     public final LambdaFile getFile() {
         return file;
+    }
+
+    public final String getName() {
+        return NAME;
+    }
+
+    public final String getVersion() {
+        return VERSION;
     }
     
 }

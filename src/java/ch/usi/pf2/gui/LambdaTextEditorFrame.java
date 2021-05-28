@@ -1,12 +1,14 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdaTextEditor;
+
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import ch.usi.pf2.model.LambdaTextEditor;
 
 
 /**
@@ -24,7 +26,7 @@ public final class LambdaTextEditorFrame extends JFrame {
      */
     public LambdaTextEditorFrame(final LambdaTextEditor textEditor) {
         super();
-        setTitle(LambdaTextEditor.NAME);
+        setTitle(textEditor.getName());
         setLayout(new BorderLayout());
         //setMenuBar(new LambdaMenuBar(textEditor.getFile()));
         
@@ -42,6 +44,14 @@ public final class LambdaTextEditorFrame extends JFrame {
         add(textAreaPane, BorderLayout.CENTER);
         
         pack();
+    }
+
+    public void display() {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                setVisible(true);
+            }
+        });
     }
     
 }

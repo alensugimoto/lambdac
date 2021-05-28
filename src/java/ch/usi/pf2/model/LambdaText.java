@@ -80,8 +80,8 @@ public final class LambdaText {
     public final void interpret() {
         try {
             setInterpretedText(interpreter.interpret(textToInterpret));
-        } catch (ParseException e) {
-            setInterpretedText(e.getMessage());
+        } catch (ParseException ex) {
+            setInterpretedText(ex.getMessage());
         }
     }
     

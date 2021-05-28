@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * The main class of the textual user interface of this application.
  */
-public class TextualUserInterface {
+public class LambdaTextEditorTextView {
     
     private final LambdaTextEditor textEditor;
     
@@ -19,18 +19,18 @@ public class TextualUserInterface {
      * Constructs a new TextualUserInterface for the given interpreter.
      * @param interpreter the model to show
      */
-    public TextualUserInterface(final LambdaTextEditor textEditor) {
+    public LambdaTextEditorTextView(final LambdaTextEditor textEditor) {
         this.textEditor = textEditor;
 
         textEditor.getText().addLambdaTextListener(new LambdaTextListener() {
             
             @Override
-            public void textToInterpretChanged(String textToInterpret) {
+            public void textToInterpretChanged(final String textToInterpret) {
                 textEditor.getText().interpret();
             }
 
             @Override
-            public void interpretedTextChanged(String interpretedText) {
+            public void interpretedTextChanged(final String interpretedText) {
                 System.out.println(interpretedText);
             }
             
@@ -38,23 +38,23 @@ public class TextualUserInterface {
         textEditor.getFile().getText().addLambdaTextListener(new LambdaTextListener() {
 
             @Override
-            public void textToInterpretChanged(String textToInterpret) {
+            public void textToInterpretChanged(final String textToInterpret) {
                 textEditor.getFile().getText().interpret();
             }
 
             @Override
-            public void interpretedTextChanged(String interpretedText) {
+            public void interpretedTextChanged(final String interpretedText) {
                 System.out.println(interpretedText);
             }
             
         });
-        textEditor.getFile().addLambdaFileListener(new LambdaFileListener(){
+        textEditor.getFile().addLambdaFileListener(new LambdaFileListener() {
             
             @Override
-            public void fileNameChanged(String fileName) {
+            public void fileNameChanged(final String fileName) {
                 try {
                     textEditor.getFile().open();
-                } catch (IOException e) {
+                } catch (IOException ex) {
                     System.err.println("A problem was encountered reading " + fileName);
                 }
             }
@@ -90,7 +90,7 @@ public class TextualUserInterface {
     }
     
     private void printWelcome() {
-        System.out.println(LambdaTextEditor.NAME + "\nType \"help\" for more information.");
+        System.out.println(textEditor.getName() + "\nType \"help\" for more information.");
     }
     
     private void printHelp() {
