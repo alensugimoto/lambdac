@@ -40,8 +40,10 @@ public final class LambdaText {
      * @param expression the new expression
      */
     public final void setTextToInterpret(final String textToInterpret) {
-        this.textToInterpret = textToInterpret;
-        fireTextToInterpretChanged();
+        if (!this.textToInterpret.equals(textToInterpret)) {
+            this.textToInterpret = textToInterpret;
+            fireTextToInterpretChanged();
+        }
     }
     
     /**
@@ -57,8 +59,10 @@ public final class LambdaText {
      * @param expression the new expression
      */
     private final void setInterpretedText(final String interpretedText) {
-        this.interpretedText = interpretedText;
-        fireInterpretedTextChanged();
+        if (this.interpretedText == null || !this.interpretedText.equals(interpretedText)) {
+            this.interpretedText = interpretedText;
+            fireInterpretedTextChanged();
+        }
     }
     
     /**

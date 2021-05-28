@@ -48,8 +48,10 @@ public final class LambdaFile {
      * @param name the new name of this LambdaFile
      */
     public final void setName(final String name) {
-        this.name = name;
-        fireFileNameChanged();
+        if (this.name == null || !this.name.equals(name)) {
+            this.name = name;
+            fireFileNameChanged();
+        }
     }
     
     /**
@@ -66,6 +68,7 @@ public final class LambdaFile {
             String expression = "";
             while (line != null) {
                 expression += line + "\n";
+                line = reader.readLine();
             }
             text.setTextToInterpret(expression);
         }

@@ -1,8 +1,12 @@
 package ch.usi.pf2.tui;
 
-import ch.usi.pf2.model.Interpreter;
-import ch.usi.pf2.model.parser.ParseException;
+import ch.usi.pf2.model.LambdaFileListener;
+import ch.usi.pf2.model.LambdaTextEditor;
+import ch.usi.pf2.model.LambdaTextListener;
+import ch.usi.pf2.model.command.InterpretCommand;
+import ch.usi.pf2.model.command.OpenFileCommand;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -11,14 +15,53 @@ import java.util.Scanner;
  */
 public class TextualUserInterface {
     
-    private final Interpreter interpreter;
+    private final LambdaTextEditor textEditor;
     
     /**
      * Constructs a new TextualUserInterface for the given interpreter.
      * @param interpreter the model to show
      */
-    public TextualUserInterface(final Interpreter interpreter) {
-        this.interpreter = interpreter;
+    public TextualUserInterface(final LambdaTextEditor textEditor) {
+        this.textEditor = textEditor;
+
+        textEditor.getText().addLambdaTextListener(new LambdaTextListener() {
+            
+            @Override
+            public void textToInterpretChanged(String textToInterpret) {
+                new InterpretCommand(textEditor.getText()).execute();
+            }
+
+            @Override
+            public void interpretedTextChanged(String interpretedText) {
+                System.out.println(interpretedText);
+            }
+            
+        });
+        textEditor.getFile().getText().addLambdaTextListener(new LambdaTextListener() {
+
+            @Override
+            public void textToInterpretChanged(String textToInterpret) {
+                new InterpretCommand(textEditor.getFile().getText()).execute();
+            }
+
+            @Override
+            public void interpretedTextChanged(String interpretedText) {
+                System.out.println(interpretedText);
+            }
+            
+        });
+        textEditor.getFile().addLambdaFileListener(new LambdaFileListener(){
+            
+            @Override
+            public void fileNameChanged(String fileName) {
+                try {
+                    new OpenFileCommand(textEditor.getFile()).execute();
+                } catch (IOException e) {
+                    System.err.println("A problem was encountered reading " + fileName);
+                }
+            }
+            
+        });
     }
 
     /**
@@ -34,22 +77,22 @@ public class TextualUserInterface {
             } else if ("help".equals(input)) {
                 printHelp();
             } else {
-                try {
-                    System.out.println(interpreter.interpret(input));
-                } catch (ParseException ex) {
-                    String pointer = "";
-                    for (int i = 0; i < ex.getPosition(); i++) {
-                        pointer += " ";
-                    }
-                    System.out.println(pointer + "^\n" + ex.getMessage());
-                }
+                runText(input);
             }
         }
         scanner.close();
     }
+
+    public void runText(final String textToInterpret) {
+        textEditor.getText().setTextToInterpret(textToInterpret);
+    }
+
+    public void runFile(final String fileName) {
+        textEditor.getFile().setName(fileName);
+    }
     
     private void printWelcome() {
-        System.out.println(Interpreter.NAME + "\nType \"help\" for more information.");
+        System.out.println(LambdaTextEditor.NAME + "\nType \"help\" for more information.");
     }
     
     private void printHelp() {
