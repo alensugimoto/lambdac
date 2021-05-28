@@ -47,9 +47,9 @@ public final class LambdaFile {
      * Set the name of this LambdaFile.
      * @param name the new name of this LambdaFile
      */
-    private final void setName(final String name) {
+    public final void setName(final String name) {
         this.name = name;
-        fireLambdaFileChanged();
+        fireFileNameChanged();
     }
     
     /**
@@ -60,15 +60,14 @@ public final class LambdaFile {
         return text;
     }
 
-    public final void open(final String fileName) throws IOException {
-        try (final BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+    public final void open() throws IOException {
+        try (final BufferedReader reader = new BufferedReader(new FileReader(name))) {
             String line = reader.readLine();
             String expression = "";
             while (line != null) {
                 expression += line + "\n";
             }
-            text.setExpression(expression);
-            setName(fileName);
+            text.setTextToInterpret(expression);
         }
     }
 
@@ -76,13 +75,8 @@ public final class LambdaFile {
         if (name == null) {
             throw new UnsupportedOperationException();
         }
-        saveAs(name);
-    }
-
-    public final void saveAs(final String fileName) throws IOException {
-        try (final FileWriter writer = new FileWriter(fileName)) {
-            writer.write(text.getExpression());
-            setName(fileName);
+        try (final FileWriter writer = new FileWriter(name)) {
+            writer.write(text.getTextToInterpret());
         }
     }
     
@@ -108,9 +102,9 @@ public final class LambdaFile {
     /**
      * Notify all registered LambdaFileListeners that this LambdaFile has changed.
      */
-    private void fireLambdaFileChanged() {
+    private void fireFileNameChanged() {
         for (final LambdaFileListener li : listeners) {
-            li.lambdaFileChanged(this);
+            li.fileNameChanged(name);
         }
     }
     

@@ -14,48 +14,71 @@ public final class LambdaText {
 
     private final ArrayList<LambdaTextListener> listeners;
     private final Interpreter interpreter;
-    private String expression;
+    private String textToInterpret;
+    private String interpretedText;
     
     /**
      * Create a LambdaText based on an empty expression.
      */
     public LambdaText() {
-        this("");
+        this("", null);
     }
 
     /**
      * Create a LambdaText based on the given expression.
      * @param expression the expression
      */
-    public LambdaText(final String expression) {
+    public LambdaText(final String textToInterpret, final String interpretedText) {
         listeners = new ArrayList<>();
         interpreter = new Interpreter();
-        this.expression = expression;
+        this.textToInterpret = textToInterpret;
+        this.interpretedText = interpretedText;
     }
     
     /**
      * Change the expression underlying this LambdaText.
      * @param expression the new expression
      */
-    public final void setExpression(final String expression) {
-        this.expression = expression;
-        fireLambdaTextChanged();
+    public final void setTextToInterpret(final String textToInterpret) {
+        this.textToInterpret = textToInterpret;
+        fireTextToInterpretChanged();
     }
     
     /**
      * Get the expression defining this LambdaText.
      * @return the expression
      */
-    public final String getExpression() {
-        return expression;
+    public final String getTextToInterpret() {
+        return textToInterpret;
+    }
+
+    /**
+     * Change the expression underlying this LambdaText.
+     * @param expression the new expression
+     */
+    private final void setInterpretedText(final String interpretedText) {
+        this.interpretedText = interpretedText;
+        fireInterpretedTextChanged();
+    }
+    
+    /**
+     * Get the expression defining this LambdaText.
+     * @return the expression
+     */
+    public final String getInterpretedText() {
+        return interpretedText;
     }
     
     /**
      * Interpret this LambdaText.
      * @return the interpretation of this LambdaText
      */
-    public final String interpret() throws ParseException {
-        return interpreter.interpret(expression);
+    public final void interpret() {
+        try {
+            setInterpretedText(interpreter.interpret(textToInterpret));
+        } catch (ParseException e) {
+            setInterpretedText(e.getMessage());
+        }
     }
     
     //--- listener management
@@ -80,9 +103,15 @@ public final class LambdaText {
     /**
      * Notify all registered LambdaTextListeners that this LambdaText has changed.
      */
-    private void fireLambdaTextChanged() {
+    private void fireTextToInterpretChanged() {
         for (final LambdaTextListener li : listeners) {
-            li.lambdaTextChanged(this);
+            li.textToInterpretChanged(textToInterpret);
+        }
+    }
+
+    private void fireInterpretedTextChanged() {
+        for (final LambdaTextListener li : listeners) {
+            li.interpretedTextChanged(interpretedText);
         }
     }
     

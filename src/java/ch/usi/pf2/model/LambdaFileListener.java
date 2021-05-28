@@ -20,6 +20,6 @@ public interface LambdaFileListener {
      * Notify this LambdaFileListener that the given LambdaFile has changed.
      * @param file The LambdaFile that changed.
      */
-    public abstract void lambdaFileChanged(LambdaFile file);
+    public abstract void fileNameChanged(final String fileName);
     
 }
