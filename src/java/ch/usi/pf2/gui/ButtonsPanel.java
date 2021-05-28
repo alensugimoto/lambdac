@@ -6,10 +6,6 @@ import javax.swing.JPanel;
 import java.io.IOException;
 
 import ch.usi.pf2.model.LambdaTextEditor;
-import ch.usi.pf2.model.command.EditHistory;
-import ch.usi.pf2.model.command.InterpretCommand;
-import ch.usi.pf2.model.command.OpenFileCommand;
-import ch.usi.pf2.model.command.SaveFileCommand;
 
 public class ButtonsPanel extends JPanel {
     
@@ -57,7 +53,7 @@ public class ButtonsPanel extends JPanel {
 
     private void open() {
         try {
-            new OpenFileCommand(textEditor.getFile()).execute();
+            textEditor.getFile().open();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -66,7 +62,7 @@ public class ButtonsPanel extends JPanel {
 
     private void save() {
         try {
-            new SaveFileCommand(textEditor.getFile()).execute();
+            textEditor.getFile().save();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -74,7 +70,7 @@ public class ButtonsPanel extends JPanel {
     }
 
     private void run() {
-        new InterpretCommand(textEditor.getFile().getText()).execute();
+        textEditor.getFile().getText().interpret();
     }
 
     private void quit() {

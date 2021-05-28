@@ -11,10 +11,6 @@ import javax.swing.text.DocumentFilter;
 
 import ch.usi.pf2.model.LambdaTextEditor;
 import ch.usi.pf2.model.LambdaTextListener;
-import ch.usi.pf2.model.command.EditHistory;
-import ch.usi.pf2.model.command.InterpretCommand;
-import ch.usi.pf2.model.command.RedoCommand;
-import ch.usi.pf2.model.command.UndoCommand;
 
 /**
  * The InteractionsArea is part of the GUI.
@@ -28,7 +24,6 @@ public final class InteractionsArea extends JTextArea {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 300);
     
     private final LambdaTextEditor textEditor;
-    private final EditHistory history;
     private int promptPosition;
 
     /**
@@ -38,7 +33,6 @@ public final class InteractionsArea extends JTextArea {
     public InteractionsArea(final LambdaTextEditor textEditor) {
         super();
         this.textEditor = textEditor;
-        history = new EditHistory();
         setUp(null);
         
         // register listeners
@@ -72,17 +66,10 @@ public final class InteractionsArea extends JTextArea {
                     case KeyEvent.VK_ENTER:
                         final String prompt = getPrompt();
                         if (prompt != null && !prompt.trim().isEmpty()) {
-                            new InterpretCommand(history, textEditor.getText()).execute();
+                            textEditor.getText().interpret();;
+                            textEditor.getText().setTextToInterpret("");
                             e.consume();
                         }
-                        break;
-                    case KeyEvent.VK_UP:
-                        new UndoCommand(history).execute();
-                        e.consume();
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        new RedoCommand(history).execute();
-                        e.consume();
                         break;
                     default:
                         break;

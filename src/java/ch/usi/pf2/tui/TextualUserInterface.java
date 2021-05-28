@@ -3,8 +3,6 @@ package ch.usi.pf2.tui;
 import ch.usi.pf2.model.LambdaFileListener;
 import ch.usi.pf2.model.LambdaTextEditor;
 import ch.usi.pf2.model.LambdaTextListener;
-import ch.usi.pf2.model.command.InterpretCommand;
-import ch.usi.pf2.model.command.OpenFileCommand;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -28,7 +26,7 @@ public class TextualUserInterface {
             
             @Override
             public void textToInterpretChanged(String textToInterpret) {
-                new InterpretCommand(textEditor.getText()).execute();
+                textEditor.getText().interpret();
             }
 
             @Override
@@ -41,7 +39,7 @@ public class TextualUserInterface {
 
             @Override
             public void textToInterpretChanged(String textToInterpret) {
-                new InterpretCommand(textEditor.getFile().getText()).execute();
+                textEditor.getFile().getText().interpret();
             }
 
             @Override
@@ -55,7 +53,7 @@ public class TextualUserInterface {
             @Override
             public void fileNameChanged(String fileName) {
                 try {
-                    new OpenFileCommand(textEditor.getFile()).execute();
+                    textEditor.getFile().open();
                 } catch (IOException e) {
                     System.err.println("A problem was encountered reading " + fileName);
                 }
