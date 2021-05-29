@@ -4,10 +4,12 @@ import ch.usi.pf2.model.LambdacModel;
 import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.FlowLayout;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -51,26 +53,28 @@ public class ButtonsPane extends JPanel {
     }
 
     private void open() {
-        final JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(this);
-        model.setFileName(chooser.getSelectedFile().getName());
-        openFile();
+        selectFile("Open", () -> openFile());
     }
 
     private void save() {
         if (model.getFileName() == null) {
-            final JFileChooser chooser = new JFileChooser();
-            chooser.showSaveDialog(this);
-            model.setFileName(chooser.getSelectedFile().getName());
+            saveAs();
+        } else {
+            saveFile();
         }
-        saveFile();
     }
 
     private void saveAs() {
-        final JFileChooser chooser = new JFileChooser();
-        chooser.showSaveDialog(this);
-        model.setFileName(chooser.getSelectedFile().getName());
-        saveFile();
+        selectFile("Save", () -> saveFile());
+    }
+
+    private void selectFile(final String approveButtonText, final FileCallback callback) {
+        final JFileChooser chooser = new JFileChooser(model.getFileName());
+        final int returnVal = chooser.showDialog(this, approveButtonText);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            model.setFileName(chooser.getSelectedFile().getName());
+            callback.call();
+        }
     }
 
     private void run() {
@@ -89,16 +93,34 @@ public class ButtonsPane extends JPanel {
         try {
             model.open();
         } catch (IOException ex) {
-            System.err.println("There was a problem when opening " + model.getFileName());
+            JOptionPane.showMessageDialog(this, "A problem occurred opening the file '"
+                                          + model.getFileName() + "'", "Failed to Open",
+                                          JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void saveFile() {
         try {
-            model.save();
+            if (new File(model.getFileName()).exists()) {
+                final int resultVal = JOptionPane.showConfirmDialog(this, "Replace existing file?");
+                if (resultVal == JOptionPane.YES_OPTION) {
+                    model.save();
+                }
+            } else {
+                model.save();
+            }
         } catch (IOException ex) {
-            System.err.println("There was a problem when saving " + model.getFileName());
+            JOptionPane.showMessageDialog(this, "A problem occurred saving the file '"
+                                          + model.getFileName() + "'", "Failed to Save",
+                                          JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @FunctionalInterface
+    private interface FileCallback {
+
+        public abstract void call();
+
     }
     
 }
