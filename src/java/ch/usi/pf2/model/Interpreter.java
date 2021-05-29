@@ -4,9 +4,11 @@ import ch.usi.pf2.model.context.Context;
 import ch.usi.pf2.model.parser.ParseException;
 import ch.usi.pf2.model.parser.Parser;
 
-
 /**
  * An interpreter for the untyped lambda calculus.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class Interpreter {
     
@@ -38,14 +40,30 @@ public final class Interpreter {
      * @throws ParseException if the text contains a syntactic error
      *     or an undefined variable
      */
-    public String interpret(final String text) throws ParseException {
+    public final String interpret(final String text) throws ParseException {
         return parser.parse(text, context).evaluate().toString(context);
     }
+
+    /**
+     * Returns the help message for the untyped lambda calculus.
+     * @return the help message for the untyped lambda calculus
+     */
+    public static final String getHelp() {
+        return "Grammar:\n"
+            + "The interperter recognizes the following grammar written in EBNF:\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n"
+            + "\n";
+    }
     
-    private static Context getDefaultContext() {
-        final Context context = new Context();
-        // TODO: add environment variables
-        return context;
+    private static final Context getDefaultContext() {
+        return new Context();
     }
     
 }

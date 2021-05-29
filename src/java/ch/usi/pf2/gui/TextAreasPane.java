@@ -22,7 +22,7 @@ import javax.swing.event.DocumentListener;
  * @author Alen Sugimoto
  * @version 03.06.2021
  */
-public class TextAreasPane extends JPanel {
+public final class TextAreasPane extends JPanel {
 
     private static final int GAP = 6;
     private static final int INPUT_TEXT_ROWS = 20;

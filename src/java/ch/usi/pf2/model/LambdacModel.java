@@ -13,10 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * The LambdaTextEditor is the "model" of this application.
- * It is an immutable class that
- * points to the two mutable and observable parts of the "model":
- * a LambdaText and a LambdaFile.
+ * The LambdacModel is the model of this application
+ * and acts as an observable.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class LambdacModel {
 
@@ -35,16 +36,17 @@ public final class LambdacModel {
     private String interpretedText;
     
     /**
-     * Create a new LambdaTextEdit associated with no LambdaText or LambdaFile.
+     * Constructs a new LambdacModel.
      */
     public LambdacModel() {
         this(null, "", null);
     }
     
     /**
-     * Create a new LambdaTextEdit associated with the given LambdaText and LambdaFile.
-     * @param text The LambdaText to edit
-     * @param file The LambdaFile over which to edit
+     * Constructs a new LambdacModel, holding the specified strings.
+     * @param fileName the name of the file that is currently in focus
+     * @param textToInterpret the text to be interpreted
+     * @param interpretedText the text that resulted in the last interpretation
      */
     public LambdacModel(final String fileName, final String textToInterpret,
                         final String interpretedText) {
@@ -55,6 +57,11 @@ public final class LambdacModel {
         setInterpretedText(interpretedText);
     }
 
+    /**
+     * Sets the contents of the file that is currently in focus
+     * as the next text to be interpreted.
+     * @throws IOException if an I/O error occurs opening the file in focus
+     */
     public final void open() throws IOException {
         final Charset charset = Charset.forName("US-ASCII");
         final Path path = Paths.get(fileName);
@@ -69,6 +76,13 @@ public final class LambdacModel {
         }
     }
 
+    /**
+     * Writes to the file that is currently in focus
+     * the text that is to be interpreted.
+     * @throws IOException if an I/O error occurs opening the file in focus
+     * @throws UnsupportedOperationException if this method is invoked without any file
+     *                                       being in focus
+     */
     public final void save() throws IOException {
         if (fileName == null) {
             throw new UnsupportedOperationException();
@@ -79,58 +93,90 @@ public final class LambdacModel {
     }
 
     /**
-     * Interpret this LambdaText.
-     * @return the interpretation of this LambdaText
+     * Interprets the text to be interpreted and 
+     * sets the result as the text that was interpreted.
+     * @throws ParseException if an error occurs parsing the text to interpret
      */
     public final void interpret() throws ParseException {
         setInterpretedText(interpreter.interpret(textToInterpret));
     }
 
+    /**
+     * Returns the name of the file in focus.
+     * @return the name of the file in focus
+     */
     public final String getFileName() {
         return fileName;
     }
 
+    /**
+     * Sets the name of the file in focus to the specified string.
+     * @param fileName the new name of the file in focus
+     */
     public final void setFileName(final String fileName) {
         final String oldFileName = this.fileName;
         this.fileName = fileName;
-        firePropertyChange(FILE_NAME_PROPERTY, oldFileName, fileName);
+        support.firePropertyChange(FILE_NAME_PROPERTY, oldFileName, fileName);
     }
 
+    /**
+     * Returns the text to be interpreted.
+     * @return the text to be interpreted
+     */
     public final String getTextToInterpret() {
         return textToInterpret;
     }
 
+    /**
+     * Sets the text to interpret to the specified string.
+     * @param textToInterpret the new text to interpret
+     */
     public final void setTextToInterpret(final String textToInterpret) {
         final String oldTextToInterpret = this.textToInterpret;
         this.textToInterpret = textToInterpret;
-        firePropertyChange(TEXT_TO_INTERPRET_PROPERTY, oldTextToInterpret, textToInterpret);
+        support.firePropertyChange(TEXT_TO_INTERPRET_PROPERTY, oldTextToInterpret, textToInterpret);
     }
 
+    /**
+     * Returns the text that resulted from the last interpretation.
+     * @return the text that resulted from the last interpretation
+     */
     public final String getInterpretedText() {
         return interpretedText;
     }
 
-    public static String getHelp() {
-        return "help";
-    }
-
+    /**
+     * Sets the interpreted text to the specified string.
+     * @param interpretedText the new interpreted text
+     */
     public final void setInterpretedText(final String interpretedText) {
         final String oldInterpretedText = this.interpretedText;
         this.interpretedText = interpretedText;
-        firePropertyChange(INTERPRETED_TEXT_PROPERTY, oldInterpretedText, interpretedText);
+        support.firePropertyChange(INTERPRETED_TEXT_PROPERTY, oldInterpretedText, interpretedText);
     }
 
-    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+    /**
+     * Returns the help message for the untyped lambda calculus.
+     * @return the help message for the untyped lambda calculus
+     */
+    public static final String getHelp() {
+        return Interpreter.getHelp();
+    }
+
+    /**
+     * Adds a PropertyChangeListener from the listener list.
+     * @param listener the PropertyChangeListener to be added
+     */
+    public final void addPropertyChangeListener(final PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * @param listener the PropertyChangeListener to be removed
+     */
+    public final void removePropertyChangeListener(final PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
-    }
-
-    private void firePropertyChange(final String propertyName, final Object oldValue,
-                                    final Object newValue) {
-        support.firePropertyChange(propertyName, oldValue, newValue);
     }
     
 }

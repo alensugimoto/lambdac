@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * @author Alen Sugimoto
  * @version 03.06.2021
  */
-public class ButtonsPane extends JPanel {
+public final class ButtonsPane extends JPanel {
 
     private final LambdacModel model;
 
@@ -52,11 +52,11 @@ public class ButtonsPane extends JPanel {
         quit.addActionListener(ev -> quit());
     }
 
-    private void open() {
+    private final void open() {
         selectFile("Open", () -> openFile());
     }
 
-    private void save() {
+    private final void save() {
         if (model.getFileName() == null) {
             saveAs();
         } else {
@@ -64,11 +64,11 @@ public class ButtonsPane extends JPanel {
         }
     }
 
-    private void saveAs() {
+    private final void saveAs() {
         selectFile("Save", () -> saveFile());
     }
 
-    private void selectFile(final String approveButtonText, final FileCallback callback) {
+    private final void selectFile(final String approveButtonText, final FileCallback callback) {
         final JFileChooser chooser = new JFileChooser(model.getFileName());
         final int returnVal = chooser.showDialog(this, approveButtonText);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -77,7 +77,7 @@ public class ButtonsPane extends JPanel {
         }
     }
 
-    private void run() {
+    private final void run() {
         try {
             model.interpret();
         } catch (ParseException ex) {
@@ -85,11 +85,11 @@ public class ButtonsPane extends JPanel {
         }
     }
 
-    private void quit() {
+    private final void quit() {
         System.exit(0); // TODO 
     }
 
-    private void openFile() {
+    private final void openFile() {
         try {
             model.open();
         } catch (IOException ex) {
@@ -99,7 +99,7 @@ public class ButtonsPane extends JPanel {
         }
     }
 
-    private void saveFile() {
+    private final void saveFile() {
         try {
             if (new File(model.getFileName()).exists()) {
                 final int resultVal = JOptionPane.showConfirmDialog(this, "Replace existing file?");
