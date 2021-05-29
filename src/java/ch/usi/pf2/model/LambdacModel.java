@@ -17,6 +17,9 @@ import ch.usi.pf2.model.parser.ParseException;
  */
 public final class LambdacModel {
 
+    public static final String NAME = "Lambdac";
+    public static final String VERSION = "Version 1.0";
+    
     public static final String FILE_NAME_PROPERTY_NAME = "FileName";
     public static final String TEXT_TO_INTERPRET_PROPERTY_NAME = "TextToInterpret";
     public static final String INTERPRETED_TEXT_PROPERTY_NAME = "InterpretedText";
