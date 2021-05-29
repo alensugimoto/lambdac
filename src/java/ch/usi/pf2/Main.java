@@ -1,8 +1,8 @@
 package ch.usi.pf2;
 
-import ch.usi.pf2.gui.LambdaTextEditorFrame;
-import ch.usi.pf2.model.LambdaTextEditor;
-import ch.usi.pf2.tui.LambdaTextEditorTextView;
+import ch.usi.pf2.gui.LambdacGraphicView;
+import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.tui.LambdacTextView;
 
 
 /**
@@ -19,21 +19,18 @@ public final class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        final LambdaTextEditor textEditor = new LambdaTextEditor();
-        final LambdaTextEditorFrame textEditorFrame = new LambdaTextEditorFrame(textEditor);
-        final LambdaTextEditorTextView textEditorTextView = 
-            new LambdaTextEditorTextView(textEditor);
+        final LambdacModel model = new LambdacModel();
         
         if (args.length == 0) {
-            textEditorTextView.run();
+            new LambdacTextView(model).run();
         } else if (args.length == 1 && "--gui".equals(args[0])) {
-            textEditorFrame.display();
+            new LambdacGraphicView(model).display();
         } else if (args.length == 1 && "--help".equals(args[0])) {
             printHelp();
         } else if (args.length == 2 && "-c".equals(args[0])) {
-            textEditorTextView.runText(args[1]);
+            new LambdacTextView(model).runText(args[1]);
         } else if (args.length == 1) {
-            textEditorTextView.runFile(args[0]);
+            new LambdacTextView(model).runFile(args[0]);
         } else {
             printError();
         }

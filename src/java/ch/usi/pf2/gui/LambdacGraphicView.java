@@ -1,7 +1,5 @@
 package ch.usi.pf2.gui;
 
-import ch.usi.pf2.model.LambdaTextEditor;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -9,6 +7,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import ch.usi.pf2.model.LambdacModel;
 
 
 /**
@@ -18,29 +18,29 @@ import javax.swing.JPanel;
  * and it cannot exist without the "model".
  * The "model" of a PlotterFrame is a Plot.
  */
-public final class LambdaTextEditorFrame extends JFrame {
+public final class LambdacGraphicView extends JFrame {
 
     /**
      * Create a new LambdaTextEditorFrame for the given LambdaTextEditor.
      * @param textEditor the model to show
      */
-    public LambdaTextEditorFrame(final LambdaTextEditor textEditor) {
+    public LambdacGraphicView(final LambdacModel model) {
         super();
-        setTitle(textEditor.getName());
+        setTitle(LambdacModel.NAME);
         setLayout(new BorderLayout());
         //setMenuBar(new LambdaMenuBar(textEditor.getFile()));
-        
+
         final JPanel headerPane = new JPanel();
         headerPane.setLayout(new BoxLayout(headerPane, BoxLayout.LINE_AXIS));
-        headerPane.add(new FileInfoLabel(textEditor.getFile()));
+        headerPane.add(new FileInfoLabel(model));
         headerPane.add(Box.createHorizontalGlue());
-        headerPane.add(new ButtonsPanel(textEditor));
+        headerPane.add(new ButtonsPanel(model));
         add(headerPane, BorderLayout.NORTH);
-        
+
         final JPanel textAreaPane = new JPanel();
         textAreaPane.setLayout(new BorderLayout());
-        textAreaPane.add(new DefinitionsArea(textEditor.getFile().getText()), BorderLayout.CENTER);
-        textAreaPane.add(new InteractionsArea(textEditor), BorderLayout.PAGE_END);
+        textAreaPane.add(new DefinitionsArea(model), BorderLayout.CENTER);
+        textAreaPane.add(new InteractionsArea(model), BorderLayout.PAGE_END);
         add(textAreaPane, BorderLayout.CENTER);
         
         pack();

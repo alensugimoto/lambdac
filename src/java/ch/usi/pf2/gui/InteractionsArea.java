@@ -1,17 +1,19 @@
 package ch.usi.pf2.gui;
 
-import ch.usi.pf2.model.LambdaTextEditor;
-import ch.usi.pf2.model.LambdaTextListener;
-
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JTextArea;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+
+import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.model.LambdacModelListener;
+import ch.usi.pf2.model.parser.ParseException;
 
 /**
  * The InteractionsArea is part of the GUI.
@@ -24,64 +26,59 @@ public final class InteractionsArea extends JTextArea {
     
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 300);
     
-    private final LambdaTextEditor textEditor;
+    private final LambdacModel model;
+
     private int promptPosition;
 
     /**
      * Create a InteractionsArea for the given text.
      * @param text the text to show
      */
-    public InteractionsArea(final LambdaTextEditor textEditor) {
+    public InteractionsArea(final LambdacModel model) {
         super();
-        this.textEditor = textEditor;
+        this.model = model;
         refresh(null);
         
         // register listeners
-        textEditor.getText().addLambdaTextListener(new LambdaTextListener() {
-            
+        model.addPropertyChangeListener(new LambdacModelListener() {
+
             @Override
-            public void textToInterpretChanged(final String textToInterpret) {
-                if (!textToInterpret.equals(getPrompt())) {
-                    setPrompt(textToInterpret);
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY_NAME)) {
+                    if (isFocusOwner()) {
+                        if (!evt.getNewValue().equals(getPrompt())) {
+                            setPrompt(evt.getNewValue().toString());
+                        }
+                    }
+                } else if (evt.getPropertyName().equals(LambdacModel.INTERPRETED_TEXT_PROPERTY_NAME)) {
+                    if (isFocusOwner()) {
+                        append("\n" + evt.getNewValue());
+                        nextPrompt();
+                    } else {
+                        refresh(evt.getNewValue().toString());
+                    }
                 }
             }
-
-            @Override
-            public void interpretedTextChanged(final String interpretedText) {
-                append("\n" + interpretedText);
-                nextPrompt();
-            }
-
-        });
-        textEditor.getFile().getText().addLambdaTextListener(new LambdaTextListener() {
             
-            @Override
-            public void textToInterpretChanged(final String textToInterpret) {
-                // do nothing
-            }
-
-            @Override
-            public void interpretedTextChanged(final String interpretedText) {
-                refresh(interpretedText);
-            }
-
         });
         addKeyListener(new KeyAdapter() {
+
             @Override
             public void keyPressed(final KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER:
-                        final String prompt = getPrompt();
-                        if (prompt != null && !prompt.trim().isEmpty()) {
-                            textEditor.getText().interpret();
-                            textEditor.getText().setTextToInterpret("");
-                            e.consume();
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    final String prompt = getPrompt();
+                    if (prompt != null && !prompt.trim().isEmpty()) {
+                        try {
+                            model.interpret();
+                        } catch (ParseException ex) {
+                            model.setInterpretedText(ex.getMessage());
                         }
-                        break;
-                    default:
-                        break;
+                        model.setTextToInterpret("");
+                        e.consume();
+                    }
                 }
             }
+            
         });
         ((AbstractDocument)getDocument()).setDocumentFilter(new LambdaDocumentFilter());
     }
@@ -128,7 +125,7 @@ public final class InteractionsArea extends JTextArea {
                                  final AttributeSet attr) throws BadLocationException {
             if (offset >= promptPosition) {
                 super.insertString(fb, offset, string, attr);
-                textEditor.getText().setTextToInterpret(getPrompt());
+                model.setTextToInterpret(getPrompt());
             }
         }
     
@@ -137,7 +134,7 @@ public final class InteractionsArea extends JTextArea {
                            final int length) throws BadLocationException {
             if (offset >= promptPosition) {
                 super.remove(fb, offset, length);
-                textEditor.getText().setTextToInterpret(getPrompt());
+                model.setTextToInterpret(getPrompt());
             }
         }
         
@@ -147,7 +144,7 @@ public final class InteractionsArea extends JTextArea {
                             throws BadLocationException {
             if (offset >= promptPosition) {
                 super.replace(fb, offset, length, str, attrs);
-                textEditor.getText().setTextToInterpret(getPrompt());
+                model.setTextToInterpret(getPrompt());
             }
         }
     

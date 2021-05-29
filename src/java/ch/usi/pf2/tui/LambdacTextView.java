@@ -32,7 +32,7 @@ public class LambdacTextView {
                     try {
                         model.interpret();
                     } catch (ParseException ex) {
-                        System.err.println("A problem was encountered interpreting " + evt.getNewValue());
+                        System.err.println(ex.getMessage());
                     }
                 } else if (evt.getPropertyName().equals(LambdacModel.INTERPRETED_TEXT_PROPERTY_NAME)) {
                     System.out.println(evt.getNewValue());
