@@ -1,11 +1,11 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.model.LambdacModelListener;
+
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JLabel;
-
-import ch.usi.pf2.model.LambdacModel;
-import ch.usi.pf2.model.LambdacModelListener;
 
 public final class FileInfoLabel extends JLabel {
 
@@ -17,7 +17,7 @@ public final class FileInfoLabel extends JLabel {
         model.addPropertyChangeListener(new LambdacModelListener() {
 
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(final PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(LambdacModel.FILE_NAME_PROPERTY_NAME)) {
                     setText(evt.getNewValue().toString());
                 }

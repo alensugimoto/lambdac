@@ -1,5 +1,7 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdacModel;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -7,8 +9,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import ch.usi.pf2.model.LambdacModel;
 
 
 /**
@@ -39,8 +39,8 @@ public final class LambdacGraphicView extends JFrame {
 
         final JPanel textAreaPane = new JPanel();
         textAreaPane.setLayout(new BorderLayout());
-        textAreaPane.add(new DefinitionsArea(model), BorderLayout.CENTER);
-        textAreaPane.add(new InteractionsArea(model), BorderLayout.PAGE_END);
+        textAreaPane.add(new InputArea(model), BorderLayout.CENTER);
+        textAreaPane.add(new OutputArea(model), BorderLayout.PAGE_END);
         add(textAreaPane, BorderLayout.CENTER);
         
         pack();

@@ -3,7 +3,6 @@ package ch.usi.pf2.gui;
 import ch.usi.pf2.model.LambdacModel;
 import ch.usi.pf2.model.LambdacModelListener;
 
-import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JTextArea;
@@ -19,17 +18,15 @@ import javax.swing.text.DocumentFilter;
  * and which provides information on how big it would like to be
  * (via the getPreferredSize method).
  */
-public final class DefinitionsArea extends JTextArea {
+public final class InputArea extends JTextArea {
 
-    private static final Dimension PREFERRED_SIZE = new Dimension(400, 300);
-    
     private final LambdacModel model;
 
     /**
      * Create a DefinitionsArea for the given text.
      * @param text The text to show
      */
-    public DefinitionsArea(final LambdacModel model) {
+    public InputArea(final LambdacModel model) {
         super();
         this.model = model;
         setText(model.getTextToInterpret());
@@ -38,20 +35,15 @@ public final class DefinitionsArea extends JTextArea {
         model.addPropertyChangeListener(new LambdacModelListener() {
 
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(final PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY_NAME)
-                    && isFocusOwner() && !evt.getNewValue().equals(getText())) {
+                    && !evt.getNewValue().equals(getText())) {
                     setText(evt.getNewValue().toString());
                 }
             }
             
         });
         ((AbstractDocument)getDocument()).setDocumentFilter(new LambdaDocumentFilter());
-    }
-    
-    @Override
-    public Dimension getPreferredSize() {
-        return PREFERRED_SIZE;
     }
 
     private class LambdaDocumentFilter extends DocumentFilter {

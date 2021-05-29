@@ -27,7 +27,7 @@ public class LambdacTextView {
         model.addPropertyChangeListener(new LambdacModelListener() {
 
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(final PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY_NAME)) {
                     try {
                         model.interpret();

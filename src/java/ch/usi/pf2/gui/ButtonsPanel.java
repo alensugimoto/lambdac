@@ -1,13 +1,13 @@
 package ch.usi.pf2.gui;
 
+import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.model.parser.ParseException;
+
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-
-import ch.usi.pf2.model.LambdacModel;
-import ch.usi.pf2.model.parser.ParseException;
 
 public class ButtonsPanel extends JPanel {
     
