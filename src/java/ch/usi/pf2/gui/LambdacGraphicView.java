@@ -1,14 +1,13 @@
 package ch.usi.pf2.gui;
 
 import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.model.LambdacModelListener;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.beans.PropertyChangeEvent;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 
 /**
@@ -26,23 +25,23 @@ public final class LambdacGraphicView extends JFrame {
      */
     public LambdacGraphicView(final LambdacModel model) {
         super();
-        setTitle(LambdacModel.NAME);
+
+        setFileName(model.getFileName());
         setLayout(new BorderLayout());
-        //setMenuBar(new LambdaMenuBar(textEditor.getFile()));
+        add(new ButtonsPanel(model), BorderLayout.NORTH);
+        add(new TextAreasPanel(model), BorderLayout.CENTER);
 
-        final JPanel headerPane = new JPanel();
-        headerPane.setLayout(new BoxLayout(headerPane, BoxLayout.LINE_AXIS));
-        headerPane.add(new FileInfoLabel(model));
-        headerPane.add(Box.createHorizontalGlue());
-        headerPane.add(new ButtonsPanel(model));
-        add(headerPane, BorderLayout.NORTH);
+        model.addPropertyChangeListener(new LambdacModelListener() {
 
-        final JPanel textAreaPane = new JPanel();
-        textAreaPane.setLayout(new BorderLayout());
-        textAreaPane.add(new InputArea(model), BorderLayout.CENTER);
-        textAreaPane.add(new OutputArea(model), BorderLayout.PAGE_END);
-        add(textAreaPane, BorderLayout.CENTER);
-        
+            @Override
+            public void propertyChange(final PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals(LambdacModel.FILE_NAME_PROPERTY)) {
+                    setFileName(evt.getNewValue().toString());
+                }
+            }
+            
+        });
+
         pack();
     }
 
@@ -52,6 +51,11 @@ public final class LambdacGraphicView extends JFrame {
                 setVisible(true);
             }
         });
+    }
+
+    private void setFileName(final String fileName) {
+        final String displayedFileName = fileName == null ? "Untitled" : fileName;
+        setTitle(LambdacModel.NAME + " - " + displayedFileName);
     }
     
 }

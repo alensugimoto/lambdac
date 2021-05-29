@@ -1,12 +1,12 @@
 package ch.usi.pf2.tui;
 
-import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import java.util.Scanner;
-
 import ch.usi.pf2.model.LambdacModel;
 import ch.usi.pf2.model.LambdacModelListener;
 import ch.usi.pf2.model.parser.ParseException;
+
+import java.beans.PropertyChangeEvent;
+import java.io.IOException;
+import java.util.Scanner;
 
 
 /**
@@ -28,19 +28,21 @@ public class LambdacTextView {
 
             @Override
             public void propertyChange(final PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY_NAME)) {
+                if (evt.getPropertyName()
+                       .equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY)) {
                     try {
                         model.interpret();
                     } catch (ParseException ex) {
                         System.err.println(ex.getMessage());
                     }
-                } else if (evt.getPropertyName().equals(LambdacModel.INTERPRETED_TEXT_PROPERTY_NAME)) {
+                } else if (evt.getPropertyName()
+                              .equals(LambdacModel.INTERPRETED_TEXT_PROPERTY)) {
                     System.out.println(evt.getNewValue());
                 } else {
                     try {
                         model.open();
                     } catch (IOException ex) {
-                        System.err.println("A problem was encountered reading " + evt.getNewValue());
+                        System.err.println("A problem was encountered");
                     }
                 }
             }

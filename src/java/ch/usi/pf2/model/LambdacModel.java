@@ -1,13 +1,13 @@
 package ch.usi.pf2.model;
 
+import ch.usi.pf2.model.parser.ParseException;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import ch.usi.pf2.model.parser.ParseException;
 
 /**
  * The LambdaTextEditor is the "model" of this application.
@@ -20,9 +20,9 @@ public final class LambdacModel {
     public static final String NAME = "Lambdac";
     public static final String VERSION = "Version 1.0";
     
-    public static final String FILE_NAME_PROPERTY_NAME = "FileName";
-    public static final String TEXT_TO_INTERPRET_PROPERTY_NAME = "TextToInterpret";
-    public static final String INTERPRETED_TEXT_PROPERTY_NAME = "InterpretedText";
+    public static final String FILE_NAME_PROPERTY = "FileName";
+    public static final String TEXT_TO_INTERPRET_PROPERTY = "TextToInterpret";
+    public static final String INTERPRETED_TEXT_PROPERTY = "InterpretedText";
 
     private final PropertyChangeSupport support;
     private final Interpreter interpreter;
@@ -43,7 +43,8 @@ public final class LambdacModel {
      * @param text The LambdaText to edit
      * @param file The LambdaFile over which to edit
      */
-    public LambdacModel(final String fileName, final String textToInterpret, final String interpretedText) {
+    public LambdacModel(final String fileName, final String textToInterpret,
+                        final String interpretedText) {
         support = new PropertyChangeSupport(this);
         interpreter = new Interpreter();
         setFileName(fileName);
@@ -87,7 +88,7 @@ public final class LambdacModel {
     public final void setFileName(final String fileName) {
         final String oldFileName = this.fileName;
         this.fileName = fileName;
-        firePropertyChange(FILE_NAME_PROPERTY_NAME, oldFileName, fileName);
+        firePropertyChange(FILE_NAME_PROPERTY, oldFileName, fileName);
     }
 
     public final String getTextToInterpret() {
@@ -97,7 +98,7 @@ public final class LambdacModel {
     public final void setTextToInterpret(final String textToInterpret) {
         final String oldTextToInterpret = this.textToInterpret;
         this.textToInterpret = textToInterpret;
-        firePropertyChange(TEXT_TO_INTERPRET_PROPERTY_NAME, oldTextToInterpret, textToInterpret);
+        firePropertyChange(TEXT_TO_INTERPRET_PROPERTY, oldTextToInterpret, textToInterpret);
     }
 
     public final String getInterpretedText() {
@@ -107,7 +108,7 @@ public final class LambdacModel {
     public final void setInterpretedText(final String interpretedText) {
         final String oldInterpretedText = this.interpretedText;
         this.interpretedText = interpretedText;
-        firePropertyChange(INTERPRETED_TEXT_PROPERTY_NAME, oldInterpretedText, interpretedText);
+        firePropertyChange(INTERPRETED_TEXT_PROPERTY, oldInterpretedText, interpretedText);
     }
 
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
@@ -118,7 +119,8 @@ public final class LambdacModel {
         support.removePropertyChangeListener(listener);
     }
 
-    private void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
+    private void firePropertyChange(final String propertyName, final Object oldValue,
+                                    final Object newValue) {
         support.firePropertyChange(propertyName, oldValue, newValue);
     }
     
