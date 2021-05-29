@@ -5,9 +5,12 @@ import ch.usi.pf2.model.parser.ParseException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * The LambdaTextEditor is the "model" of this application.
@@ -53,7 +56,9 @@ public final class LambdacModel {
     }
 
     public final void open() throws IOException {
-        try (final BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        final Charset charset = Charset.forName("US-ASCII");
+        final Path path = Paths.get(fileName);
+        try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = reader.readLine();
             String textToInterpret = "";
             while (line != null) {
@@ -103,6 +108,10 @@ public final class LambdacModel {
 
     public final String getInterpretedText() {
         return interpretedText;
+    }
+
+    public static String getHelp() {
+        return "help";
     }
 
     public final void setInterpretedText(final String interpretedText) {
