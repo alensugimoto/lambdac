@@ -1,9 +1,10 @@
 package ch.usi.pf2.gui;
 
-import ch.usi.pf2.model.LambdaText;
-import ch.usi.pf2.model.LambdaTextListener;
+import ch.usi.pf2.model.LambdacModel;
+import ch.usi.pf2.model.LambdacModelListener;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JTextArea;
 import javax.swing.text.AbstractDocument;
@@ -22,32 +23,28 @@ public final class DefinitionsArea extends JTextArea {
 
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 300);
     
-    private final LambdaText text;
+    private final LambdacModel model;
 
     /**
      * Create a DefinitionsArea for the given text.
      * @param text The text to show
      */
-    public DefinitionsArea(final LambdaText text) {
+    public DefinitionsArea(final LambdacModel model) {
         super();
-        this.text = text;
-        setText(text.getTextToInterpret());
+        this.model = model;
+        setText(model.getTextToInterpret());
         
         // register listeners
-        text.addLambdaTextListener(new LambdaTextListener() {
-            
+        model.addPropertyChangeListener(new LambdacModelListener() {
+
             @Override
-            public void textToInterpretChanged(final String textToInterpret) {
-                if (!textToInterpret.equals(getText())) {
-                    setText(textToInterpret);
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY_NAME)
+                    && isFocusOwner() && !evt.getNewValue().equals(getText())) {
+                    setText(evt.getNewValue().toString());
                 }
             }
-
-            @Override
-            public void interpretedTextChanged(final String interpretedText) {
-                // do nothing
-            }
-
+            
         });
         ((AbstractDocument)getDocument()).setDocumentFilter(new LambdaDocumentFilter());
     }
@@ -63,14 +60,14 @@ public final class DefinitionsArea extends JTextArea {
         public void insertString(final FilterBypass fb, final int offset, final String string,
                                  final AttributeSet attr) throws BadLocationException {
             super.insertString(fb, offset, string, attr);
-            text.setTextToInterpret(getText());
+            model.setTextToInterpret(getText());
         }
     
         @Override
         public void remove(final FilterBypass fb, final int offset,
                            final int length) throws BadLocationException {
             super.remove(fb, offset, length);
-            text.setTextToInterpret(getText());
+            model.setTextToInterpret(getText());
         }
         
         @Override
@@ -78,7 +75,7 @@ public final class DefinitionsArea extends JTextArea {
                             final String str, final AttributeSet attrs)
                             throws BadLocationException {
             super.replace(fb, offset, length, str, attrs);
-            text.setTextToInterpret(getText());
+            model.setTextToInterpret(getText());
         }
     
     }
