@@ -100,7 +100,7 @@ public final class LexicalAnalyzer {
 
             // if no match is found then throw, otherwise produce a token
             if (factoryWithLongestMatch == null) {
-                throw new ParseException("Invalid syntax", position);
+                throw new ParseException("Invalid syntax");
             } else {
                 position += factoryWithLongestMatch.getTokenLength();
                 return factoryWithLongestMatch.getToken();
