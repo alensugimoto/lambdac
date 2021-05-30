@@ -137,7 +137,7 @@
     </plugins>
     <testResources>
       <testResource>
-        <directory>src/test/resources</directory>
+        <directory>${project.basedir}/lib</directory>
       </testResource>
     </testResources>
   </build>
