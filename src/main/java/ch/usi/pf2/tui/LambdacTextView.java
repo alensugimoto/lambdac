@@ -37,6 +37,7 @@ public final class LambdacTextView {
         printWelcome();
         final Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.print("> ");
             final String input = scanner.nextLine();
             if (input.equals(EXIT_COMMAND)) {
                 break;

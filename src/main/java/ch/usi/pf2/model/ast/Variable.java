@@ -6,6 +6,9 @@ import ch.usi.pf2.model.interpreter.InvalidContextException;
 
 /**
  * A variable of the untyped lambda calculus.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class Variable extends Node {
     

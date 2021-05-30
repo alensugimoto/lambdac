@@ -22,6 +22,9 @@ import ch.usi.pf2.model.lexer.TokenType;
  * ABSTRACTION ::= "\\" Identifier "." TERM
  * APPLICATION ::= ATOM { ATOM }
  * </pre>
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class Parser {
     

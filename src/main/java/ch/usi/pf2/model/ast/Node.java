@@ -5,6 +5,9 @@ import ch.usi.pf2.model.interpreter.Context;
 
 /**
  * An abstract syntax tree (AST) node for lambda terms.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public abstract class Node {
     

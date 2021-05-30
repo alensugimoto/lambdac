@@ -6,6 +6,9 @@ import java.util.LinkedList;
 
 /**
  * A Context contains information about the current naming context.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class Context extends LinkedList<String> {
     

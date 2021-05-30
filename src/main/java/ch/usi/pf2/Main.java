@@ -54,7 +54,7 @@ public final class Main {
         System.out.format("'%s'   : runs the graphical user interface of this application%n",
                           GUI_OPTION);
         System.out.format("'%s'  : prints more information%n", HELP_OPTION);
-        System.out.format("'%s' text: interprets the specified text and prints the result%n",
+        System.out.format("'%s' text : interprets the specified text and prints the result%n",
                           RUN_OPTION);
         System.out.println("file      : interprets the specified file and prints the result");
     }

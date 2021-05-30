@@ -6,6 +6,9 @@ import ch.usi.pf2.model.interpreter.Context;
 /**
  * An application of the untyped lambda calculus.
  * It holds two subterms being applied.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class Application extends Node {
     
