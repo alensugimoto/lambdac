@@ -15,25 +15,24 @@ public abstract class StringTokenFactory implements TokenFactory {
      * Create a factory that looks for the given tokenText.
      * @param tokenText the exact text of the kind of token we can produce
      */
-    public StringTokenFactory(final String tokenText) {
+    protected StringTokenFactory(final String tokenText) {
         super();
         this.tokenText = tokenText;
     }
 
     @Override
-    public void setText(final String text) {
+    public final void setText(final String text) {
         this.text = text;
     }
 
     @Override
-    public boolean find(final int startFrom) {
+    public final boolean find(final int startFrom) {
         this.startFrom = startFrom;
-        final boolean found = text.regionMatches(startFrom, tokenText, 0, tokenText.length());
-        return found;
+        return text.regionMatches(startFrom, tokenText, 0, tokenText.length());
     }
     
     @Override
-    public int getTokenLength() { 
+    public final int getTokenLength() { 
         return tokenText.length();
     }
 
@@ -41,7 +40,7 @@ public abstract class StringTokenFactory implements TokenFactory {
      * Get the position at which we last tried to find a token.
      * @return The start position of the last call to find(...)
      */
-    protected int getTokenStartPosition() {
+    protected final int getTokenStartPosition() {
         return startFrom;
     }
     
@@ -49,7 +48,7 @@ public abstract class StringTokenFactory implements TokenFactory {
      * Get the text of the tokens we can produce.
      * @return The exact text of the kind of token we can produce
      */
-    protected String getTokenText() {
+    protected final String getTokenText() {
         return tokenText;
     }
 

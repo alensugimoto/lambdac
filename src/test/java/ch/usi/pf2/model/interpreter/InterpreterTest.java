@@ -7,9 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-/**
- * This test class will test the Interpreter.
- */
 public class InterpreterTest {
     
     private static String identity;
@@ -30,13 +27,13 @@ public class InterpreterTest {
     @Test(expected = ParseException.class)
     public void testInterpretUndefinedVariable() throws ParseException {
         final Interpreter interpreter = new Interpreter();
-        final String actualString = interpreter.interpret("x");
+        interpreter.interpret("x");
     }
     
     @Test(expected = ParseException.class)
     public void testInterpretBadSyntax() throws ParseException {
         final Interpreter interpreter = new Interpreter();
-        final String actualString = interpreter.interpret("\\_.x");
+        interpreter.interpret("\\_.x");
     }
     
     @Test

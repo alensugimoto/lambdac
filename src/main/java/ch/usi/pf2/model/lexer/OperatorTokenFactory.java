@@ -20,9 +20,7 @@ public final class OperatorTokenFactory extends StringTokenFactory {
     }
 
     @Override
-    public Token getToken() {
-        // return a token of this object's TokenType 
-        // with its text and starting position
+    public final Token getToken() {
         return new Token(tokenType, getTokenText(), getTokenStartPosition());
     }
 

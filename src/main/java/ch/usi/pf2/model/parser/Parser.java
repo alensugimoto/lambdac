@@ -42,7 +42,7 @@ public final class Parser {
      * @throws ParseException if the source code contains a syntax error
      *     or an undefined variable
      */
-    public Node parse(final String sourceCode) throws ParseException {
+    public final Node parse(final String sourceCode) throws ParseException {
         return parse(sourceCode, new Context());
     }
     
@@ -55,7 +55,7 @@ public final class Parser {
      * @throws ParseException if the source code contains a syntax error
      *     or an undefined variable.
      */
-    public Node parse(final String sourceCode, final Context context) throws ParseException {
+    public final Node parse(final String sourceCode, final Context context) throws ParseException {
         lexer.setText(sourceCode);
         // fetch first token
         lexer.fetchNextToken();
@@ -77,7 +77,7 @@ public final class Parser {
      * 
      * @return a Node representing the term
      */
-    private Node parseTerm(final Context context) throws ParseException {
+    private final Node parseTerm(final Context context) throws ParseException {
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
             ? parseAbstraction(context)
             : parseApplication(context);
@@ -94,7 +94,7 @@ public final class Parser {
      * 
      * @return a Node representing the application
      */
-    private Node parseApplication(final Context context) throws ParseException {
+    private final Node parseApplication(final Context context) throws ParseException {
         final int position = lexer.getCurrentToken().getStartPosition();
         Node root = parseAtom(new Context(context));
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
@@ -115,7 +115,7 @@ public final class Parser {
      * 
      * @return a Node representing the abstraction
      */
-    private Node parseAbstraction(final Context context) throws ParseException {
+    private final Node parseAbstraction(final Context context) throws ParseException {
         final int position = lexer.getCurrentToken().getStartPosition();
         
         expect(TokenType.LAMBDA);
@@ -145,7 +145,7 @@ public final class Parser {
      * @return a Node representing the atom
      * @throws ParseException if the atom is an undefined variable
      */
-    private Node parseAtom(final Context context) throws ParseException {
+    private final Node parseAtom(final Context context) throws ParseException {
         final Node root;
         
         expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
@@ -169,13 +169,13 @@ public final class Parser {
         return root;
     }
     
-    private void expect(final TokenType expected) throws ParseException {
+    private final void expect(final TokenType expected) throws ParseException {
         if (lexer.getCurrentToken().getType() != expected) {
             throw new ParseException(errorMessage(expected));
         }
     }
     
-    private void expect(final TokenType expectedOne, final TokenType expectedTwo)
+    private final void expect(final TokenType expectedOne, final TokenType expectedTwo)
         throws ParseException {
         if (lexer.getCurrentToken().getType() != expectedOne
             && lexer.getCurrentToken().getType() != expectedTwo) {
@@ -183,12 +183,12 @@ public final class Parser {
         }
     }
     
-    private String errorMessage(final TokenType expected) {
+    private final String errorMessage(final TokenType expected) {
         return "Expected " + expected.getName()
             + ", got '" + lexer.getCurrentToken().getText() + "'";
     }
     
-    private String errorMessage(final TokenType expectedOne, final TokenType expectedTwo) {
+    private final String errorMessage(final TokenType expectedOne, final TokenType expectedTwo) {
         return "Expected " + expectedOne.getName() + " or " + expectedTwo.getName()
             + ", got '" + lexer.getCurrentToken().getText() + "'";
     }

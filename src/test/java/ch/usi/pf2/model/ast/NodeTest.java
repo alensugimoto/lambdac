@@ -1,23 +1,28 @@
 package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.interpreter.Context;
+import ch.usi.pf2.model.interpreter.InvalidContextException;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 
-/**
- * Tests toString() and evaluate() of Node subclasses.
- */
 public class NodeTest {
     
     @Test
-    public void testVariableToString() {
+    public void testVariableToStringWithValidContext() {
         // "x"
         final Node root = new Variable(0, 0, 1);
         final Context context = new Context();
         context.add("x");
         assertEquals("x", root.toString(context));
+    }
+
+    @Test(expected = InvalidContextException.class)
+    public void testVariableToStringWithInvalidContext() {
+        // "x"
+        final Node root = new Variable(0, 0, 1);
+        root.toString(new Context());
     }
     
     @Test

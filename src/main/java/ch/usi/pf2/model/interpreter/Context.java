@@ -19,7 +19,6 @@ public final class Context extends LinkedList<String> {
     /**
      * Constructs a list containing the elements of the specified collection,
      * in the order they are returned by the collection's iterator.
-     * 
      * @param c the collection whose elements are to be placed into this context
      * @see LinkedList#LinkedList(Collection)
      */

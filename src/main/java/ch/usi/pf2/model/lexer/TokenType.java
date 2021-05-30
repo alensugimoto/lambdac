@@ -35,7 +35,7 @@ public enum TokenType {
      * Returns the human-readable name of this TokenType.
      * @return the name of this TokenType
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 

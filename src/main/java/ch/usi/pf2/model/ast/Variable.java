@@ -1,6 +1,7 @@
 package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.interpreter.Context;
+import ch.usi.pf2.model.interpreter.InvalidContextException;
 
 
 /**
@@ -25,33 +26,35 @@ public final class Variable extends Node {
     }
     
     @Override
-    protected boolean isValue() {
+    protected final boolean isValue() {
         return false;
     }
     
     @Override
-    protected Node evaluateOne() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
+        throw new NoEvaluationRuleAppliesException();
     }
     
     @Override
-    protected Node shift(final int c, final int d) {
+    protected final Node shift(final int c, final int d) {
         return new Variable(getPosition(), index < c ? index : index + d, contextLength + d);
     }
     
     @Override
-    protected Node substitute(final int c, final Node s) {
+    protected final Node substitute(final int c, final Node s) {
         return index == c ? s.shift(c) : this;
     }
 
     @Override
-    public String toString(final Context context) {
-        // assert context.size() == contextLength : "bad index";
+    public final String toString(final Context context) {
+        if (context.size() != contextLength) {
+            throw new InvalidContextException();
+        }
         return context.get(index);
     }
     
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (super.equals(obj) && obj instanceof Variable) {
             final Variable other = (Variable) obj;
             return index == other.index && contextLength == other.contextLength;
@@ -61,7 +64,7 @@ public final class Variable extends Node {
     }
     
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int result = 17;
         result = 37 * result + super.hashCode();
         result = 37 * result + index;

@@ -26,12 +26,12 @@ public final class Application extends Node {
     }
     
     @Override
-    protected boolean isValue() {
+    protected final boolean isValue() {
         return false;
     }
     
     @Override
-    protected Node evaluateOne() {
+    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
         if (leftTerm.isValue() && rightTerm.isValue()) {
             return ((Abstraction) leftTerm).apply(rightTerm);
         } else if (leftTerm.isValue()) {
@@ -42,7 +42,7 @@ public final class Application extends Node {
     }
     
     @Override
-    protected Node shift(final int c, final int d) {
+    protected final Node shift(final int c, final int d) {
         return new Application(
             getPosition(),
             leftTerm.shift(c, d),
@@ -50,7 +50,7 @@ public final class Application extends Node {
     }
     
     @Override
-    protected Node substitute(final int c, final Node s) {
+    protected final Node substitute(final int c, final Node s) {
         return new Application(
             getPosition(),
             leftTerm.substitute(c, s),
@@ -58,13 +58,13 @@ public final class Application extends Node {
     }
 
     @Override
-    public String toString(final Context context) {
+    public final String toString(final Context context) {
         return "(" + leftTerm.toString(new Context(context))
             + " " + rightTerm.toString(new Context(context)) + ")";
     }
     
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (super.equals(obj) && obj instanceof Application) {
             final Application other = (Application) obj;
             return leftTerm.equals(other.leftTerm) && rightTerm.equals(other.rightTerm);
@@ -74,7 +74,7 @@ public final class Application extends Node {
     }
     
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int result = 17;
         result = 37 * result + super.hashCode();
         result = 37 * result + leftTerm.hashCode();

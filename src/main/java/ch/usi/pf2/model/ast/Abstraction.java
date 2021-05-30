@@ -25,7 +25,7 @@ public final class Abstraction extends Node {
     }
     
     @Override
-    protected boolean isValue() {
+    protected final boolean isValue() {
         return true;
     }
     
@@ -35,27 +35,27 @@ public final class Abstraction extends Node {
      * @param right the node to be applied
      * @return the result of applying this abstraction to the specified node
      */
-    protected Node apply(final Node right) {
+    protected final Node apply(final Node right) {
         return body.substitute(right.shift(1)).shift(-1);
     }
     
     @Override
-    protected Node evaluateOne() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
+        throw new NoEvaluationRuleAppliesException();
     }
     
     @Override
-    protected Node shift(final int c, final int d) {
+    protected final Node shift(final int c, final int d) {
         return new Abstraction(getPosition(), arg, body.shift(c + 1, d));
     }
     
     @Override
-    protected Node substitute(final int c, final Node s) {
+    protected final Node substitute(final int c, final Node s) {
         return new Abstraction(getPosition(), arg, body.substitute(c + 1, s));
     }
 
     @Override
-    public String toString(final Context context) {
+    public final String toString(final Context context) {
         final Context newContext = new Context(context);
         return "(\\" + pickFreshName(newContext) + "." + body.toString(newContext) + ")";
     }
@@ -67,7 +67,7 @@ public final class Abstraction extends Node {
      * 
      * @param context the current context
      */
-    private String pickFreshName(final Context context) {
+    private final String pickFreshName(final Context context) {
         String freshName = arg;
         while (context.contains(freshName)) {
             freshName += "'";

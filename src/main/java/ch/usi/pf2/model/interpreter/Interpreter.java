@@ -35,7 +35,6 @@ public final class Interpreter {
     
     /**
      * Constructs an interpreter with the specified context.
-     * 
      * @param context the context to be used
      */
     public Interpreter(final Context context) {
@@ -45,7 +44,6 @@ public final class Interpreter {
     
     /**
      * Interpret the specified text.
-     * 
      * @param text the text to be interpreted
      * @return the interpretation of the specified text
      * @throws ParseException if the text contains a syntactic error

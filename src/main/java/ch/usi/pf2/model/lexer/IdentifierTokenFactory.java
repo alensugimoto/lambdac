@@ -14,7 +14,7 @@ public final class IdentifierTokenFactory extends RegExTokenFactory {
     }
     
     @Override
-    public Token getToken() {
+    public final Token getToken() {
         return new Token(TokenType.IDENTIFIER, getTokenText(), getTokenStartPosition());
     }
     

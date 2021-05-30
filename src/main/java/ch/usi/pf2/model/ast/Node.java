@@ -11,7 +11,7 @@ public abstract class Node {
     private final int position;
     
     /**
-     * Sole constructor.
+     * Constructs a node with the specified position.
      * 
      * @param position the position where this node was originally found
      */
@@ -24,7 +24,7 @@ public abstract class Node {
      * 
      * @return the position where this node was originally found
      */
-    protected int getPosition() {
+    protected final int getPosition() {
         return position;
     }
     
@@ -40,13 +40,13 @@ public abstract class Node {
      * 
      * @return the node obtained by evaluating this node
      */
-    public Node evaluate() {
+    public final Node evaluate() {
         Node evaluatedNode = this;
         try {
             while (true) {
                 evaluatedNode = evaluatedNode.evaluateOne();
             }
-        } catch (UnsupportedOperationException exception) {
+        } catch (NoEvaluationRuleAppliesException ex) {
             return evaluatedNode;
         }
     }
@@ -55,10 +55,10 @@ public abstract class Node {
      * Evaluates this node by one step.
      * 
      * @return the evaluated node
-     * @throws UnsupportedOperationException if the <tt>evaluateOne</tt> operation
+     * @throws NoEvaluationRuleAppliesException if the <tt>evaluateOne</tt> operation
      *         is not supported by this node
      */
-    protected abstract Node evaluateOne();
+    protected abstract Node evaluateOne() throws NoEvaluationRuleAppliesException;
     
     /**
      * Increments by {@code d} the index of every variable in this node
@@ -120,6 +120,7 @@ public abstract class Node {
      * 
      * @param context the current context
      * @return a string representation of this node
+     * @throws InvalidContextException if the specified context is invalid
      */
     public abstract String toString(final Context context);
     

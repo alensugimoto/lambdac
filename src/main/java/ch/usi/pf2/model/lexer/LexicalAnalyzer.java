@@ -56,7 +56,7 @@ public final class LexicalAnalyzer {
      * Provide a new text to analyze.
      * @param expression The text to analyze
      */
-    public void setText(final String expression) {
+    public final void setText(final String expression) {
         token = null;
         text = expression;
         position = 0;
@@ -69,7 +69,7 @@ public final class LexicalAnalyzer {
      * Ask the analyzer to move to the next token in the text.
      * @throws ParseException if this text contains a syntax error
      */
-    public void fetchNextToken() throws ParseException {
+    public final void fetchNextToken() throws ParseException {
         token = scanToken();
     }
 
@@ -78,7 +78,7 @@ public final class LexicalAnalyzer {
      * @return the next token
      * @throws ParseException if this text contains a syntax error
      */
-    private Token scanToken() throws ParseException {
+    private final Token scanToken() throws ParseException {
         // Ignore whitespaces
         while (position < text.length() && Character.isWhitespace(text.charAt(position))) {
             position++;
@@ -109,10 +109,10 @@ public final class LexicalAnalyzer {
     }
 
     /**
-     * Get the current token.
+     * Returns the current token.
      * @return the current token
      */
-    public Token getCurrentToken() {
+    public final Token getCurrentToken() {
         return token;
     }
 

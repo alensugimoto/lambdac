@@ -11,7 +11,6 @@ public final class Token {
     private final String text;
     private final int startPosition;
 
-    
     /**
      * Create a new Token.
      * @param type the kind of token
@@ -28,7 +27,7 @@ public final class Token {
      * Get the type of this token.
      * @return the kind of token this is
      */
-    public TokenType getType() {
+    public final TokenType getType() {
         return type;
     }
 
@@ -36,7 +35,7 @@ public final class Token {
      * Get the text making up this token.
      * @return the contents of this token
      */
-    public String getText() {
+    public final String getText() {
         return text;
     }
 
@@ -44,7 +43,7 @@ public final class Token {
      * Get the start position of this token in the text.
      * @return the position of the first character of this token
      */
-    public int getStartPosition() {
+    public final int getStartPosition() {
         return startPosition;
     }
 
@@ -52,7 +51,7 @@ public final class Token {
      * Get the end position of this token in the text.
      * @return the position just after the last character of this token
      */
-    public int getEndPosition() {
+    public final int getEndPosition() {
         return startPosition + text.length();
     }
 

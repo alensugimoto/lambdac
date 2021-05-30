@@ -4,7 +4,6 @@ import ch.usi.pf2.model.LambdacModel;
 import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.FlowLayout;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -38,18 +37,15 @@ public final class ButtonsPane extends JPanel {
         final JButton save = new JButton("Save");
         final JButton saveAs = new JButton("Save As...");
         final JButton run = new JButton("Run");
-        final JButton quit = new JButton("Quit");
         add(open);
         add(save);
         add(saveAs);
         add(run);
-        add(quit);
 
         open.addActionListener(ev -> open());
         save.addActionListener(ev -> save());
         saveAs.addActionListener(ev -> saveAs());
         run.addActionListener(ev -> run());
-        quit.addActionListener(ev -> quit());
     }
 
     private final void open() {
@@ -85,31 +81,20 @@ public final class ButtonsPane extends JPanel {
         }
     }
 
-    private final void quit() {
-        System.exit(0);
-    }
-
     private final void openFile() {
         try {
             model.open();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "A problem occurred opening the file",
+            JOptionPane.showMessageDialog(this, "A problem occurred opening the file.",
                                           "Failed to Open", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private final void saveFile() {
         try {
-            if (new File(model.getFilePath()).exists()) {
-                final int resultVal = JOptionPane.showConfirmDialog(this, "Replace existing file?");
-                if (resultVal == JOptionPane.YES_OPTION) {
-                    model.save();
-                }
-            } else {
-                model.save();
-            }
+            model.save();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "A problem occurred saving the file",
+            JOptionPane.showMessageDialog(this, "A problem occurred saving the file.",
                                           "Failed to Save", JOptionPane.ERROR_MESSAGE);
         }
     }
