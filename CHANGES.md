@@ -18,3 +18,9 @@
 * Added more tests to the model
 * Added and used the `ParseException` class
 * Added command line arguments to the `Main` class
+
+## Milestone 4: May 28
+* Added the main model class `LambdacModel`
+* Updated and added more tests to the model
+* Updated the GUI and the TUI
+* Ensured Maven project reports were clean
