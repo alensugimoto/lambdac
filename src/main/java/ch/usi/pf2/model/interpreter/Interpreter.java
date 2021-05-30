@@ -11,17 +11,21 @@ import ch.usi.pf2.model.parser.Parser;
  */
 public final class Interpreter {
 
-    public static final String HELP = "Grammar:\n"
-            + "The interperter recognizes the following grammar written in EBNF:\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "\n";
+    public static final String HELP = "\nThe lambda expressions that are written "
+        + "in this application must follow the following grammar:\n\n"
+        + "TERM        ::= ATOM\n"
+        + "              | ABSTRACTION\n"
+        + "              | APPLICATION\n"
+        + "ATOM        ::= IDENTIFIER\n"
+        + "              | \"(\" TERM \")\"\n"
+        + "ABSTRACTION ::= \"\\\" IDENTIFIER \".\" TERM\n"
+        + "APPLICATION ::= ATOM ATOM\n"
+        + "              | APPLICATION ATOM\n"
+        + "IDENTIFIER  ::= [a-zA-Z_][a-zA-Z_0-9]*\n\n"
+        + "This means that an application is left associative "
+        + "(i.e. `X Y Z` is the same as `(X Y) Z`) "
+        + "and an abstraction extends as far to the right as possible "
+        + "(i.e. `\\X.Y Z` is the same as `\\X.(Y Z)` but not `(\\X.Y) Z`).\n";
     
     private final Parser parser;
     private final Context context;
