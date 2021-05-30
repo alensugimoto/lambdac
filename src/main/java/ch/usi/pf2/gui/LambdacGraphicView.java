@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 
@@ -25,7 +26,7 @@ public final class LambdacGraphicView extends JFrame {
         super();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setFileName(model.getFileName());
+        setTitleWithPath(model.getFilePath());
         setLayout(new BorderLayout());
         add(new ButtonsPane(model), BorderLayout.NORTH);
         add(new TextAreasPane(model), BorderLayout.CENTER);
@@ -41,23 +42,24 @@ public final class LambdacGraphicView extends JFrame {
      */
     public final void display() {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 setVisible(true);
             }
         });
     }
 
-    private final void setFileName(final String fileName) {
-        final String fileNameToShow = fileName == null ? "Untitled" : fileName;
-        setTitle(LambdacModel.NAME + " - " + fileNameToShow);
+    private final void setTitleWithPath(final String filePath) {
+        setTitle(LambdacModel.NAME + " - " 
+                 + (filePath == null ? "Untitled" : new File(filePath).getName()));
     }
 
     private final class LambdacModelListener implements PropertyChangeListener {
 
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals(LambdacModel.FILE_NAME_PROPERTY)) {
-                setFileName(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(LambdacModel.FILE_PATH_PROPERTY)) {
+                setTitleWithPath(evt.getNewValue().toString());
             }
         }
 

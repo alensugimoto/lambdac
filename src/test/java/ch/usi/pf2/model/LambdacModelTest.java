@@ -38,14 +38,14 @@ public class LambdacModelTest {
 
     @Test
     public void testOpen() throws IOException {
-        model.setFileName(testFile.getAbsolutePath());
+        model.setFilePath(testFile.getPath());
         model.open();
         assertEquals(testFileContents, model.getTextToInterpret());
     }
 
     @Test
-    public void testSaveWithFileName() throws IOException {
-        model.setFileName(testFile.getAbsolutePath());
+    public void testSaveWithFilePath() throws IOException {
+        model.setFilePath(testFile.getPath());
         final String newContents = "The new contents in the text file.";
         model.setTextToInterpret(newContents);
         model.save();
@@ -53,7 +53,7 @@ public class LambdacModelTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testSaveWithoutFileName() throws IOException {
+    public void testSaveWithoutFilePath() throws IOException {
         model.setTextToInterpret("This is a text file.\nIt is used to test the model.");
         model.save();
     }
@@ -67,9 +67,9 @@ public class LambdacModelTest {
     }
 
     @Test
-    public void testSetGetFileName() {
-        model.setFileName("fileName");
-        assertEquals("fileName", model.getFileName());
+    public void testSetGetFilePath() {
+        model.setFilePath("filePath");
+        assertEquals("filePath", model.getFilePath());
     }
 
     @Test
@@ -91,69 +91,48 @@ public class LambdacModelTest {
 
     @Test
     public void testAddPropertyChangeListener() {
-        String fileName = "fileName";
-        String textToInterpret = "textToInterpret";
-        String interpretedText = "interpretedText";
-        class LambdacModelListener implements PropertyChangeListener {
-
-            public boolean gotNotifiedForFileName = false;
-            public boolean gotNotifiedForTextToInterpret = false;
-            public boolean gotNotifiedForInterpretedText = false;
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals(LambdacModel.FILE_NAME_PROPERTY)) {
-                    gotNotifiedForFileName = evt.getNewValue() == fileName;
-                } else if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY)) {
-                    gotNotifiedForTextToInterpret = evt.getNewValue() == textToInterpret;
-                } else {
-                    gotNotifiedForInterpretedText = evt.getNewValue() == interpretedText;
-                }
-            }
-
-        }
         LambdacModelListener li = new LambdacModelListener();
         model.addPropertyChangeListener(li);
-        model.setFileName(fileName);
-        assertTrue(li.gotNotifiedForFileName);
-        model.setTextToInterpret(textToInterpret);
+        model.setFilePath(LambdacModel.FILE_PATH_PROPERTY);
+        assertTrue(li.gotNotifiedForFilePath);
+        model.setTextToInterpret(LambdacModel.TEXT_TO_INTERPRET_PROPERTY);
         assertTrue(li.gotNotifiedForTextToInterpret);
-        model.setInterpretedText(interpretedText);
+        model.setInterpretedText(LambdacModel.INTERPRETED_TEXT_PROPERTY);
         assertTrue(li.gotNotifiedForInterpretedText);
     }
     
     @Test
     public void testRemovePropertyChangeListener() {
-        String fileName = "fileName";
-        String textToInterpret = "textToInterpret";
-        String interpretedText = "interpretedText";
-        class LambdacModelListener implements PropertyChangeListener {
-
-            public boolean gotNotifiedForFileName = false;
-            public boolean gotNotifiedForTextToInterpret = false;
-            public boolean gotNotifiedForInterpretedText = false;
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals(LambdacModel.FILE_NAME_PROPERTY)) {
-                    gotNotifiedForFileName = evt.getNewValue() == fileName;
-                } else if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY)) {
-                    gotNotifiedForTextToInterpret = evt.getNewValue() == textToInterpret;
-                } else {
-                    gotNotifiedForInterpretedText = evt.getNewValue() == interpretedText;
-                }
-            }
-
-        }
         LambdacModelListener li = new LambdacModelListener();
         model.addPropertyChangeListener(li);
         model.removePropertyChangeListener(li);
-        model.setFileName(fileName);
-        assertFalse(li.gotNotifiedForFileName);
-        model.setTextToInterpret(textToInterpret);
+        model.setFilePath(LambdacModel.FILE_PATH_PROPERTY);
+        assertFalse(li.gotNotifiedForFilePath);
+        model.setTextToInterpret(LambdacModel.TEXT_TO_INTERPRET_PROPERTY);
         assertFalse(li.gotNotifiedForTextToInterpret);
-        model.setInterpretedText(interpretedText);
+        model.setInterpretedText(LambdacModel.INTERPRETED_TEXT_PROPERTY);
         assertFalse(li.gotNotifiedForInterpretedText);
+    }
+
+    private class LambdacModelListener implements PropertyChangeListener {
+
+        public boolean gotNotifiedForFilePath = false;
+        public boolean gotNotifiedForTextToInterpret = false;
+        public boolean gotNotifiedForInterpretedText = false;
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(LambdacModel.FILE_PATH_PROPERTY)) {
+                gotNotifiedForFilePath = evt.getNewValue().equals(LambdacModel.FILE_PATH_PROPERTY);
+            } else if (evt.getPropertyName().equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY)) {
+                gotNotifiedForTextToInterpret = evt.getNewValue()
+                                                   .equals(LambdacModel.TEXT_TO_INTERPRET_PROPERTY);
+            } else {
+                gotNotifiedForInterpretedText = evt.getNewValue()
+                                                   .equals(LambdacModel.INTERPRETED_TEXT_PROPERTY);
+            }
+        }
+
     }
 
 }

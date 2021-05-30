@@ -25,14 +25,14 @@ public final class LambdacModel {
     public static final String NAME = "Lambdac";
     public static final String VERSION = "Version 1.0";
 
-    public static final String FILE_NAME_PROPERTY = "FileName";
+    public static final String FILE_PATH_PROPERTY = "FilePath";
     public static final String TEXT_TO_INTERPRET_PROPERTY = "TextToInterpret";
     public static final String INTERPRETED_TEXT_PROPERTY = "InterpretedText";
 
     private final PropertyChangeSupport support;
     private final Interpreter interpreter;
 
-    private String fileName;
+    private String filePath;
     private String textToInterpret;
     private String interpretedText;
     
@@ -45,15 +45,15 @@ public final class LambdacModel {
     
     /**
      * Constructs a new LambdacModel, holding the specified strings.
-     * @param fileName the name of the file that is currently in focus
+     * @param filePath the path of the file that is currently in focus
      * @param textToInterpret the text to be interpreted
      * @param interpretedText the text that resulted in the last interpretation
      */
-    public LambdacModel(final String fileName, final String textToInterpret,
+    public LambdacModel(final String filePath, final String textToInterpret,
                         final String interpretedText) {
         support = new PropertyChangeSupport(this);
         interpreter = new Interpreter();
-        setFileName(fileName);
+        setFilePath(filePath);
         setTextToInterpret(textToInterpret);
         setInterpretedText(interpretedText);
     }
@@ -65,7 +65,7 @@ public final class LambdacModel {
      */
     public final void open() throws IOException {
         final Charset charset = Charset.forName("US-ASCII");
-        final Path path = Paths.get(fileName);
+        final Path path = Paths.get(filePath);
         try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = reader.readLine();
             String textToInterpret = "";
@@ -85,10 +85,10 @@ public final class LambdacModel {
      *                                       being in focus
      */
     public final void save() throws IOException {
-        if (fileName == null) {
+        if (filePath == null) {
             throw new UnsupportedOperationException();
         }
-        try (final FileWriter writer = new FileWriter(fileName)) {
+        try (final FileWriter writer = new FileWriter(filePath)) {
             writer.write(getTextToInterpret());
         }
     }
@@ -103,21 +103,21 @@ public final class LambdacModel {
     }
 
     /**
-     * Returns the name of the file in focus.
-     * @return the name of the file in focus
+     * Returns the path of the file in focus.
+     * @return the path of the file in focus
      */
-    public final String getFileName() {
-        return fileName;
+    public final String getFilePath() {
+        return filePath;
     }
 
     /**
-     * Sets the name of the file in focus to the specified string.
-     * @param fileName the new name of the file in focus
+     * Sets the path of the file in focus to the specified string.
+     * @param filePath the new path of the file in focus
      */
-    public final void setFileName(final String fileName) {
-        final String oldFileName = this.fileName;
-        this.fileName = fileName;
-        support.firePropertyChange(FILE_NAME_PROPERTY, oldFileName, fileName);
+    public final void setFilePath(final String filePath) {
+        final String oldFilePath = this.filePath;
+        this.filePath = filePath;
+        support.firePropertyChange(FILE_PATH_PROPERTY, oldFilePath, filePath);
     }
 
     /**

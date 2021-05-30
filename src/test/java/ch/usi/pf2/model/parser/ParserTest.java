@@ -44,7 +44,7 @@ public class ParserTest {
     @Test(expected = ParseException.class)
     public void testUndefinedVariable() throws ParseException {
         final String sourceCode = "x";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
 
     @Test
@@ -103,31 +103,31 @@ public class ParserTest {
     @Test(expected = ParseException.class)
     public void testMissingClosedParentheses() throws ParseException {
         final String sourceCode = "(\\x.x x";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
     public void testExtraClosedParentheses() throws ParseException {
         final String sourceCode = "(\\x.x x))";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
     public void testInvalidStartOfTerm() throws ParseException {
         final String sourceCode = ")x.x x";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
     public void testMissingIdentifierInAbstraction() throws ParseException {
         final String sourceCode = "\\.x x";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
     
     @Test(expected = ParseException.class)
     public void testMissingDotInAbstraction() throws ParseException {
         final String sourceCode = "\\x(x x)";
-        final Node actualRoot = parser.parse(sourceCode);
+        parser.parse(sourceCode);
     }
     
 }

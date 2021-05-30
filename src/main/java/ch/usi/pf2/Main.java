@@ -26,7 +26,6 @@ public final class Main {
      */
     public static final void main(final String[] args) {
         final LambdacModel model = new LambdacModel();
-        
         if (args.length == 0) {
             new LambdacTextView(model).run();
         } else if (args.length == 1 && GUI_OPTION.equals(args[0])) {

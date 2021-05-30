@@ -58,11 +58,11 @@ public final class LambdacTextView {
     }
 
     /**
-     * Interprets the file with the specifed file name.
-     * @param fileName the name of the file to be interpreted
+     * Interprets the file with the specifed file path.
+     * @param filePath the path of the file to be interpreted
      */
-    public final void runFile(final String fileName) {
-        model.setFileName(fileName);
+    public final void runFile(final String filePath) {
+        model.setFilePath(filePath);
     }
     
     private final void printWelcome() {
@@ -91,8 +91,7 @@ public final class LambdacTextView {
                 try {
                     model.open();
                 } catch (IOException ex) {
-                    System.err.format("A problem was encountered reading the file named '%s'%n",
-                                      evt.getNewValue());
+                    System.err.println("A problem was encountered reading the file");
                 }
             }
         }

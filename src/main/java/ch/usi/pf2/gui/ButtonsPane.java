@@ -57,7 +57,7 @@ public final class ButtonsPane extends JPanel {
     }
 
     private final void save() {
-        if (model.getFileName() == null) {
+        if (model.getFilePath() == null) {
             saveAs();
         } else {
             saveFile();
@@ -69,10 +69,10 @@ public final class ButtonsPane extends JPanel {
     }
 
     private final void selectFile(final String approveButtonText, final FileCallback callback) {
-        final JFileChooser chooser = new JFileChooser(model.getFileName());
+        final JFileChooser chooser = new JFileChooser(model.getFilePath());
         final int returnVal = chooser.showDialog(this, approveButtonText);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            model.setFileName(chooser.getSelectedFile().getName());
+            model.setFilePath(chooser.getSelectedFile().getPath());
             callback.call();
         }
     }
@@ -86,22 +86,21 @@ public final class ButtonsPane extends JPanel {
     }
 
     private final void quit() {
-        System.exit(0); // TODO 
+        System.exit(0);
     }
 
     private final void openFile() {
         try {
             model.open();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "A problem occurred opening the file '"
-                                          + model.getFileName() + "'", "Failed to Open",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "A problem occurred opening the file",
+                                          "Failed to Open", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private final void saveFile() {
         try {
-            if (new File(model.getFileName()).exists()) {
+            if (new File(model.getFilePath()).exists()) {
                 final int resultVal = JOptionPane.showConfirmDialog(this, "Replace existing file?");
                 if (resultVal == JOptionPane.YES_OPTION) {
                     model.save();
@@ -110,9 +109,8 @@ public final class ButtonsPane extends JPanel {
                 model.save();
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "A problem occurred saving the file '"
-                                          + model.getFileName() + "'", "Failed to Save",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "A problem occurred saving the file",
+                                          "Failed to Save", JOptionPane.ERROR_MESSAGE);
         }
     }
 
