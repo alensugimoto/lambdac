@@ -15,8 +15,8 @@
   </properties>
  
   <build>
-    <sourceDirectory>src/java</sourceDirectory>
-    <testSourceDirectory>src/java</testSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
 
     <!-- To define the plugin version in your parent POM -->
     <pluginManagement>
@@ -137,7 +137,7 @@
     </plugins>
     <testResources>
       <testResource>
-        <directory>${project.basedir}/lib</directory>
+        <directory>src/test/resources</directory>
       </testResource>
     </testResources>
   </build>
