@@ -1,7 +1,7 @@
 package ch.usi.pf2.model;
 
-import ch.usi.pf2.model.parser.ParseException;
 import ch.usi.pf2.model.interpreter.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -24,7 +24,7 @@ public final class LambdacModel {
 
     public static final String NAME = "Lambdac";
     public static final String VERSION = "Version 1.0";
-    
+
     public static final String FILE_NAME_PROPERTY = "FileName";
     public static final String TEXT_TO_INTERPRET_PROPERTY = "TextToInterpret";
     public static final String INTERPRETED_TEXT_PROPERTY = "InterpretedText";
@@ -161,7 +161,7 @@ public final class LambdacModel {
      * @return the help message for the untyped lambda calculus
      */
     public static final String getHelp() {
-        return Interpreter.getHelp();
+        return Interpreter.HELP;
     }
 
     /**
