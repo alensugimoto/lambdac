@@ -172,28 +172,16 @@ public final class Parser {
         return root;
     }
     
-    private final void expect(final TokenType expected) throws ParseException {
-        if (lexer.getCurrentToken().getType() != expected) {
-            throw new ParseException(errorMessage(expected));
+    private final void expect(final TokenType expectedType, final TokenType... expectedTypes)
+                              throws ParseException {
+        if (lexer.getCurrentToken().getType() != expectedType) {
+            for (final TokenType type : expectedTypes) {
+                if (lexer.getCurrentToken().getType() == type) {
+                    return;
+                }
+            }
+            throw new ParseException(lexer.getCurrentToken(), expectedType, expectedTypes);
         }
-    }
-    
-    private final void expect(final TokenType expectedOne, final TokenType expectedTwo)
-        throws ParseException {
-        if (lexer.getCurrentToken().getType() != expectedOne
-            && lexer.getCurrentToken().getType() != expectedTwo) {
-            throw new ParseException(errorMessage(expectedOne, expectedTwo));
-        }
-    }
-    
-    private final String errorMessage(final TokenType expected) {
-        return "Expected " + expected.getName()
-            + ", got '" + lexer.getCurrentToken().getText() + "'";
-    }
-    
-    private final String errorMessage(final TokenType expectedOne, final TokenType expectedTwo) {
-        return "Expected " + expectedOne.getName() + " or " + expectedTwo.getName()
-            + ", got '" + lexer.getCurrentToken().getText() + "'";
     }
 
 }

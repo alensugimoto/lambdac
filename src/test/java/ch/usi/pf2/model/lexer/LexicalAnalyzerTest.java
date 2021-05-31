@@ -3,10 +3,16 @@ package ch.usi.pf2.model.lexer;
 import ch.usi.pf2.model.parser.ParseException;
 
 import static org.junit.Assert.*;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 
 public class LexicalAnalyzerTest {
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
     
     @Test
     public void testInitial() {
@@ -101,8 +107,10 @@ public class LexicalAnalyzerTest {
         assertEquals(6, t.getStartPosition());
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testIllegalToken() throws ParseException {
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Invalid syntax");
         final LexicalAnalyzer l = new LexicalAnalyzer("^");
         l.fetchNextToken();
     }

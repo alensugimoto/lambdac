@@ -1,13 +1,19 @@
 package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.interpreter.Context;
-import ch.usi.pf2.model.interpreter.InvalidContextException;
+import ch.usi.pf2.model.interpreter.InvalidContextLengthException;
 
 import static org.junit.Assert.*;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 
 public class NodeTest {
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
     
     @Test
     public void testVariableToStringWithValidContext() {
@@ -18,9 +24,11 @@ public class NodeTest {
         assertEquals("x", root.toString(context));
     }
 
-    @Test(expected = InvalidContextException.class)
+    @Test
     public void testVariableToStringWithInvalidContext() {
         // "x"
+        expectedEx.expect(InvalidContextLengthException.class);
+        expectedEx.expectMessage("Expected a context length of 1, but got 0");
         final Node root = new Variable(0, 0, 1);
         root.toString(new Context());
     }

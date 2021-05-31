@@ -8,23 +8,17 @@ import ch.usi.pf2.model.interpreter.Context;
 
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 
-/**
- * This test class will test some aspects of the rules
- * of the untyped lambda calculus.
- * 
- * <pre>
- * TERM        ::= ABSTRACTION | APPLICATION
- * ATOM        ::= Identifier | "(" TERM ")"
- * ABSTRACTION ::= "\\" Identifier "." TERM
- * APPLICATION ::= ATOM { ATOM }
- * </pre>
- */
 public class ParserTest {
     
     private static Parser parser;
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
     
     @BeforeClass
     public static void setUp() {
@@ -41,10 +35,11 @@ public class ParserTest {
         assertEquals(expectedRoot, actualRoot);
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testUndefinedVariable() throws ParseException {
-        final String sourceCode = "x";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Variable 'x' is not defined");
+        parser.parse("x");
     }
 
     @Test
@@ -100,34 +95,39 @@ public class ParserTest {
         assertEquals(expectedRoot, actualRoot);
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testMissingClosedParentheses() throws ParseException {
-        final String sourceCode = "(\\x.x x";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Expected closed parenthesis, but got ''");
+        parser.parse("(\\x.x x");
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testExtraClosedParentheses() throws ParseException {
-        final String sourceCode = "(\\x.x x))";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Expected end of file, but got ')'");
+        parser.parse("(\\x.x x))");
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testInvalidStartOfTerm() throws ParseException {
-        final String sourceCode = ")x.x x";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Expected identifier or open parenthesis, but got ')'");
+        parser.parse(")x.x x");
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testMissingIdentifierInAbstraction() throws ParseException {
-        final String sourceCode = "\\.x x";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Expected identifier, but got '.'");
+        parser.parse("\\.x x");
     }
     
-    @Test(expected = ParseException.class)
+    @Test
     public void testMissingDotInAbstraction() throws ParseException {
-        final String sourceCode = "\\x(x x)";
-        parser.parse(sourceCode);
+        expectedEx.expect(ParseException.class);
+        expectedEx.expectMessage("Expected dot, but got '('");
+        parser.parse("\\x(x x)");
     }
     
 }
