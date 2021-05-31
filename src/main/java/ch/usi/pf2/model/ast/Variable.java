@@ -1,7 +1,7 @@
 package ch.usi.pf2.model.ast;
 
 import ch.usi.pf2.model.interpreter.Context;
-import ch.usi.pf2.model.interpreter.InvalidContextException;
+import ch.usi.pf2.model.interpreter.InvalidContextLengthException;
 
 
 /**
@@ -46,7 +46,7 @@ public final class Variable extends Node {
     @Override
     public final String toString(final Context context) {
         if (context.size() != contextLength) {
-            throw new InvalidContextException(context);
+            throw new InvalidContextLengthException(contextLength, context.size());
         }
         return context.get(index);
     }

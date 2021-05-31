@@ -114,7 +114,7 @@ public class LambdacModelTest {
         assertFalse(li.gotNotifiedForInterpretedText);
     }
 
-    private class LambdacModelListener implements PropertyChangeListener {
+    public class LambdacModelListener implements PropertyChangeListener {
 
         public boolean gotNotifiedForFilePath = false;
         public boolean gotNotifiedForTextToInterpret = false;
