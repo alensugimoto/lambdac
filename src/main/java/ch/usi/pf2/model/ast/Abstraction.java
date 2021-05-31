@@ -43,11 +43,6 @@ public final class Abstraction extends Node {
     }
     
     @Override
-    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
-        throw new NoEvaluationRuleAppliesException();
-    }
-    
-    @Override
     protected final Node shift(final int c, final int d) {
         return new Abstraction(getPosition(), arg, body.shift(c + 1, d));
     }

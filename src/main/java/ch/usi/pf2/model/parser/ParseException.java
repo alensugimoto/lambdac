@@ -10,6 +10,13 @@ package ch.usi.pf2.model.parser;
 public final class ParseException extends Exception {
     
     /**
+     * Constructs a new parse exception with no detail message.
+     */
+    public ParseException() {
+        super();
+    }
+
+    /**
      * Constructs a new parse exception with the specified detail message.
      * @param message the detail message
      */

@@ -34,11 +34,6 @@ public final class Variable extends Node {
     }
     
     @Override
-    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
-        throw new NoEvaluationRuleAppliesException();
-    }
-    
-    @Override
     protected final Node shift(final int c, final int d) {
         return new Variable(getPosition(), index < c ? index : index + d, contextLength + d);
     }

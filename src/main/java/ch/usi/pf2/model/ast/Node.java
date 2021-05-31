@@ -43,25 +43,9 @@ public abstract class Node {
      * 
      * @return the node obtained by evaluating this node
      */
-    public final Node evaluate() {
-        Node evaluatedNode = this;
-        try {
-            while (true) {
-                evaluatedNode = evaluatedNode.evaluateOne();
-            }
-        } catch (NoEvaluationRuleAppliesException ex) {
-            return evaluatedNode;
-        }
+    public Node evaluate() {
+        return this;
     }
-    
-    /**
-     * Evaluates this node by one step.
-     * 
-     * @return the evaluated node
-     * @throws NoEvaluationRuleAppliesException if the <tt>evaluateOne</tt> operation
-     *         is not supported by this node
-     */
-    protected abstract Node evaluateOne() throws NoEvaluationRuleAppliesException;
     
     /**
      * Increments by {@code d} the index of every variable in this node

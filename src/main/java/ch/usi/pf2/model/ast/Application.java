@@ -33,31 +33,35 @@ public final class Application extends Node {
         return false;
     }
     
+    /**
+     * Evaluates this application using call-by-value.
+     * 
+     * @return the evaluated node using call-by-value
+     */
     @Override
-    protected final Node evaluateOne() throws NoEvaluationRuleAppliesException {
-        if (leftTerm.isValue() && rightTerm.isValue()) {
-            return ((Abstraction) leftTerm).apply(rightTerm);
-        } else if (leftTerm.isValue()) {
-            return new Application(getPosition(), leftTerm, rightTerm.evaluateOne());
+    public final Node evaluate() {
+        final Node newLeftTerm = leftTerm.evaluate();
+        if (!newLeftTerm.isValue()) {
+            return new Application(getPosition(), newLeftTerm, rightTerm);
         } else {
-            return new Application(getPosition(), leftTerm.evaluateOne(), rightTerm);
+            final Node newRightTerm = rightTerm.evaluate();
+            if (!newRightTerm.isValue()) {
+                return new Application(getPosition(), newLeftTerm, newRightTerm);
+            } else {
+                return ((Abstraction)newLeftTerm).apply(newRightTerm).evaluate();
+            }
         }
     }
     
     @Override
     protected final Node shift(final int c, final int d) {
-        return new Application(
-            getPosition(),
-            leftTerm.shift(c, d),
-            rightTerm.shift(c, d));
+        return new Application(getPosition(), leftTerm.shift(c, d), rightTerm.shift(c, d));
     }
     
     @Override
     protected final Node substitute(final int c, final Node s) {
-        return new Application(
-            getPosition(),
-            leftTerm.substitute(c, s),
-            rightTerm.substitute(c, s));
+        return new Application(getPosition(), leftTerm.substitute(c, s),
+                               rightTerm.substitute(c, s));
     }
 
     @Override
