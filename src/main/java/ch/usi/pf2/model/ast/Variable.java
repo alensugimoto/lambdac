@@ -46,7 +46,7 @@ public final class Variable extends Node {
     @Override
     public final String toString(final Context context) {
         if (context.size() != contextLength) {
-            throw new InvalidContextException();
+            throw new InvalidContextException(context);
         }
         return context.get(index);
     }
