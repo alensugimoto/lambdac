@@ -34,13 +34,15 @@ public final class Variable extends Node {
     }
     
     @Override
-    protected final Node shift(final int c, final int d) {
-        return new Variable(getPosition(), index < c ? index : index + d, contextLength + d);
+    protected final Node shift(final int cutoff, final int increment) {
+        return new Variable(getPosition(),
+                            index < cutoff ? index : index + increment,
+                            contextLength + increment);
     }
     
     @Override
-    protected final Node substitute(final int c, final Node s) {
-        return index == c ? s.shift(c) : this;
+    protected final Node substitute(final int index, final Node node) {
+        return this.index == index ? node.shift(index) : this;
     }
 
     @Override

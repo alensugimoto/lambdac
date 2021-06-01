@@ -33,7 +33,8 @@ public final class Interpreter {
         + "Examples:\n"
         + " - (\\x.x x) (\\y.y)\n"
         + " - (\\b.\\c.b c (\\t.\\f.f)) (\\t.\\f.t) (\\t.\\f.f)              # and true false\n"
-        + " - (\\l.\\m.\\n.l m n) (\\t.\\f.f) (\\x.x) (\\y.y)               # ifthenelse false (\\x.x) (\\y.y)\n"
+        + " - (\\l.\\m.\\n.l m n) (\\t.\\f.f) (\\x.x) (\\y.y)"
+        + "               # ifthenelse false (\\x.x) (\\y.y)\n"
         + " - (\\n.\\s.\\z.s (n s z)) (\\s.\\z.s z)                       # succ 1\n"
         + " - (\\m.\\n.\\s.\\z.m s (n s z)) (\\s.\\z.s z) (\\s.\\z.s (s z))  # plus 1 2\n";
     

@@ -48,58 +48,59 @@ public abstract class Node {
     }
     
     /**
-     * Increments by {@code d} the index of every variable in this node
+     * Increments by {@code increment} the index of every variable in this node
      * that has an index greater than or equal to
      * the number of binders it is inside with respect to this node.
      * 
-     * @param d the number by which to increment
-     * @return the node after incrementing by {@code d} the index of every variable in this node
-     *     that has an index greater than or equal to
+     * @param increment the number by which to increment
+     * @return the node after incrementing by {@code increment} the index of every variable
+     *     in this node that has an index greater than or equal to
      *     the number of binders it is inside with respect to this node.
      */
-    protected final Node shift(final int d) {
-        return shift(0, d);
+    protected final Node shift(final int increment) {
+        return shift(0, increment);
     }
     
     /**
-     * Increments by {@code d} the index of every variable in this node
-     * that has an index greater than or equal to {@code c}
+     * Increments by {@code increment} the index of every variable in this node
+     * that has an index greater than or equal to {@code cutoff}
      * plus the number of binders it is inside with respect to this node.
      * 
-     * @param c the lower bound for the index of every free variable in this node to be incremented
-     * @param d the number by which to increment
-     * @return the node after incrementing by {@code d} the index of every variable in this node
-     *     that has an index greater than or equal to {@code c}
+     * @param cutoff the lower bound for the index of every free variable
+     *     in this node to be incremented
+     * @param increment the number by which to increment
+     * @return the node after incrementing by {@code increment} the index of every variable
+     *     in this node that has an index greater than or equal to {@code cutoff}
      *     plus the number of binders it is inside with respect to this node.
      */
-    protected abstract Node shift(final int c, final int d);
+    protected abstract Node shift(final int cutoff, final int increment);
     
     /**
-     * Substitutes node {@code s} for every variable in this node
+     * Substitutes node {@code node} for every variable in this node
      * that has an index equal to the number of binders it is inside
      * with respect to this node.
      * 
-     * @param s the node to substitute
-     * @return the node after substituting node {@code s} for every variable in this node
+     * @param node the node to substitute
+     * @return the node after substituting node {@code node} for every variable in this node
      *     that has an index equal to the number of binders it is inside
      *     with respect to this node.
      */
-    protected final Node substitute(final Node s) {
-        return substitute(0, s);
+    protected final Node substitute(final Node node) {
+        return substitute(0, node);
     }
     
     /**
-     * Substitutes node {@code s} for every variable in this node
-     * that has an index equal to {@code c} plus the number of binders it is inside
+     * Substitutes node {@code node} for every variable in this node
+     * that has an index equal to {@code index} plus the number of binders it is inside
      * with respect to this node.
      * 
-     * @param c the index of every free variable in this node to be substituted
-     * @param s the node to substitute
-     * @return the node after substituting node {@code s} for every variable in this node
-     *     that has an index equal to {@code c} plus the number of binders it is inside
+     * @param index the index of every free variable in this node to be substituted
+     * @param node the node to substitute
+     * @return the node after substituting node {@code node} for every variable in this node
+     *     that has an index equal to {@code index} plus the number of binders it is inside
      *     with respect to this node.
      */
-    protected abstract Node substitute(final int c, final Node s);
+    protected abstract Node substitute(final int index, final Node node);
     
     /**
      * Decompiles this node into a string based on the specified context.

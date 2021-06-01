@@ -54,14 +54,17 @@ public final class Application extends Node {
     }
     
     @Override
-    protected final Node shift(final int c, final int d) {
-        return new Application(getPosition(), leftTerm.shift(c, d), rightTerm.shift(c, d));
+    protected final Node shift(final int cutoff, final int increment) {
+        return new Application(getPosition(),
+                               leftTerm.shift(cutoff, increment),
+                               rightTerm.shift(cutoff, increment));
     }
     
     @Override
-    protected final Node substitute(final int c, final Node s) {
-        return new Application(getPosition(), leftTerm.substitute(c, s),
-                               rightTerm.substitute(c, s));
+    protected final Node substitute(final int index, final Node node) {
+        return new Application(getPosition(),
+                               leftTerm.substitute(index, node),
+                               rightTerm.substitute(index, node));
     }
 
     @Override

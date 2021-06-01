@@ -43,13 +43,13 @@ public final class Abstraction extends Node {
     }
     
     @Override
-    protected final Node shift(final int c, final int d) {
-        return new Abstraction(getPosition(), arg, body.shift(c + 1, d));
+    protected final Node shift(final int cutoff, final int increment) {
+        return new Abstraction(getPosition(), arg, body.shift(cutoff + 1, increment));
     }
     
     @Override
-    protected final Node substitute(final int c, final Node s) {
-        return new Abstraction(getPosition(), arg, body.substitute(c + 1, s));
+    protected final Node substitute(final int index, final Node node) {
+        return new Abstraction(getPosition(), arg, body.substitute(index + 1, node));
     }
 
     @Override
