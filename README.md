@@ -1,6 +1,6 @@
 # Lambdac
 
-The purpose of this application is to provide user interfaces for interpreting source code written in untyped lambda calculus.
+The purpose of this application is to provide user interfaces for interpreting source code written in untyped lambda calculus. It contains an interpreter that evaluates lambda expressions using the call-by-value evaluation strategy.
 
 This application, named Lambdac, is written in Java. It currently can run as either a textual user interface or a graphical user interface, both of which can run files and text. The implementation is based on the book [Types and Programming Languages](https://www.cis.upenn.edu/~bcpierce/tapl/).
 
@@ -43,7 +43,19 @@ APPLICATION ::= ATOM ATOM
 IDENTIFIER  ::= [a-zA-Z_][a-zA-Z_0-9]*
 ```
 
-This means that an application is left associative (i.e. `X Y Z` is the same as `(X Y) Z`) and an abstraction extends as far to the right as possible (i.e. `\X.Y Z` is the same as `\X.(Y Z)` but not `(\X.Y) Z`).
+This means that an application is left associative (i.e. `x y z` is the same as `(x y) z`) and an abstraction extends as far to the right as possible (i.e. `\x.x x` is the same as `\x.(x x)` but not `(\x.x) x`).
+
+### Examples
+
+Examples of lambda expressions that follow the above grammar are shown below:
+
+```
+(\x.x x) (\y.y)
+(\b.\c.b c (\t.\f.f)) (\t.\f.t) (\t.\f.f)              # and true false
+(\l.\m.\n.l m n) (\t.\f.f) (\x.x) (\y.y)               # ifthenelse false (\x.x) (\y.y)
+(\n.\s.\z.s (n s z)) (\s.\z.s z)                       # succ 1
+(\m.\n.\s.\z.m s (n s z)) (\s.\z.s z) (\s.\z.s (s z))  # plus 1 2
+```
 
 ## Authors
 
