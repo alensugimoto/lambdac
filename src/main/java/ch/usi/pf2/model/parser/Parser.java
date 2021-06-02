@@ -83,6 +83,7 @@ public final class Parser {
      * @return a Node representing the term
      */
     private final Node parseTerm(final Context context) throws ParseException {
+        expect(TokenType.LAMBDA, TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
             ? parseAbstraction(context)
             : parseApplication(context);
@@ -156,10 +157,9 @@ public final class Parser {
         expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
         if (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER) {
             if (context.contains(lexer.getCurrentToken().getText())) {
-                root = new Variable(
-                    lexer.getCurrentToken().getStartPosition(),
-                    context.indexOf(lexer.getCurrentToken().getText()),
-                    context.size());
+                root = new Variable(lexer.getCurrentToken().getStartPosition(),
+                                    context.indexOf(lexer.getCurrentToken().getText()),
+                                    context.size());
             } else {
                 throw new ParseException("Variable '" + lexer.getCurrentToken().getText()
                                          + "' is not defined");
