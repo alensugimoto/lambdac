@@ -9,6 +9,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 
+/**
+ * This class tests all methods and constructors of LexicalAnalyzer.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class LexicalAnalyzerTest {
 
     @Rule
@@ -108,7 +114,7 @@ public class LexicalAnalyzerTest {
     }
     
     @Test
-    public void testIllegalToken() throws ParseException {
+    public void testInvalidSyntax() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Invalid syntax");
         final LexicalAnalyzer l = new LexicalAnalyzer("^");

@@ -10,13 +10,19 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 
+/**
+ * This class tests all methods and constructors of the Node classes.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class NodeTest {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
     
     @Test
-    public void testVariableToStringWithValidContext() {
+    public void testToStringVariableWithValidContext() {
         // "x"
         final Node root = new Variable(0, 0, 1);
         final Context context = new Context();
@@ -25,7 +31,7 @@ public class NodeTest {
     }
 
     @Test
-    public void testVariableToStringWithInvalidContext() {
+    public void testToStringVariableWithInvalidContext() {
         // "x"
         expectedEx.expect(InvalidContextLengthException.class);
         expectedEx.expectMessage("Expected a context length of 1, but got 0");
@@ -34,14 +40,14 @@ public class NodeTest {
     }
     
     @Test
-    public void testAbstractionToString() {
+    public void testToStringAbstraction() {
         // "\\x.x"
         final Node root = new Abstraction(0, "x", new Variable(3, 0, 1));
         assertEquals("(\\x.x)", root.toString(new Context()));
     }
     
     @Test
-    public void testApplicationToString() {
+    public void testToStringApplication() {
         // "x y"
         final Node root = new Application(0, new Variable(0, 0, 2), new Variable(2, 1, 2));
         final Context context = new Context();
@@ -51,21 +57,21 @@ public class NodeTest {
     }
     
     @Test
-    public void testPickFreshNameToString() {
+    public void testToStringPickFreshName() {
         // "\\x.\\x.x"
         final Node root = new Abstraction(0, "x", new Abstraction(3, "x", new Variable(6, 0, 2)));
         assertEquals("(\\x.(\\x'.x'))", root.toString(new Context()));
     }
     
     @Test
-    public void testNonValueToNonValueApplication() {
+    public void testEvaluateNonValueToNonValueApplication() {
         // "x y"
         final Node root = new Application(0, new Variable(0, 0, 2), new Variable(2, 1, 2));
         assertEquals(root, root.evaluate());
     }
     
     @Test
-    public void testNonValueToValueApplication() {
+    public void testEvaluateNonValueToValueApplication() {
         // "x (\\y.y)"
         final Node root = new Application(
             0,
@@ -80,7 +86,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testValueToNonValueApplication() {
+    public void testEvaluateValueToNonValueApplication() {
         // "(\\y.y) x"
         final Node root = new Application(
             0,
@@ -95,7 +101,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testValueToValueApplication() {
+    public void testEvaluateValueToValueApplication() {
         // "(\\y.x y) (\\z.z)"
         final Node leftTerm = new Abstraction(
             1,
@@ -125,7 +131,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testNonValueToDeepValueApplication() {
+    public void testEvaluateNonValueToDeepValueApplication() {
         // "x ((\\y.y) (\\z.z))"
         final Node root = new Application(
             0,
@@ -148,7 +154,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testValueToDeepNonValueApplication() {
+    public void testEvaluateValueToDeepNonValueApplication() {
         // "(\\y.x y) ((\\y.x y) (\\z.z))"
         final Node leftTerm = new Abstraction(
             11,
@@ -183,8 +189,8 @@ public class NodeTest {
     }
     
     @Test
-    public void testVariableUncapture() {
-        // "(\\x.\\x.x) y" -> "(\\x.\\x.x)"
+    public void testEvaluateWithoutVariableUncapture() {
+        // "(\\x.\\x.x) y" -> "\\x.x"
         final Node rightTerm = new Variable(10, 0, 1);
         final Node leftTermChild = new Abstraction(4, "x", new Variable(7, 0, 3));
         final Abstraction leftTerm = new Abstraction(1, "x", leftTermChild);
@@ -193,7 +199,7 @@ public class NodeTest {
     }
     
     @Test
-    public void testVariableCapture() {
+    public void testEvaluateWithoutVariableCapture() {
         // "(\\x.\\y.x) y" -> "\\y'.y"
         final Node rightTerm = new Variable(10, 0, 1);
         final Node leftTermChild = new Abstraction(4, "y", new Variable(7, 1, 3));

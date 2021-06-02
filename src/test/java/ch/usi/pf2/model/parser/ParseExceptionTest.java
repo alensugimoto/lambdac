@@ -1,16 +1,16 @@
 package ch.usi.pf2.model.parser;
 
+import ch.usi.pf2.model.lexer.Token;
+import ch.usi.pf2.model.lexer.TokenType;
+
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import ch.usi.pf2.model.lexer.Token;
-import ch.usi.pf2.model.lexer.TokenType;
-
 
 /**
- * This class tests the constructors in ParseException.
+ * This class tests all methods and constructors in ParseException.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

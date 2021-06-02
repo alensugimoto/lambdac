@@ -1,6 +1,7 @@
 package ch.usi.pf2.model;
 
-import static org.junit.Assert.*;
+import ch.usi.pf2.model.interpreter.Interpreter;
+import ch.usi.pf2.model.parser.ParseException;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,15 +9,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import ch.usi.pf2.model.interpreter.Interpreter;
-import ch.usi.pf2.model.parser.ParseException;
 
-
+/**
+ * This class tests each branch in all methods of LambdacModel.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class LambdacModelTest {
 
     private LambdacModel model;

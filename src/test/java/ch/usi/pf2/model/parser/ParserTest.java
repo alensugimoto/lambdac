@@ -7,6 +7,7 @@ import ch.usi.pf2.model.ast.Variable;
 import ch.usi.pf2.model.interpreter.Context;
 
 import static org.junit.Assert.*;
+
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import org.junit.rules.ExpectedException;
 
 
 /**
- * This class tests the Parser class.
+ * This class tests all methods and constructors of the Parser class.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

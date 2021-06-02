@@ -1,10 +1,17 @@
 package ch.usi.pf2.model.lexer;
 
 import static org.junit.Assert.*;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
+/**
+ * This class tests all methods and constructors of IdentifierTokenFactory.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class IdentifierTokenFactoryTest {
     
     private static RegExTokenFactory f;

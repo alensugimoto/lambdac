@@ -3,10 +3,17 @@ package ch.usi.pf2.model.interpreter;
 import ch.usi.pf2.model.parser.ParseException;
 
 import static org.junit.Assert.*;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
+/**
+ * This class tests all methods and constructors of Interpreter.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class InterpreterTest {
     
     private static String identity;
@@ -49,11 +56,11 @@ public class InterpreterTest {
     @Test(expected = ParseException.class)
     public void testInterpretBadSyntax() throws ParseException {
         final Interpreter interpreter = new Interpreter();
-        interpreter.interpret("\\_.x");
+        interpreter.interpret("\\-.x");
     }
     
     @Test
-    public void testInterpretVariable() throws ParseException {
+    public void testInterpretDefinedVariable() throws ParseException {
         final Context context = new Context();
         context.add("x");
         final Interpreter interpreter = new Interpreter(context);

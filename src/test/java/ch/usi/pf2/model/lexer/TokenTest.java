@@ -1,13 +1,20 @@
 package ch.usi.pf2.model.lexer;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 
+/**
+ * This class tests all methods and constructors of the Token class.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class TokenTest {
     
     @Test
-    public void testLength0() {
+    public void testTokenTextLength0() {
         Token t = new Token(TokenType.END_OF_FILE, "", 5);
         assertEquals(TokenType.END_OF_FILE, t.getType());
         assertEquals("", t.getText());
@@ -16,7 +23,7 @@ public class TokenTest {
     }
     
     @Test
-    public void testLength1() {
+    public void testTokenTextLength1() {
         Token t = new Token(TokenType.LAMBDA, "\\", 0);
         assertEquals(TokenType.LAMBDA, t.getType());
         assertEquals("\\", t.getText());
@@ -25,7 +32,7 @@ public class TokenTest {
     }
     
     @Test
-    public void testLength2() {
+    public void testTokenTextLength2() {
         Token t = new Token(TokenType.IDENTIFIER, "id", 3);
         assertEquals(TokenType.IDENTIFIER, t.getType());
         assertEquals("id", t.getText());
