@@ -9,6 +9,12 @@ import ch.usi.pf2.model.lexer.Token;
 import ch.usi.pf2.model.lexer.TokenType;
 
 
+/**
+ * This class tests the constructors in ParseException.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class ParseExceptionTest {
 
     private static Token token;

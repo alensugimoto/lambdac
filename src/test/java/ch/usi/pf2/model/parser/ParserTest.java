@@ -13,6 +13,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 
+/**
+ * This class tests the Parser class.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
+ */
 public class ParserTest {
     
     private static Parser parser;
@@ -26,7 +32,7 @@ public class ParserTest {
     }
     
     @Test
-    public void testDefinedVariable() throws ParseException {
+    public void testParseDefinedVariable() throws ParseException {
         final String sourceCode = "x";
         final Context context = new Context();
         context.add("x");
@@ -36,14 +42,14 @@ public class ParserTest {
     }
     
     @Test
-    public void testUndefinedVariable() throws ParseException {
+    public void testParseUndefinedVariable() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Variable 'x' is not defined");
         parser.parse("x");
     }
 
     @Test
-    public void testAbstractionSimple() throws ParseException {
+    public void testParseAbstractionSimple() throws ParseException {
         final String sourceCode = "\\x.x";
         final Node actualRoot = parser.parse(sourceCode);
         final Node expectedRoot = new Abstraction(0, "x", new Variable(3, 0, 1));
@@ -51,7 +57,7 @@ public class ParserTest {
     }
     
     @Test
-    public void testAbstractionRightExtension() throws ParseException {
+    public void testParseAbstractionRightExtension() throws ParseException {
         final String sourceCode = "\\x.x y";
         final Context context = new Context();
         context.add("y");
@@ -62,7 +68,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testApplicationSimple() throws ParseException {
+    public void testParseApplicationSimple() throws ParseException {
         final String sourceCode = "x y";
         final Context context = new Context();
         context.add("x");
@@ -73,7 +79,7 @@ public class ParserTest {
     }
     
     @Test
-    public void testApplicationLeftAssociativity() throws ParseException {
+    public void testParseApplicationLeftAssociativity() throws ParseException {
         final String sourceCode = "x y z";
         final Context context = new Context();
         context.add("x");
@@ -86,45 +92,55 @@ public class ParserTest {
     }
 
     @Test
-    public void testParentheses() throws ParseException {
-        final String sourceCode = "(x)";
+    public void testParseParenthesesHighPrecedence() throws ParseException {
+        final String sourceCode = "x (x x)";
         final Context context = new Context();
         context.add("x");
         final Node actualRoot = parser.parse(sourceCode, context);
-        final Node expectedRoot = new Variable(1, 0, 1);
+        final Node expectedChild = new Application(3, new Variable(3, 0, 1), new Variable(5, 0, 1));
+        final Node expectedRoot = new Application(0, new Variable(0, 0, 1), expectedChild);
+        assertEquals(expectedRoot, actualRoot);
+    }
+
+    @Test
+    public void testParseRedundantParentheses() throws ParseException {
+        final Context context = new Context();
+        context.add("x");
+        final Node actualRoot = parser.parse("(x x)", context);
+        final Node expectedRoot = new Application(1, new Variable(1, 0, 1), new Variable(3, 0, 1));
         assertEquals(expectedRoot, actualRoot);
     }
     
     @Test
-    public void testMissingClosedParentheses() throws ParseException {
+    public void testParseMissingClosedParenthesis() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Expected closed parenthesis, but got ''");
         parser.parse("(\\x.x x");
     }
     
     @Test
-    public void testExtraClosedParentheses() throws ParseException {
+    public void testParseInvalidEndOfTerm() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Expected end of file, but got ')'");
         parser.parse("(\\x.x x))");
     }
     
     @Test
-    public void testInvalidStartOfTerm() throws ParseException {
+    public void testParseInvalidStartOfTerm() throws ParseException {
         expectedEx.expect(ParseException.class);
-        expectedEx.expectMessage("Expected identifier or open parenthesis, but got ')'");
+        expectedEx.expectMessage("Expected lambda, identifier or open parenthesis, but got ')'");
         parser.parse(")x.x x");
     }
     
     @Test
-    public void testMissingIdentifierInAbstraction() throws ParseException {
+    public void testParseMissingIdentifierInAbstraction() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Expected identifier, but got '.'");
         parser.parse("\\.x x");
     }
     
     @Test
-    public void testMissingDotInAbstraction() throws ParseException {
+    public void testParseMissingDotInAbstraction() throws ParseException {
         expectedEx.expect(ParseException.class);
         expectedEx.expectMessage("Expected dot, but got '('");
         parser.parse("\\x(x x)");
