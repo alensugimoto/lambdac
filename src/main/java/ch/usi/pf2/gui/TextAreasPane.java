@@ -3,6 +3,7 @@ package ch.usi.pf2.gui;
 import ch.usi.pf2.model.LambdacModel;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -18,6 +19,9 @@ import javax.swing.event.DocumentListener;
  * The TextAreasPane is part of the graphical user interface.
  * It is a custom panel that contains two areas of text:
  * input and output.
+ * The input area is where lambda expressions may be written,
+ * and the output area shows the result of evaluating an expression
+ * written in the input area.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021
@@ -27,7 +31,10 @@ public final class TextAreasPane extends JPanel {
     private static final int GAP = 6;
     private static final int INPUT_TEXT_ROWS = 20;
     private static final int OUTPUT_TEXT_ROWS = 10;
-    private static final int TEXT_COLUMNS = 50;
+    private static final int TEXT_COLUMNS = 70;
+    private static final String FONT_NAME = Font.MONOSPACED;
+    private static final int FONT_STYLE = Font.PLAIN;
+    private static final int FONT_SIZE = 12;
 
     private final LambdacModel model;
     private final JTextArea inputArea;
@@ -46,8 +53,11 @@ public final class TextAreasPane extends JPanel {
         add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.PAGE_START);
         inputArea = new JTextArea(model.getTextToInterpret(), INPUT_TEXT_ROWS, TEXT_COLUMNS);
         outputArea = new JTextArea(model.getInterpretedText(), OUTPUT_TEXT_ROWS, TEXT_COLUMNS);
+        final Font font = new Font(FONT_NAME, FONT_STYLE, FONT_SIZE);
         inputArea.setEditable(true);
+        inputArea.setFont(font);
         outputArea.setEditable(false);
+        outputArea.setFont(font);
         add(new JScrollPane(inputArea), BorderLayout.CENTER);
         add(new JScrollPane(outputArea), BorderLayout.SOUTH);
 
