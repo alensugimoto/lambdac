@@ -5,6 +5,8 @@ import ch.usi.pf2.model.interpreter.Context;
 
 /**
  * An abstract syntax tree (AST) node for lambda terms.
+ * Every term holds an integer representing
+ * the position where this node was originally found.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

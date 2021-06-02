@@ -5,6 +5,9 @@ import ch.usi.pf2.model.interpreter.Context;
 
 /**
  * An abstraction of the untyped lambda calculus.
+ * It holds another term that represents the body
+ * of this abstraction as well as a string hint 
+ * for the name of its bound variable.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

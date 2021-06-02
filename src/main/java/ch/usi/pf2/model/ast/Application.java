@@ -5,7 +5,7 @@ import ch.usi.pf2.model.interpreter.Context;
 
 /**
  * An application of the untyped lambda calculus.
- * It holds two subterms being applied.
+ * It holds two subterms with the former being applied to the latter.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

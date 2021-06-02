@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 /**
  * A Context contains information about the current naming context.
+ * The string at index {@code i} is a string hint
+ * for the name of the variable with a de Bruijn index of {@code i}.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

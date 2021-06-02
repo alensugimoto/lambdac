@@ -68,12 +68,12 @@ public final class LambdacModel {
         final Path path = Paths.get(filePath);
         try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = reader.readLine();
-            String textToInterpret = "";
+            final StringBuilder builder = new StringBuilder();
             while (line != null) {
-                textToInterpret += (textToInterpret.isEmpty() ? "" : "\n") + line;
+                builder.append((builder.length() == 0 ? "" : "\n") + line);
                 line = reader.readLine();
             }
-            setTextToInterpret(textToInterpret);
+            setTextToInterpret(builder.toString());
         }
     }
 

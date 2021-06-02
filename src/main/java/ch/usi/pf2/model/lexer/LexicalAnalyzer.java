@@ -11,7 +11,10 @@ import java.util.Arrays;
  * <pre>
  * lexer.fetchNextToken();
  * Token t1 = lexer.getCurrentToken();
- * </pre> 
+ * </pre>
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class LexicalAnalyzer {
 
@@ -21,10 +24,10 @@ public final class LexicalAnalyzer {
     private final TokenFactory[] tokenFactories;
     
     /**
-     * Create an analyzer for the given text, 
+     * Contstructs an analyzer for the given text, 
      * using the given factories to recognize and create tokens.
-     * @param expression The text to analyze
-     * @param factories The token factories to use
+     * @param expression the text to analyze
+     * @param factories the token factories to use
      */
     public LexicalAnalyzer(final String expression, final TokenFactory[] factories) {
         tokenFactories = Arrays.copyOf(factories, factories.length);
@@ -32,8 +35,8 @@ public final class LexicalAnalyzer {
     }
 
     /**
-     * Create an analyzer for the given text.
-     * @param expression The text to analyze
+     * Constructs an analyzer for the given text.
+     * @param expression the text to analyze
      */
     public LexicalAnalyzer(final String expression) {
         this(expression, new TokenFactory[] {
@@ -46,15 +49,15 @@ public final class LexicalAnalyzer {
     }
     
     /**
-     * Create an analyzer for an empty string.
+     * Constructs an analyzer for an empty string.
      */
     public LexicalAnalyzer() {
         this("");
     }
 
     /**
-     * Provide a new text to analyze.
-     * @param expression The text to analyze
+     * Sets the new text to analyze to the specified expression.
+     * @param expression the new text to analyze
      */
     public final void setText(final String expression) {
         token = null;
@@ -66,7 +69,7 @@ public final class LexicalAnalyzer {
     }
 
     /**
-     * Ask the analyzer to move to the next token in the text.
+     * Asks the analyzer to move to the next token in the text.
      * @throws ParseException if this text contains a syntax error
      */
     public final void fetchNextToken() throws ParseException {
@@ -74,7 +77,7 @@ public final class LexicalAnalyzer {
     }
 
     /**
-     * Scan the text and extract the next token.
+     * Scans the text and extracts the next token.
      * @return the next token
      * @throws ParseException if this text contains a syntax error
      */

@@ -6,6 +6,8 @@ import ch.usi.pf2.model.interpreter.InvalidContextLengthException;
 
 /**
  * A variable of the untyped lambda calculus.
+ * It holds its de Bruijn index and
+ * the length of the context in which it occurs.
  * 
  * @author Alen Sugimoto
  * @version 03.06.2021

@@ -4,13 +4,16 @@ package ch.usi.pf2.model.lexer;
 /**
  * A special kind of StringTokenFactory,
  * which produces tokens that represent operators.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public final class OperatorTokenFactory extends StringTokenFactory {
 
     private final TokenType tokenType;
     
     /**
-     * Create an OperatorTokenFactory for tokens representing the given operator.
+     * Constructs an OperatorTokenFactory for tokens representing the given operator.
      * @param operator the operator
      * @param tokenType the TokenType corresponding to this operator
      */

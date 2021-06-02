@@ -6,6 +6,9 @@ package ch.usi.pf2.model.lexer;
  * of different kinds of tokens.
  * This enumeration represents these different kinds
  * in the untyped lambda calculus.
+ * 
+ * @author Alen Sugimoto
+ * @version 03.06.2021
  */
 public enum TokenType {
 

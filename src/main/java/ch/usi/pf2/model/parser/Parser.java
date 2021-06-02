@@ -11,6 +11,8 @@ import ch.usi.pf2.model.lexer.TokenType;
 
 /**
  * A Parser for the untyped lambda calculus.
+ * It takes a string and produces an AST node corresponding
+ * to it in the lambda calculus.
  * 
  * <p>The following EBNF was inspired by
  * <a href="https://tadeuzagallo.com/blog/writing-a-lambda-calculus-interpreter-in-javascript/">
