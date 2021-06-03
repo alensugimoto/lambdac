@@ -41,12 +41,7 @@ public final class LambdacGraphicView extends JFrame {
      * in the event dispatch thread of the system EventQueue.
      */
     public final void display() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(() -> setVisible(true));
     }
 
     private final void setTitleWithPath(final String filePath) {

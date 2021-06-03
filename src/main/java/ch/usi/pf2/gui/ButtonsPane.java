@@ -49,7 +49,7 @@ public final class ButtonsPane extends JPanel {
     }
 
     private final void open() {
-        selectFile("Open", () -> openFile());
+        selectFile("Open", this::openFile);
     }
 
     private final void save() {
@@ -61,7 +61,7 @@ public final class ButtonsPane extends JPanel {
     }
 
     private final void saveAs() {
-        selectFile("Save", () -> saveFile());
+        selectFile("Save", this::saveFile);
     }
 
     private final void selectFile(final String approveButtonText, final FileCallback callback) {

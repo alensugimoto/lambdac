@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,7 +65,7 @@ public final class LambdacModel {
      * @throws IOException if an I/O error occurs opening the file in focus
      */
     public final void open() throws IOException {
-        final Charset charset = Charset.forName("US-ASCII");
+        final Charset charset = StandardCharsets.US_ASCII;
         final Path path = Paths.get(filePath);
         try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = reader.readLine();

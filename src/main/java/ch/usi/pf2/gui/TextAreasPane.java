@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -50,7 +51,7 @@ public final class TextAreasPane extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
         setLayout(new BorderLayout(GAP, GAP));
-        add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.PAGE_START);
+        add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.PAGE_START);
         inputArea = new JTextArea(model.getTextToInterpret(), INPUT_TEXT_ROWS, TEXT_COLUMNS);
         outputArea = new JTextArea(model.getInterpretedText(), OUTPUT_TEXT_ROWS, TEXT_COLUMNS);
         final Font font = new Font(FONT_NAME, FONT_STYLE, FONT_SIZE);

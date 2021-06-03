@@ -69,12 +69,12 @@ public final class Abstraction extends Node {
      * @param context the current context
      */
     private final String pickFreshName(final Context context) {
-        String freshName = arg;
-        while (context.contains(freshName)) {
-            freshName += "'";
+        final StringBuilder builder = new StringBuilder(arg);
+        while (context.contains(builder.toString())) {
+            builder.append("'");
         }
-        context.addFirst(freshName);
-        return freshName;
+        context.addFirst(builder.toString());
+        return builder.toString();
     }
     
     @Override
