@@ -23,7 +23,7 @@ java -cp target/project-lambdac-0.1-SNAPSHOT.jar ch.usi.pf2.Main
 The following command line arguments are also supported, which can be appended to the above command:
 
 * `--gui` opens the graphical user interface instead of the default textual user interface
-* `--help` shows more information about the application
+* `--help` shows more information about the supported command line arguments
 * `<filePath>` interprets the content of a file and prints the result
 * `-c <text>` interprets the given text and prints the result
 
