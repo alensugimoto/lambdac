@@ -24,3 +24,10 @@
 * Updated and added more tests to the model
 * Updated the GUI and the TUI
 * Ensured Maven project reports were clean
+
+## Milestone 5: June 4
+* Refactor evaluate methods in the AST node classes
+* Change implementation handling parse exceptions, and add tests for this change
+* Update tests for the parser and interpreter
+* Update the javadoc of all classes
+* Add example lambda terms to the TUI's help message
