@@ -2,7 +2,7 @@
 
 The purpose of this application is to provide user interfaces for interpreting source code written in untyped lambda calculus. It contains an interpreter that evaluates lambda expressions using the call-by-value evaluation strategy.
 
-This application, named Lambdac, is written in Java. It currently can run as either a textual user interface or a graphical user interface, both of which can run files and text. The implementation is based on the book [Types and Programming Languages](https://www.cis.upenn.edu/~bcpierce/tapl/).
+This application, named Lambdac, is written in Java. It currently can run as either a textual user interface or a graphical user interface, both of which can run files and text. The implementation is based on the book [Types and Programming Languages (TaPL)](https://www.cis.upenn.edu/~bcpierce/tapl/).
 
 ## How to Build
 
@@ -56,6 +56,21 @@ Examples of lambda expressions that follow the above grammar are shown below:
 (\n.\s.\z.s (n s z)) (\s.\z.s z)                       # succ 1
 (\m.\n.\s.\z.m s (n s z)) (\s.\z.s z) (\s.\z.s (s z))  # plus 1 2
 ```
+
+## Features to Add
+
+* Add more details to parse exceptions, such as start and end positions.
+* Allow undo and redo operations using the command pattern.
+* Add help tab to the GUI.
+* Use the MVC architecture pattern.
+* Allow evaluation using different strategies (applicative order, normal order, call-by-value, and call-by-name).
+* Determine if an evaluated expression is behaviorally equivalent to environment variables.
+* Add a REPL to the GUI.
+* Allow variables to be added to the environment with `let`.
+* See last paragraph of section 7.1 in TaPL.
+* See second to last paragraph of section 7.2 in TaPL.
+* Add default environment variables, such as the ones in section 5.2 in TaPL.
+* Allow step-by-step evaluation.
 
 ## Authors
 
