@@ -29,17 +29,27 @@ import javax.swing.event.DocumentListener;
  */
 public final class TextAreasPane extends JPanel {
 
-    private static final int GAP = 6;
-    private static final int INPUT_TEXT_ROWS = 20;
-    private static final int OUTPUT_TEXT_ROWS = 10;
-    private static final int TEXT_COLUMNS = 70;
-    private static final String FONT_NAME = Font.MONOSPACED;
-    private static final int FONT_STYLE = Font.PLAIN;
-    private static final int FONT_SIZE = 12;
+    private static final int GAP;
+    private static final int INPUT_TEXT_ROWS;
+    private static final int OUTPUT_TEXT_ROWS;
+    private static final int TEXT_COLUMNS;
+    private static final String FONT_NAME;
+    private static final int FONT_STYLE;
+    private static final int FONT_SIZE;
 
     private final LambdacModel model;
     private final JTextArea inputArea;
     private final JTextArea outputArea;
+
+    static {
+        GAP = 6;
+        INPUT_TEXT_ROWS = 20;
+        OUTPUT_TEXT_ROWS = 10;
+        TEXT_COLUMNS = 70;
+        FONT_NAME = Font.MONOSPACED;
+        FONT_STYLE = Font.PLAIN;
+        FONT_SIZE = 12;
+    }
 
     /**
      * Constructs a new TextAreasPane for the specified model.

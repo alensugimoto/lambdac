@@ -12,9 +12,15 @@ import ch.usi.pf2.tui.LambdacTextView;
  */
 public final class Main {
 
-    private static final String GUI_OPTION = "--gui";
-    private static final String HELP_OPTION = "--help";
-    private static final String RUN_OPTION = "-c";
+    private static final String GUI_OPTION;
+    private static final String HELP_OPTION;
+    private static final String RUN_OPTION;
+
+    static {
+        GUI_OPTION = "--gui";
+        HELP_OPTION = "--help";
+        RUN_OPTION = "-c";
+    }
 
     private Main() {
     }

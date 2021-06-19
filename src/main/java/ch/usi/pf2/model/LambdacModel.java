@@ -23,12 +23,11 @@ import java.nio.file.Paths;
  */
 public final class LambdacModel {
 
-    public static final String NAME = "Lambdac";
-    public static final String VERSION = "Version 1.0";
-
-    public static final String FILE_PATH_PROPERTY = "FilePath";
-    public static final String TEXT_TO_INTERPRET_PROPERTY = "TextToInterpret";
-    public static final String INTERPRETED_TEXT_PROPERTY = "InterpretedText";
+    public static final String NAME;
+    public static final String VERSION;
+    public static final String FILE_PATH_PROPERTY;
+    public static final String TEXT_TO_INTERPRET_PROPERTY;
+    public static final String INTERPRETED_TEXT_PROPERTY;
 
     private final PropertyChangeSupport support;
     private final Interpreter interpreter;
@@ -36,6 +35,14 @@ public final class LambdacModel {
     private String filePath;
     private String textToInterpret;
     private String interpretedText;
+
+    static {
+        NAME = "Lambdac";
+        VERSION = "Version 1.0";
+        FILE_PATH_PROPERTY = "FilePath";
+        TEXT_TO_INTERPRET_PROPERTY = "TextToInterpret";
+        INTERPRETED_TEXT_PROPERTY = "InterpretedText";
+    }
     
     /**
      * Constructs a new LambdacModel.

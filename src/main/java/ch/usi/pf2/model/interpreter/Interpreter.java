@@ -11,35 +11,39 @@ import ch.usi.pf2.model.parser.Parser;
  */
 public final class Interpreter {
 
-    public static final String HELP = "\n"
-        + "The lambda expressions that are written "
-        + "in this application must follow the following grammar:\n"
-        + "\n"
-        + "TERM        ::= ATOM\n"
-        + "              | ABSTRACTION\n"
-        + "              | APPLICATION\n"
-        + "ATOM        ::= IDENTIFIER\n"
-        + "              | \"(\" TERM \")\"\n"
-        + "ABSTRACTION ::= \"\\\" IDENTIFIER \".\" TERM\n"
-        + "APPLICATION ::= ATOM ATOM\n"
-        + "              | APPLICATION ATOM\n"
-        + "IDENTIFIER  ::= [a-zA-Z_][a-zA-Z_0-9]*\n"
-        + "\n"
-        + "This means that an application is left associative "
-        + "(i.e. `x y z` is the same as `(x y) z`) "
-        + "and an abstraction extends as far to the right as possible "
-        + "(i.e. `\\x.x x` is the same as `\\x.(x x)` but not `(\\x.x) x`).\n"
-        + "\n"
-        + "Examples:\n"
-        + " - (\\x.x x) (\\y.y)\n"
-        + " - (\\b.\\c.b c (\\t.\\f.f)) (\\t.\\f.t) (\\t.\\f.f)              # and true false\n"
-        + " - (\\l.\\m.\\n.l m n) (\\t.\\f.f) (\\x.x) (\\y.y)"
-        + "               # ifthenelse false (\\x.x) (\\y.y)\n"
-        + " - (\\n.\\s.\\z.s (n s z)) (\\s.\\z.s z)                       # succ 1\n"
-        + " - (\\m.\\n.\\s.\\z.m s (n s z)) (\\s.\\z.s z) (\\s.\\z.s (s z))  # plus 1 2\n";
+    public static final String HELP;
     
     private final Parser parser;
     private final Context context;
+
+    static {
+        HELP = "\n"
+            + "The lambda expressions that are written "
+            + "in this application must follow the following grammar:\n"
+            + "\n"
+            + "TERM        ::= ATOM\n"
+            + "              | ABSTRACTION\n"
+            + "              | APPLICATION\n"
+            + "ATOM        ::= IDENTIFIER\n"
+            + "              | \"(\" TERM \")\"\n"
+            + "ABSTRACTION ::= \"\\\" IDENTIFIER \".\" TERM\n"
+            + "APPLICATION ::= ATOM ATOM\n"
+            + "              | APPLICATION ATOM\n"
+            + "IDENTIFIER  ::= [a-zA-Z_][a-zA-Z_0-9]*\n"
+            + "\n"
+            + "This means that an application is left associative "
+            + "(i.e. `x y z` is the same as `(x y) z`) "
+            + "and an abstraction extends as far to the right as possible "
+            + "(i.e. `\\x.x x` is the same as `\\x.(x x)` but not `(\\x.x) x`).\n"
+            + "\n"
+            + "Examples:\n"
+            + " - (\\x.x x) (\\y.y)\n"
+            + " - (\\b.\\c.b c (\\t.\\f.f)) (\\t.\\f.t) (\\t.\\f.f)              # and true false\n"
+            + " - (\\l.\\m.\\n.l m n) (\\t.\\f.f) (\\x.x) (\\y.y)"
+            + "               # ifthenelse false (\\x.x) (\\y.y)\n"
+            + " - (\\n.\\s.\\z.s (n s z)) (\\s.\\z.s z)                       # succ 1\n"
+            + " - (\\m.\\n.\\s.\\z.m s (n s z)) (\\s.\\z.s z) (\\s.\\z.s (s z))  # plus 1 2\n";
+    }
     
     /**
      * Constructs an interpreter with the default context.

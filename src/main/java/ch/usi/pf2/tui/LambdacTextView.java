@@ -16,10 +16,15 @@ import java.util.Scanner;
  */
 public final class LambdacTextView {
 
-    private static final String EXIT_COMMAND = "exit";
-    private static final String HELP_COMMAND = "help";
+    private static final String EXIT_COMMAND;
+    private static final String HELP_COMMAND;
     
     private final LambdacModel model;
+
+    static {
+        EXIT_COMMAND = "exit";
+        HELP_COMMAND = "help";
+    }
     
     /**
      * Constructs a new TextualUserInterface for the specified model.
