@@ -59,18 +59,28 @@ Examples of lambda expressions that follow the above grammar are shown below:
 
 ## Features to Add
 
-- Add more details to parse exceptions, such as start and end positions.
+### Patterns
+
 - Allow undo and redo operations using the command pattern.
 - Use the MVC architecture pattern.
+
+### Evaluation
+
 - Allow evaluation using different strategies (applicative order, normal order, call-by-value, and call-by-name).
-- Determine if an evaluated expression is behaviorally equivalent to environment variables.
-- Add a REPL to the GUI.
-- Allow variables to be added to the environment with `let`.
-- See last paragraph of section 7.1 in TaPL.
-- See second to last paragraph of section 7.2 in TaPL.
-- Add default environment variables, such as the ones in section 5.2 in TaPL.
 - Allow step-by-step evaluation.
 
-## Authors
+### User Experience
 
-- Alen Sugimoto
+- Add a REPL to the GUI.
+- Add more details to parse exceptions, such as start and end positions.
+
+### Environment
+
+- Allow variables to be added to the environment with `let`.
+- Add default environment variables, such as the ones in section 5.2 in TaPL.
+- Determine if an evaluated expression is behaviorally equivalent to environment variables.
+
+### Other
+
+- See last paragraph of section 7.1 in TaPL.
+- See second to last paragraph of section 7.2 in TaPL.
