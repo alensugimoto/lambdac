@@ -36,3 +36,7 @@
 - Updated tests for the parser and interpreter
 - Updated the javadoc of all classes
 - Added example lambda terms to the TUI's help message
+
+## Milestone 6: TBD
+
+- Added help tag to the GUI.
