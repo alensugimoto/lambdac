@@ -39,4 +39,4 @@
 
 ## Milestone 6: TBD
 
-- Added help tag to the GUI.
+- Added help tag to the GUI
