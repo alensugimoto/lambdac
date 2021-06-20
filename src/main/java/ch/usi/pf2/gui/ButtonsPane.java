@@ -4,12 +4,15 @@ import ch.usi.pf2.model.LambdacModel;
 import ch.usi.pf2.model.parser.ParseException;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * The ButtonsPane is part of the graphical user interface.
@@ -21,7 +24,16 @@ import javax.swing.JPanel;
  */
 public final class ButtonsPane extends JPanel {
 
+    private static final JScrollPane HELP_PANE;
+
     private final LambdacModel model;
+
+    static {
+        final JTextArea helpArea = new JTextArea(LambdacModel.getHelp(), 22, 62);
+        helpArea.setEditable(false);
+        helpArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        HELP_PANE = new JScrollPane(helpArea);
+    }
 
     /**
      * Constructs a new ButtonsPane for the specified model.
@@ -37,15 +49,18 @@ public final class ButtonsPane extends JPanel {
         final JButton save = new JButton("Save");
         final JButton saveAs = new JButton("Save As...");
         final JButton run = new JButton("Run");
+        final JButton help = new JButton("Help");
         add(open);
         add(save);
         add(saveAs);
         add(run);
+        add(help);
 
         open.addActionListener(ev -> open());
         save.addActionListener(ev -> save());
         saveAs.addActionListener(ev -> saveAs());
         run.addActionListener(ev -> run());
+        help.addActionListener(ev -> help());
     }
 
     private final void open() {
@@ -79,6 +94,10 @@ public final class ButtonsPane extends JPanel {
         } catch (ParseException ex) {
             model.setInterpretedText(ex.getMessage());
         }
+    }
+
+    private final void help() {
+        JOptionPane.showMessageDialog(this, HELP_PANE, "Help", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private final void openFile() {

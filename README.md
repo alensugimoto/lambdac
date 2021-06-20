@@ -22,10 +22,10 @@ java -cp target/project-lambdac-0.1-SNAPSHOT.jar ch.usi.pf2.Main
 
 The following command line arguments are also supported, which can be appended to the above command:
 
-* `--gui` opens the graphical user interface instead of the default textual user interface
-* `--help` shows more information about the supported command line arguments
-* `<filePath>` interprets the content of a file and prints the result
-* `-c <text>` interprets the given text and prints the result
+- `--gui` opens the graphical user interface instead of the default textual user interface
+- `--help` shows more information about the supported command line arguments
+- `<filePath>` interprets the content of a file and prints the result
+- `-c <text>` interprets the given text and prints the result
 
 ## User Instructions
 
@@ -59,19 +59,18 @@ Examples of lambda expressions that follow the above grammar are shown below:
 
 ## Features to Add
 
-* Add more details to parse exceptions, such as start and end positions.
-* Allow undo and redo operations using the command pattern.
-* Add help tab to the GUI.
-* Use the MVC architecture pattern.
-* Allow evaluation using different strategies (applicative order, normal order, call-by-value, and call-by-name).
-* Determine if an evaluated expression is behaviorally equivalent to environment variables.
-* Add a REPL to the GUI.
-* Allow variables to be added to the environment with `let`.
-* See last paragraph of section 7.1 in TaPL.
-* See second to last paragraph of section 7.2 in TaPL.
-* Add default environment variables, such as the ones in section 5.2 in TaPL.
-* Allow step-by-step evaluation.
+- Add more details to parse exceptions, such as start and end positions.
+- Allow undo and redo operations using the command pattern.
+- Use the MVC architecture pattern.
+- Allow evaluation using different strategies (applicative order, normal order, call-by-value, and call-by-name).
+- Determine if an evaluated expression is behaviorally equivalent to environment variables.
+- Add a REPL to the GUI.
+- Allow variables to be added to the environment with `let`.
+- See last paragraph of section 7.1 in TaPL.
+- See second to last paragraph of section 7.2 in TaPL.
+- Add default environment variables, such as the ones in section 5.2 in TaPL.
+- Allow step-by-step evaluation.
 
 ## Authors
 
-* Alen Sugimoto
+- Alen Sugimoto

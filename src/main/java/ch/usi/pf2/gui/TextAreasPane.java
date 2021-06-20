@@ -33,9 +33,7 @@ public final class TextAreasPane extends JPanel {
     private static final int INPUT_TEXT_ROWS;
     private static final int OUTPUT_TEXT_ROWS;
     private static final int TEXT_COLUMNS;
-    private static final String FONT_NAME;
-    private static final int FONT_STYLE;
-    private static final int FONT_SIZE;
+    private static final Font FONT;
 
     private final LambdacModel model;
     private final JTextArea inputArea;
@@ -46,9 +44,7 @@ public final class TextAreasPane extends JPanel {
         INPUT_TEXT_ROWS = 20;
         OUTPUT_TEXT_ROWS = 10;
         TEXT_COLUMNS = 70;
-        FONT_NAME = Font.MONOSPACED;
-        FONT_STYLE = Font.PLAIN;
-        FONT_SIZE = 12;
+        FONT = new Font(Font.MONOSPACED, Font.PLAIN, 12);
     }
 
     /**
@@ -64,11 +60,10 @@ public final class TextAreasPane extends JPanel {
         add(new JSeparator(SwingConstants.HORIZONTAL), BorderLayout.PAGE_START);
         inputArea = new JTextArea(model.getTextToInterpret(), INPUT_TEXT_ROWS, TEXT_COLUMNS);
         outputArea = new JTextArea(model.getInterpretedText(), OUTPUT_TEXT_ROWS, TEXT_COLUMNS);
-        final Font font = new Font(FONT_NAME, FONT_STYLE, FONT_SIZE);
         inputArea.setEditable(true);
-        inputArea.setFont(font);
+        inputArea.setFont(FONT);
         outputArea.setEditable(false);
-        outputArea.setFont(font);
+        outputArea.setFont(FONT);
         add(new JScrollPane(inputArea), BorderLayout.CENTER);
         add(new JScrollPane(outputArea), BorderLayout.SOUTH);
 
