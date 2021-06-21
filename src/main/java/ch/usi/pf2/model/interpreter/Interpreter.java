@@ -58,7 +58,7 @@ public final class Interpreter {
      */
     public Interpreter(final Context context) {
         parser = new Parser();
-        this.context = context;
+        this.context = new Context(context);
     }
     
     /**

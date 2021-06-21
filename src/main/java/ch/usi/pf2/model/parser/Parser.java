@@ -42,7 +42,7 @@ public final class Parser {
     /**
      * Parses a program in lambda calculus.
      * 
-     * @param sourceCode The source code of the program in lambda calculus
+     * @param sourceCode the source code of the program in lambda calculus
      * @return an AST of the program
      * @throws ParseException if the source code contains a syntax error
      *     or an undefined variable
@@ -55,8 +55,8 @@ public final class Parser {
      * Parses a program in lambda calculus with the specified context.
      * The specified context is never modified.
      * 
-     * @param sourceCode The source code of the program in lambda calculus
-     * @param context The context of the program
+     * @param sourceCode the source code of the program in lambda calculus
+     * @param context the context of the program
      * @return an AST of the program
      * @throws ParseException if the source code contains a syntax error
      *     or an undefined variable.

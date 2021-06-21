@@ -24,7 +24,7 @@ public final class LexicalAnalyzer {
     private final TokenFactory[] tokenFactories;
     
     /**
-     * Contstructs an analyzer for the given text, 
+     * Constructs an analyzer for the given text, 
      * using the given factories to recognize and create tokens.
      * @param expression the text to analyze
      * @param factories the token factories to use
@@ -77,31 +77,28 @@ public final class LexicalAnalyzer {
     }
 
     /**
-     * Scans the text and extracts the next token.
-     * @return the next token
-     * @throws ParseException if this text contains a syntax error
+     * Returns the current token.
+     * @return the current token
      */
+    public final Token getCurrentToken() {
+        return token;
+    }
+
     private final Token scanToken() throws ParseException {
-        // Ignore whitespaces
         while (position < text.length() && Character.isWhitespace(text.charAt(position))) {
             position++;
         }
-        
         if (position == text.length()) {
             return new Token(TokenType.END_OF_FILE, "", position);
         } else {
             int maxLength = 0;
             TokenFactory factoryWithLongestMatch = null;
-
-            // Utilize the tokenFactories to find a factory has the longest match
             for (final TokenFactory factory : tokenFactories) {
                 if (factory.find(position) && factory.getTokenLength() > maxLength) {
                     factoryWithLongestMatch = factory;
                     maxLength = factory.getTokenLength();
                 }
             }
-
-            // if no match is found then throw, otherwise produce a token
             if (factoryWithLongestMatch == null) {
                 throw new ParseException("Invalid syntax");
             } else {
@@ -109,14 +106,6 @@ public final class LexicalAnalyzer {
                 return factoryWithLongestMatch.getToken();
             }
         }
-    }
-
-    /**
-     * Returns the current token.
-     * @return the current token
-     */
-    public final Token getCurrentToken() {
-        return token;
     }
 
 }
