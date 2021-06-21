@@ -37,6 +37,7 @@
 - Updated the javadoc of all classes
 - Added example lambda terms to the TUI's help message
 
-## Milestone 6: TBD
+## Milestone 6: June 22
 
 - Added help tag to the GUI
+- Refactored code dealing with `Context`

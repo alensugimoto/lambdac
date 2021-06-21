@@ -46,14 +46,10 @@ public abstract class Node {
     }
     
     /**
-     * Increments by {@code increment} the index of every variable in this node
-     * that has an index greater than or equal to
-     * the number of binders it is inside with respect to this node.
-     * 
+     * Increments by {@code increment} the index of every free variable in this node.
      * @param increment the number by which to increment
-     * @return the node after incrementing by {@code increment} the index of every variable
-     *     in this node that has an index greater than or equal to
-     *     the number of binders it is inside with respect to this node.
+     * @return the node after incrementing by {@code increment}
+     *     the index of every free variable in this node
      */
     protected final Node shift(final int increment) {
         return shift(0, increment);
