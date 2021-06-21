@@ -40,7 +40,7 @@ public final class Parser {
     }
     
     /**
-     * Parse a program in lambda calculus.
+     * Parses a program in lambda calculus.
      * 
      * @param sourceCode The source code of the program in lambda calculus
      * @return an AST of the program
@@ -52,7 +52,8 @@ public final class Parser {
     }
     
     /**
-     * Parse a program in lambda calculus with the specified context.
+     * Parses a program in lambda calculus with the specified context.
+     * The specified context is never modified.
      * 
      * @param sourceCode The source code of the program in lambda calculus
      * @param context The context of the program
@@ -62,26 +63,12 @@ public final class Parser {
      */
     public final Node parse(final String sourceCode, final Context context) throws ParseException {
         lexer.setText(sourceCode);
-        // fetch first token
         lexer.fetchNextToken();
-        // now parse the TERM
         final Node root = parseTerm(context);
-        // check if lexer is at the end of file
         expect(TokenType.END_OF_FILE);
         return root;
     }
     
-    /**
-     * Parse a term.
-     * This assumes the lexer already points to the first token of this term.
-     * 
-     * <p>EBNF:
-     * <code>
-     * TERM ::= ABSTRACTION | APPLICATION
-     * </code>
-     * 
-     * @return a Node representing the term
-     */
     private final Node parseTerm(final Context context) throws ParseException {
         expect(TokenType.LAMBDA, TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
         return lexer.getCurrentToken().getType() == TokenType.LAMBDA
@@ -89,71 +76,32 @@ public final class Parser {
             : parseApplication(context);
     }
     
-    /**
-     * Parse an application.
-     * This assumes the lexer already points to the first token of this application.
-     * 
-     * <p>EBNF:
-     * <code>
-     * APPLICATION ::= ATOM { ATOM }
-     * </code>
-     * 
-     * @return a Node representing the application
-     */
     private final Node parseApplication(final Context context) throws ParseException {
         final int position = lexer.getCurrentToken().getStartPosition();
-        Node root = parseAtom(new Context(context));
+        Node root = parseAtom(context);
         while (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER
             || lexer.getCurrentToken().getType() == TokenType.OPEN_PAREN) {
-            root = new Application(position, root, parseAtom(new Context(context)));
+            root = new Application(position, root, parseAtom(context));
         }
         return root;
     }
-    
-    /**
-     * Parse an abstraction.
-     * This assumes the lexer already points to the first token of this abstraction.
-     * 
-     * <p>EBNF:
-     * <code>
-     * ABSTRACTION ::= "\\" Identifier "." TERM
-     * </code>
-     * 
-     * @return a Node representing the abstraction
-     */
+
     private final Node parseAbstraction(final Context context) throws ParseException {
         final int position = lexer.getCurrentToken().getStartPosition();
-        
         expect(TokenType.LAMBDA);
         lexer.fetchNextToken();
-        
         expect(TokenType.IDENTIFIER);
         final String arg = lexer.getCurrentToken().getText();
         lexer.fetchNextToken();
-        
         expect(TokenType.DOT);
         lexer.fetchNextToken();
-        
         final Context newContext = new Context(context);
         newContext.addFirst(arg);
         return new Abstraction(position, arg, parseTerm(newContext));
     }
     
-    /**
-     * Parse an atom.
-     * This assumes the lexer already points to the first token of this atom.
-     * 
-     * <p>EBNF:
-     * <code>
-     * ATOM ::= Identifier | "(" TERM ")"
-     * </code>
-     * 
-     * @return a Node representing the atom
-     * @throws ParseException if the atom is an undefined variable
-     */
     private final Node parseAtom(final Context context) throws ParseException {
         final Node root;
-        
         expect(TokenType.IDENTIFIER, TokenType.OPEN_PAREN);
         if (lexer.getCurrentToken().getType() == TokenType.IDENTIFIER) {
             if (context.contains(lexer.getCurrentToken().getText())) {
@@ -170,7 +118,6 @@ public final class Parser {
             expect(TokenType.CLOSED_PAREN);
         }
         lexer.fetchNextToken();
-        
         return root;
     }
     
