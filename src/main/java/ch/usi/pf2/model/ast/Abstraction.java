@@ -19,7 +19,6 @@ public final class Abstraction extends Node {
     
     /**
      * Constructs a new abstraction.
-     * 
      * @param position the position where this abstraction was originally found
      * @param arg the string hint for the name of this abstraction's bound variable
      * @param body the body of this abstraction
@@ -37,7 +36,6 @@ public final class Abstraction extends Node {
     
     /**
      * Applies this abstraction to the specified node.
-     * 
      * @param right the node to be applied
      * @return the result of applying this abstraction to the specified node
      */
@@ -58,23 +56,8 @@ public final class Abstraction extends Node {
     @Override
     public final String toString(final Context context) {
         final Context newContext = new Context(context);
-        return "(\\" + pickFreshName(newContext) + "." + body.toString(newContext) + ")";
-    }
-    
-    /**
-     * Generates a fresh name for its bound variable
-     * based on its string hint and the specified context, and
-     * updates the specified context with the generated name.
-     * 
-     * @param context the current context
-     */
-    private final String pickFreshName(final Context context) {
-        final StringBuilder builder = new StringBuilder(arg);
-        while (context.contains(builder.toString())) {
-            builder.append("'");
-        }
-        context.addFirst(builder.toString());
-        return builder.toString();
+        newContext.addFirstUnique(arg);
+        return "(\\" + newContext.getFirst() + "." + body.toString(newContext) + ")";
     }
     
     @Override

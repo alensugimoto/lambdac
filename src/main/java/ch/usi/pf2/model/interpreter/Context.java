@@ -30,5 +30,19 @@ public final class Context extends LinkedList<String> {
     public Context(final Collection<? extends String> c) {
         super(c);
     }
+
+    /**
+     * Inserts the specified string, possibly appended with a few primes,
+     * at the beginning of this context such that it is a unique
+     * element in the new context.
+     * @param arg the string to add
+     */
+    public final void addFirstUnique(final String arg) {
+        final StringBuilder builder = new StringBuilder(arg);
+        while (contains(builder.toString())) {
+            builder.append("'");
+        }
+        addFirst(builder.toString());
+    }
     
 }

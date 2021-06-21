@@ -17,7 +17,6 @@ public abstract class Node {
     
     /**
      * Constructs a node with the specified position.
-     * 
      * @param position the position where this node was originally found
      */
     protected Node(final int position) {
@@ -26,7 +25,6 @@ public abstract class Node {
     
     /**
      * Returns the position where this node was originally found.
-     * 
      * @return the position where this node was originally found
      */
     protected final int getPosition() {
@@ -35,14 +33,12 @@ public abstract class Node {
     
     /**
      * Determines whether this node is a value.
-     * 
      * @return true if this node is a value and false otherwise
      */
     protected abstract boolean isValue();
     
     /**
      * Evaluates this node.
-     * 
      * @return the node obtained by evaluating this node
      */
     public Node evaluate() {
@@ -106,7 +102,8 @@ public abstract class Node {
     
     /**
      * Decompiles this node into a string based on the specified context.
-     * Note that the resulting string may have extra parentheses.
+     * Note that the resulting string may have extra parentheses
+     * and the specified context is never modified in the process.
      * 
      * @param context the current context
      * @return a string representation of this node

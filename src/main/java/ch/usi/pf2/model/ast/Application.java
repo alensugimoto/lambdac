@@ -17,7 +17,6 @@ public final class Application extends Node {
     
     /**
      * Constructs a new application.
-     * 
      * @param position the position where this application was originally found
      * @param leftTerm the left term being applied
      * @param rightTerm the right term being applied
@@ -35,7 +34,6 @@ public final class Application extends Node {
     
     /**
      * Evaluates this application using call-by-value.
-     * 
      * @return the evaluated node using call-by-value
      */
     @Override
@@ -69,8 +67,7 @@ public final class Application extends Node {
 
     @Override
     public final String toString(final Context context) {
-        return "(" + leftTerm.toString(new Context(context))
-            + " " + rightTerm.toString(new Context(context)) + ")";
+        return "(" + leftTerm.toString(context) + " " + rightTerm.toString(context) + ")";
     }
     
     @Override

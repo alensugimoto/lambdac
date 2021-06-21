@@ -19,7 +19,6 @@ public final class Variable extends Node {
 
     /**
      * Constructs a new variable.
-     * 
      * @param position the position where this variable was originally found
      * @param index the de Bruijn index of this variable
      * @param contextLength the length of the context in which this variable occurs
