@@ -110,7 +110,7 @@ public abstract class Node {
      * 
      * @param context the current context
      * @return a string representation of this node
-     * @throws InvalidContextException if the specified context is invalid
+     * @throws InvalidContextLengthException if the specified context is invalid
      */
     public abstract String toString(final Context context);
     

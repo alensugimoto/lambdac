@@ -12,19 +12,14 @@ package ch.usi.pf2.model.lexer;
  */
 public enum TokenType {
 
-    IDENTIFIER("identifier"), 
-    
-    LAMBDA("lambda"), 
+    IDENTIFIER("identifier"),
+    LAMBDA("lambda"),
     DOT("dot"),
-    
-    OPEN_PAREN("open parenthesis"), 
+    OPEN_PAREN("open parenthesis"),
     CLOSED_PAREN("closed parenthesis"),
+    END_OF_FILE("end of file");
 
-    END_OF_FILE("end of file"); 
-
-    
     private final String name;
-    
     
     /**
      * Constructs a new TokenType with the specified name.
